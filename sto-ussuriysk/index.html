@@ -47,7 +47,7 @@ const CONFIG = {
 
   // Фото: путь к файлу рядом с index.html (например "box.jpg"). Пусто — показывается заглушка.
   photos: {
-    box: ""
+    box: "img/box.webp"
   },
 
   // Первая строка — диагностика: её цена выводится на первом экране и в FAQ
@@ -835,7 +835,7 @@ section { padding: 64px 0; scroll-margin-top: 60px; }
   $$("[data-photo]").forEach(el => {
     const src = C.photos[el.dataset.photo];
     el.innerHTML = src
-      ? `<img src="${esc(src)}" alt="${esc(C.name)}" loading="lazy" style="border-radius:14px;aspect-ratio:16/10;object-fit:cover;width:100%">`
+      ? `<img src="${esc(src)}" alt="${esc(C.name)}: мастера за работой" loading="lazy" style="border-radius:14px;aspect-ratio:16/10;object-fit:cover;width:100%">`
       : `<div class="ph"><div><svg><use href="#i-cam"/></svg>${esc(el.dataset.ph)}</div></div>`;
   });
 
