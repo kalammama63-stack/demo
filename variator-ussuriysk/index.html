@@ -41,9 +41,12 @@ const CONFIG = {
   yearsWorking: 14,
   carsRepaired: "2 300+",
 
+  // Машина на первом экране. Диски крутятся только на этом фото (rims: true).
+  // Если меняете фото машины — поставьте rims: false.
+  heroCar: { body: "img/car.webp", rims: true },
+
   // Фото: путь к файлу рядом с index.html (например "box.jpg"). Пусто — показывается заглушка.
   photos: {
-    hero: "",
     box: ""
   },
 
@@ -191,22 +194,80 @@ section { padding: 64px 0; scroll-margin-top: 60px; }
 .facts b { display: block; font: 800 clamp(22px, 6vw, 30px)/1 var(--display); color: #fff; }
 .facts li > span { display: block; margin-top: 6px; font-size: 13px; line-height: 1.3; color: #A9C2BF; }
 
-/* Селектор P R N D — фирменная деталь */
-.selector {
-  background: #0B2729; border: 1px solid rgba(255,255,255,.12); border-radius: 22px;
-  padding: 22px; display: grid; gap: 18px; align-content: center;
+/* Сцена с машиной — фирменная деталь первого экрана */
+.hero-head { grid-area: head; }
+.hero-act { grid-area: act; display: flex; flex-direction: column; }
+.hero-act .hero-sub { order: 2; margin-top: 18px; }
+.hero-act .hero-cta { order: 1; margin-top: 0; }
+.hero-act .hero-call { order: 3; align-self: flex-start; }
+.hero-act .facts { order: 4; }
+.hero .wrap { grid-template-areas: "head" "scene" "act"; }
+
+.scene {
+  grid-area: scene; position: relative; aspect-ratio: 16/11; margin: -8px calc(-1 * var(--gutter)) 0;
+  overflow: hidden; isolation: isolate;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
-.gate { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
-.gate span {
-  flex: 1; aspect-ratio: 1; max-width: 72px; display: grid; place-items: center; border-radius: 12px;
-  font: 800 clamp(26px, 8vw, 40px)/1 var(--display); color: #3E5E5F; background: #0F3234;
-  transition: color .25s, background .25s, box-shadow .25s;
+.scene * { animation-play-state: paused; }
+.scene.go * { animation-play-state: running; }
+.scene.off * { animation-play-state: paused; }
+
+.glow { position: absolute; left: 20%; right: 10%; top: 18%; height: 60%; z-index: -1;
+  background: radial-gradient(closest-side, rgba(242,163,15,.28), transparent); filter: blur(10px); }
+.hills { position: absolute; left: 0; right: 0; background-repeat: repeat-x; background-position-x: 0; z-index: -1;
+  animation: pan linear infinite; background-size: 600px 100%; }
+.hills.far { bottom: 38%; height: 34%; opacity: .8; animation-duration: 60s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100V62C40 40 70 28 110 38s70 26 110 8 60-40 110-34 70 36 120 30 60-30 100-22 30 14 50 18V100z' fill='%231D5C5E'/%3E%3C/svg%3E"); }
+.hills.near { bottom: 30%; height: 26%; animation-duration: 30s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100V70C50 52 90 40 140 52s80 30 130 20 70-40 130-38 80 30 120 34 50-10 80-14V100z' fill='%23164B4D'/%3E%3C/svg%3E"); }
+@keyframes pan { to { background-position-x: -600px; } }
+
+.road { position: absolute; left: 0; right: 0; bottom: 0; height: 31%; z-index: -1;
+  background: linear-gradient(180deg, #16292A 0, #0D1D1E 100%); }
+.road::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: rgba(255,255,255,.12); }
+.lane { position: absolute; left: 0; right: 0; bottom: 22%; height: 4px;
+  background: repeating-linear-gradient(90deg, rgba(242,163,15,.85) 0 44px, transparent 44px 90px);
+  animation: lane .45s linear infinite; }
+@keyframes lane { to { background-position-x: -90px; } }
+
+.streaks { transition: opacity .6s; }
+.scene:not(.go) .streaks { opacity: 0; }
+.streaks i { position: absolute; left: 100%; height: 2px; border-radius: 2px; z-index: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.45)); animation: streak linear infinite; }
+.streaks i:nth-child(1) { top: 30%; width: 90px; animation-duration: 1.1s; }
+.streaks i:nth-child(2) { top: 46%; width: 140px; animation-duration: .8s; animation-delay: -.4s; }
+.streaks i:nth-child(3) { top: 58%; width: 70px; animation-duration: 1.3s; animation-delay: -.9s; }
+.streaks i:nth-child(4) { top: 76%; width: 120px; animation-duration: .7s; animation-delay: -.2s; }
+@keyframes streak { to { transform: translateX(calc(-100vw - 300px)); } }
+
+.car { position: absolute; left: 7%; width: 86%; bottom: 7%; z-index: 1; }
+.car-shadow { position: absolute; left: 2%; right: 1%; bottom: -4%; height: 18%; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0,0,0,.7), transparent); filter: blur(4px); }
+.car-body { position: relative; transform-origin: 60% 100%; }
+.car-body > img { width: 100%; height: auto; }
+.scene.go .car-body { animation: launch .7s ease-out, bob .5s ease-in-out .7s infinite alternate; }
+@keyframes launch { 35% { transform: rotate(-1.4deg) translateX(-1.5%); } }
+@keyframes bob { to { transform: translateY(-1.2%) rotate(-.15deg); } }
+
+.rim { position: absolute; }
+.rim img { position: absolute; top: 0; left: 50%; height: 100%; width: auto; aspect-ratio: 1; max-width: none;
+  transform: translateX(-50%) scaleX(var(--k)); }
+.scene.go .rim img { animation: spin .32s linear infinite; filter: blur(.6px); }
+@keyframes spin {
+  from { transform: translateX(-50%) scaleX(var(--k)) rotate(0); }
+  to   { transform: translateX(-50%) scaleX(var(--k)) rotate(360deg); }
 }
-.gate span.on { color: var(--signal-ink); background: var(--signal); box-shadow: 0 0 24px rgba(242,163,15,.45); }
-.gate span.final { color: #0B2729; background: #7FE0B0; box-shadow: 0 0 28px rgba(127,224,176,.45); }
-.selector-cap { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #9FB8B5; gap: 10px; }
-.selector-cap b { color: #fff; font-weight: 600; }
-.selector-photo { border-radius: 14px; overflow: hidden; }
+.rim.rear  { left: 3.83%;  top: 54.27%; width: 6.70%;  height: 26.19%; --k: .5072; }
+.rim.front { left: 41.91%; top: 62.05%; width: 11.67%; height: 32.64%; --k: .7093; }
+.scene.no-rims .rim { display: none; }
+
+.gear { position: absolute; top: 6%; left: calc(var(--gutter) + 2%); z-index: 2; display: flex; align-items: center; gap: 4px;
+  background: rgba(8,31,33,.85); border: 1px solid rgba(255,255,255,.12); border-radius: 999px; padding: 5px 12px 5px 6px;
+  font: 600 13px/1 var(--display); color: #9FB8B5; }
+.gear span { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; color: #4B6C6D; font-weight: 800; font-size: 14px; transition: background .2s, color .2s; }
+.gear span.on { background: var(--signal); color: var(--signal-ink); }
+.gear b { margin-left: 6px; font-weight: 600; color: #fff; white-space: nowrap; }
 
 /* Заглушка под фото */
 .ph {
@@ -435,7 +496,16 @@ section { padding: 64px 0; scroll-margin-top: 60px; }
   .top nav { display: flex; }
   .top-call { display: none; }
   .hero { padding: 72px 0 88px; }
-  .hero .wrap { grid-template-columns: 1.25fr .9fr; align-items: center; gap: 56px; }
+  .hero .wrap { grid-template-columns: 1fr 1.15fr; grid-template-areas: "head scene" "act scene"; align-items: center; column-gap: 40px; row-gap: 0; }
+  .hero-head { align-self: end; }
+  .hero-act { align-self: start; }
+  .hero-act .hero-sub { order: 0; margin: 16px 0 26px; }
+  .hero h1 { font-size: clamp(40px, 4.4vw, 58px); }
+  .scene { margin: 0 calc(-1 * (max(0px, (100vw - 1120px) / 2) + var(--gutter))) 0 -24px; aspect-ratio: 16/11;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 88%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 10%, #000 88%, transparent); }
+  .car { left: 9%; width: 80%; }
+  .gear { left: 8%; }
   .price-list { grid-template-columns: repeat(3, 1fr); }
   .steps { grid-template-columns: repeat(5, 1fr); gap: 20px; }
   .step { grid-template-columns: 1fr; padding-bottom: 0; }
@@ -502,9 +572,29 @@ section { padding: 64px 0; scroll-margin-top: 60px; }
   <!-- 1. Первый экран -->
   <section class="hero">
     <div class="wrap">
-      <div>
+      <div class="hero-head">
         <p class="hero-loc" data-c="city"></p>
         <h1>Ремонт АКПП и&nbsp;вариаторов <span data-c="cityIn"></span> с&nbsp;гарантией <em>до&nbsp;<span data-c="warrantyMonths"></span>&nbsp;месяцев</em></h1>
+      </div>
+
+      <div class="scene" id="scene" aria-hidden="true">
+        <div class="glow"></div>
+        <div class="hills far"></div>
+        <div class="hills near"></div>
+        <div class="road"><div class="lane"></div></div>
+        <div class="streaks"><i></i><i></i><i></i><i></i></div>
+        <div class="car">
+          <div class="car-shadow"></div>
+          <div class="car-body">
+            <img id="carImg" alt="" width="1045" height="527" fetchpriority="high">
+            <div class="rim rear"><img src="img/rim-rear.webp" alt=""></div>
+            <div class="rim front"><img src="img/rim-front.webp" alt=""></div>
+          </div>
+        </div>
+        <div class="gear" id="gate"><span>P</span><span>R</span><span>N</span><span>D</span><b id="gateCap">после ремонта</b></div>
+      </div>
+
+      <div class="hero-act">
         <p class="hero-sub">Коробка пинается, машина дёргается или горит чек? Найдём причину на диагностике и назовём цену до того, как начнём ремонт.</p>
         <div class="hero-cta">
           <a class="btn btn-signal" href="#book"><svg><use href="#i-cal"/></svg>Записаться на диагностику</a>
@@ -516,12 +606,6 @@ section { padding: 64px 0; scroll-margin-top: 60px; }
           <li><b><span data-c="yearsWorking"></span> лет</b><span>чиним только коробки</span></li>
           <li><b data-c="diagPrice"></b><span>диагностика, при ремонте бесплатно</span></li>
         </ul>
-      </div>
-
-      <div class="selector" aria-hidden="true">
-        <div class="gate" id="gate"><span>P</span><span>R</span><span>N</span><span>D</span></div>
-        <div class="selector-cap"><span>Режим после ремонта</span><b id="gateCap">проверяем…</b></div>
-        <div class="selector-photo" data-photo="hero" data-ph="Фото мастера или бокса"></div>
       </div>
     </div>
   </section>
@@ -859,15 +943,19 @@ section { padding: 64px 0; scroll-margin-top: 60px; }
   });
   $("#againBtn").addEventListener("click", () => { form.reset(); form.classList.remove("done"); });
 
-  // Селектор P R N D
+  // Первый экран: P → R → N → D, на D машина едет
+  const scene = $("#scene");
+  $("#carImg").src = C.heroCar.body;
+  if (!C.heroCar.rims) scene.classList.add("no-rims");
   const gate = $$("#gate span"), cap = $("#gateCap");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const finish = () => { gate.forEach(s => s.className = ""); gate[3].className = "final"; cap.textContent = "едет как надо"; };
-  if (reduce) finish();
-  else gate.forEach((s, i) => setTimeout(() => {
-    gate.forEach(x => x.className = ""); s.className = "on";
-    if (i === 3) setTimeout(finish, 450);
-  }, 500 + i * 420));
+  const drive = () => { cap.textContent = "едет как надо"; scene.classList.add("go"); };
+  const shift = i => gate.forEach((x, n) => x.className = n === i ? "on" : "");
+  shift(0);
+  if (reduce) { shift(3); drive(); }
+  else [1, 2, 3].forEach((i, n) => setTimeout(() => { shift(i); if (i === 3) setTimeout(drive, 250); }, 700 + n * 380));
+  // вне экрана анимация на паузе — бережём батарею телефона
+  if ("IntersectionObserver" in window) new IntersectionObserver(([en]) => scene.classList.toggle("off", !en.isIntersecting)).observe(scene);
 
   // Появление при прокрутке
   if ("IntersectionObserver" in window && !reduce) {
