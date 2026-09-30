@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Кабинет мастера</title>
+<meta name="theme-color" content="#2A1E2C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<script src="api.js"></script>
+<style>
+:root{
+  --ink:#2A1E2C; --ink-soft:#5B4D5E; --porcelain:#F6F3F7; --paper:#FFFFFF;
+  --lacquer:#8C1D40; --lacquer-deep:#6E1432; --mist:#D9D1DD; --wa:#1E8E5A; --ok:#2F7A55;
+  --display:"Tenor Sans","Golos Text",sans-serif; --body:"Golos Text",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--porcelain);color:var(--ink);font:400 16px/1.5 var(--body);-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--lacquer);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:999px;border:0;text-decoration:none;font-weight:500;font-size:15px}
+.btn-lacquer{background:var(--lacquer);color:#fff}
+.btn-lacquer:hover{background:var(--lacquer-deep)}
+.btn-line{background:transparent;border:1px solid var(--mist)}
+.btn-line:hover{border-color:var(--ink-soft)}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-sm{min-height:40px;padding:0 14px;font-size:14px}
+.muted{color:var(--ink-soft)}
+
+/* login */
+.login{min-height:100vh;display:grid;place-items:center;padding:24px 16px}
+.login-box{width:100%;max-width:360px;text-align:center}
+.login-box h1{font-size:34px;margin:6px 0 4px}
+.pin{width:100%;min-height:60px;border-radius:16px;border:1px solid var(--mist);background:var(--paper);font:inherit;font-size:28px;letter-spacing:.4em;text-align:center;margin:28px 0 12px}
+.pin:focus{outline:none;border-color:var(--ink)}
+.login-box .btn{width:100%}
+.login-err{color:var(--lacquer);min-height:1.5em;margin-top:10px;font-size:15px}
+
+/* app */
+.app{display:none;padding-bottom:40px}
+.top{position:sticky;top:0;z-index:5;background:rgba(246,243,247,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--mist)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
+.brand{font-family:var(--display);font-size:22px}
+.brand small{font-family:var(--body);font-size:12px;color:var(--ink-soft);margin-left:6px}
+.top-actions{display:flex;gap:6px}
+.demo-note{background:#EFE3EA;border-radius:14px;padding:12px 14px;font-size:14px;margin-top:16px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:#E9E3EC;border-radius:999px;padding:4px;margin:18px 0 8px}
+.tab{border:0;background:transparent;border-radius:999px;min-height:42px;font-weight:500;color:var(--ink-soft)}
+.tab[aria-selected="true"]{background:var(--paper);color:var(--ink);box-shadow:0 1px 4px rgba(42,30,44,.12)}
+.status{font-size:14px;color:var(--ink-soft);min-height:1.5em;margin:6px 0}
+.status.err{color:var(--lacquer)}
+
+/* bookings */
+.day-group{margin-top:22px}
+.day-group h2{font-size:22px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:baseline}
+.day-group h2 small{font-family:var(--body);font-size:14px;color:var(--ink-soft)}
+.card{background:var(--paper);border-radius:18px;padding:16px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin-bottom:10px;box-shadow:0 1px 2px rgba(42,30,44,.05)}
+.card .t{font-family:var(--display);font-size:26px;line-height:1.1;grid-row:span 3}
+.card .n{font-weight:600;font-size:17px}
+.card .s{font-size:15px;color:var(--ink-soft)}
+.card .acts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.card .cancel{margin-left:auto;background:none;border:0;color:var(--lacquer);font-size:14px;padding:0 4px}
+.empty{background:var(--paper);border-radius:18px;padding:28px 20px;text-align:center;color:var(--ink-soft);margin-top:18px}
+.empty b{display:block;color:var(--ink);font-family:var(--display);font-weight:400;font-size:22px;margin-bottom:6px}
+
+/* schedule */
+.dchips{display:flex;gap:8px;overflow-x:auto;padding:8px 16px 10px;margin:8px -16px 0;scrollbar-width:none}
+.dchips::-webkit-scrollbar{display:none}
+.dchip{flex:0 0 auto;width:58px;border:1px solid var(--mist);background:var(--paper);border-radius:16px;padding:8px 0;display:flex;flex-direction:column;align-items:center;line-height:1.15;position:relative}
+.dchip b{font-family:var(--display);font-weight:400;font-size:22px}
+.dchip small{font-size:12px;color:var(--ink-soft)}
+.dchip.off{background:transparent;border-style:dashed}
+.dchip.closed b{text-decoration:line-through;color:var(--ink-soft)}
+.dchip .cnt{position:absolute;top:-6px;right:-4px;background:var(--lacquer);color:#fff;font-size:11px;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 5px}
+.dchip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.dchip[aria-pressed="true"] small{color:#D8CCD8}
+.sched{background:var(--paper);border-radius:18px;padding:6px 16px;margin-top:12px}
+.sched h3{font-size:22px;padding:12px 0 6px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-top:1px solid #EEE8F0}
+.row .tm{font-family:var(--display);font-size:22px;min-width:64px}
+.row .info{flex:1;font-size:15px}
+.tag{display:inline-block;font-size:13px;border-radius:999px;padding:3px 10px}
+.tag.free{background:#E3F1E9;color:var(--ok)}
+.tag.closed{background:#EEE8F0;color:var(--ink-soft)}
+.tag.busy{background:#F6E1E8;color:var(--lacquer)}
+.switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-top:1px solid #EEE8F0}
+.switch{position:relative;width:52px;height:30px;border-radius:15px;border:0;background:#D9D1DD;flex:0 0 auto;transition:background .2s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+.switch[aria-checked="true"]{background:var(--lacquer)}
+.switch[aria-checked="true"]::after{transform:translateX(22px)}
+.off-note{padding:16px 0;color:var(--ink-soft)}
+.help{font-size:14px;color:var(--ink-soft);margin-top:14px}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="login" id="login">
+  <form class="login-box" id="loginForm">
+    <div class="muted" id="loginStudio"></div>
+    <h1>Кабинет мастера</h1>
+    <div class="muted">Записи и расписание</div>
+    <input class="pin" id="pin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="PIN" aria-label="PIN-код">
+    <button class="btn btn-lacquer" type="submit" id="loginBtn">Войти</button>
+    <div class="login-err" id="loginErr" aria-live="polite"></div>
+  </form>
+</div>
+
+<div class="app" id="app">
+  <header class="top">
+    <div class="wrap">
+      <div class="brand" id="brand"></div>
+      <div class="top-actions">
+        <button class="btn btn-line btn-sm" id="refresh" type="button">Обновить</button>
+        <button class="btn btn-line btn-sm" id="logout" type="button">Выйти</button>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="demo-note" id="demoNote" hidden>Демо-режим: записи хранятся только в этом браузере. Когда подключите Google Таблицу, записи будут общими для всех.</div>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" id="tabList" type="button">Записи</button>
+      <button class="tab" role="tab" aria-selected="false" id="tabSched" type="button">Расписание</button>
+    </div>
+    <div class="status" id="status" aria-live="polite"></div>
+
+    <section id="viewList"></section>
+
+    <section id="viewSched" hidden>
+      <div class="dchips" id="dchips"></div>
+      <div class="sched" id="sched"></div>
+      <p class="help">Закройте день или время, если заняты: выходной, личные дела, записали клиентку по телефону. Клиентки на сайте это время не увидят.</p>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  const C = CONFIG, $ = s => document.querySelector(s);
+  const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const PIN_KEY = "manikur-admin-pin";
+  let pin = "", data = { bookings: [], closed: [] }, selDate = null;
+
+  $("#loginStudio").textContent = C.studio;
+  $("#brand").innerHTML = esc(C.studio) + "<small>кабинет</small>";
+  if (API.isDemo) $("#demoNote").hidden = false;
+
+  const today = Dates.iso(new Date());
+  const days = [];
+  for (let i = 0; i < 30; i++) { const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() + i); days.push(Dates.iso(d)); }
+  selDate = days.find(d => C.workDays.includes(Dates.parse(d).getDay())) || days[0];
+
+  const status = (t, err) => { const s = $("#status"); s.textContent = t || ""; s.classList.toggle("err", !!err); };
+  const active = () => data.bookings.filter(b => b.status !== "cancelled");
+  const isClosed = (d, t) => data.closed.some(c => c.date === d && (c.time || "") === (t || ""));
+  const waNum = p => { let n = String(p).replace(/\D/g, ""); if (n.length === 11 && n[0] === "8") n = "7" + n.slice(1); if (n.length === 10) n = "7" + n; return n; };
+
+  // ----- login -----
+  async function login(p, silent){
+    $("#loginBtn").disabled = true; $("#loginErr").textContent = silent ? "" : "Проверяю…";
+    try {
+      const r = await API.call("admin", { pin: p });
+      if (!r.ok) { $("#loginErr").textContent = r.error === "pin" ? "Неверный PIN" : "Ошибка: " + r.error; try { sessionStorage.removeItem(PIN_KEY); } catch (e) {} return; }
+      pin = p; data = r;
+      try { sessionStorage.setItem(PIN_KEY, p); } catch (e) {}
+      $("#login").style.display = "none"; $("#app").style.display = "block";
+      drawAll();
+    } catch (e) {
+      $("#loginErr").textContent = "Нет связи. Проверьте интернет и попробуйте ещё раз.";
+    } finally { $("#loginBtn").disabled = false; }
+  }
+  $("#loginForm").onsubmit = e => { e.preventDefault(); login($("#pin").value.trim()); };
+  $("#logout").onclick = () => { try { sessionStorage.removeItem(PIN_KEY); } catch (e) {} location.reload(); };
+  try { const saved = sessionStorage.getItem(PIN_KEY); if (saved) login(saved, true); } catch (e) {}
+
+  async function refresh(quiet){
+    if (!quiet) status("Обновляю…");
+    try {
+      const r = await API.call("admin", { pin });
+      if (!r.ok) throw new Error(r.error);
+      data = r; drawAll();
+      status("Обновлено в " + new Date().toTimeString().slice(0, 5));
+    } catch (e) { status("Не удалось обновить: нет связи", true); }
+  }
+  $("#refresh").onclick = () => refresh();
+  setInterval(() => { if (pin && !document.hidden) refresh(true); }, 60000);
+
+  // ----- tabs -----
+  function showTab(list){
+    $("#tabList").setAttribute("aria-selected", list); $("#tabSched").setAttribute("aria-selected", !list);
+    $("#viewList").hidden = !list; $("#viewSched").hidden = list;
+  }
+  $("#tabList").onclick = () => showTab(true);
+  $("#tabSched").onclick = () => showTab(false);
+
+  function drawAll(){ drawList(); drawChips(); drawSched(); }
+
+  // ----- bookings list -----
+  function drawList(){
+    const v = $("#viewList"); v.innerHTML = "";
+    const up = active().filter(b => b.date >= today).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+    if (!up.length) {
+      v.append(el("div", "empty", "<b>Записей пока нет</b>Как только клиентка запишется на сайте, запись появится здесь."));
+      return;
+    }
+    const groups = {};
+    up.forEach(b => (groups[b.date] = groups[b.date] || []).push(b));
+    Object.keys(groups).forEach(d => {
+      const g = el("div", "day-group");
+      const label = d === today ? "Сегодня" : Dates.human(d);
+      const n = groups[d].length;
+      g.append(el("h2", "", esc(label) + "<small>" + n + " " + (n === 1 ? "запись" : n < 5 ? "записи" : "записей") + "</small>"));
+      groups[d].forEach(b => {
+        const c = el("div", "card");
+        c.innerHTML = '<div class="t">' + esc(b.time) + '</div><div class="n">' + esc(b.name) + '</div><div class="s">' + esc(b.service) +
+          (b.shade ? ", " + esc(b.shade) : "") + '</div><div class="s">' + esc(b.phone) + "</div>";
+        const acts = el("div", "acts");
+        const call = el("a", "btn btn-line btn-sm", "Позвонить"); call.href = "tel:+" + waNum(b.phone);
+        const w = el("a", "btn btn-wa btn-sm", "WhatsApp"); w.href = "https://wa.me/" + waNum(b.phone); w.target = "_blank"; w.rel = "noopener";
+        const x = el("button", "cancel", "Отменить запись"); x.type = "button";
+        x.onclick = async () => {
+          if (!confirm("Отменить запись: " + b.name + ", " + Dates.human(b.date) + ", " + b.time + "?\nВремя снова станет свободным на сайте.")) return;
+          x.disabled = true; status("Отменяю…");
+          try {
+            const r = await API.call("cancel", { pin, id: b.id });
+            if (!r.ok) throw new Error(r.error);
+            b.status = "cancelled"; drawAll(); status("Запись отменена. Напишите клиентке, если ещё не предупредили.");
+          } catch (e) { x.disabled = false; status("Не удалось отменить: нет связи", true); }
+        };
+        acts.append(call, w, x); c.append(acts); g.append(c);
+      });
+      v.append(g);
+    });
+  }
+
+  // ----- schedule -----
+  function drawChips(){
+    const box = $("#dchips"); box.innerHTML = "";
+    days.forEach(d => {
+      const dt = Dates.parse(d), work = C.workDays.includes(dt.getDay());
+      const cnt = active().filter(b => b.date === d).length;
+      const b = el("button", "dchip" + (work ? "" : " off") + (isClosed(d) ? " closed" : ""),
+        "<small>" + Dates.days[dt.getDay()] + "</small><b>" + dt.getDate() + "</b><small>" + Dates.months[dt.getMonth()].slice(0, 3) + "</small>" +
+        (cnt ? '<span class="cnt">' + cnt + "</span>" : ""));
+      b.type = "button"; b.setAttribute("aria-pressed", d === selDate ? "true" : "false");
+      b.setAttribute("aria-label", Dates.human(d) + (cnt ? ", записей: " + cnt : "") + (work ? "" : ", выходной"));
+      b.onclick = () => { selDate = d; drawChips(); drawSched(); };
+      box.append(b);
+    });
+  }
+
+  async function toggle(date, time, btn){
+    if (btn) btn.disabled = true;
+    status("Сохраняю…");
+    try {
+      const r = await API.call("toggle", { pin, date, time: time || "" });
+      if (!r.ok) throw new Error(r.error);
+      data.closed = r.closed; drawChips(); drawSched(); status("Сохранено. На сайте уже видно.");
+    } catch (e) { if (btn) btn.disabled = false; status("Не удалось сохранить: нет связи", true); }
+  }
+
+  function drawSched(){
+    const box = $("#sched"); box.innerHTML = "";
+    const dt = Dates.parse(selDate), work = C.workDays.includes(dt.getDay());
+    box.append(el("h3", "", esc(selDate === today ? "Сегодня, " + Dates.human(selDate).split(", ")[1] : Dates.human(selDate))));
+    if (!work) { box.append(el("div", "off-note", "Выходной по графику. Рабочие дни меняются в настройках сайта.")); return; }
+
+    const dayClosed = isClosed(selDate);
+    const sw = el("div", "switch-row", '<div><b style="font-weight:500">Закрыть весь день</b><div class="muted" style="font-size:14px">Выходной, отпуск, больничный</div></div>');
+    const s = el("button", "switch"); s.type = "button"; s.setAttribute("role", "switch"); s.setAttribute("aria-checked", dayClosed); s.setAttribute("aria-label", "Закрыть весь день");
+    s.onclick = () => toggle(selDate, "", s);
+    sw.append(s); box.append(sw);
+
+    C.slots.forEach(t => {
+      const bk = active().find(b => b.date === selDate && b.time === t);
+      const r = el("div", "row");
+      r.append(el("div", "tm", t));
+      const info = el("div", "info");
+      if (bk) info.innerHTML = '<span class="tag busy">Запись</span> ' + esc(bk.name) + ", " + esc(bk.service);
+      else if (dayClosed || isClosed(selDate, t)) info.innerHTML = '<span class="tag closed">Закрыто</span>';
+      else if (Dates.isPast(selDate, t)) info.innerHTML = '<span class="tag closed">Прошло</span>';
+      else info.innerHTML = '<span class="tag free">Свободно</span>';
+      r.append(info);
+      if (!bk && !dayClosed && !Dates.isPast(selDate, t)) {
+        const closedSlot = isClosed(selDate, t);
+        const b = el("button", "btn btn-line btn-sm", closedSlot ? "Открыть" : "Закрыть"); b.type = "button";
+        b.onclick = () => toggle(selDate, t, b);
+        r.append(b);
+      }
+      box.append(r);
+    });
+  }
+})();
+</script>
+</body>
+</html>
