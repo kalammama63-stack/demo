@@ -25,8 +25,8 @@ const CONFIG = {
 
   // Адрес Google-скрипта (см. ЗАПУСК_записи.txt). Пусто — демо-режим:
   // записи хранятся только в этом браузере, PIN кабинета — demoPin.
-  api: "",
-  demoPin: "1234",
+  api: "https://script.google.com/macros/s/AKfycbwLN9T6i0P-E2SwyB5sPnS4MQHha_fX8JLCHwRCzL2m0fLodYUsqZD6G5fyKx9Or5HLNg/exec",
+  demoPin: "1234",                      // PIN для демо-режима; с таблицей PIN задаётся в Code.gs
 
   // Фото лежат в папке img. Расширение можно любое: jpg, png, webp, jfif.
   photos: {
