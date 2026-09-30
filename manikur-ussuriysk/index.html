@@ -159,6 +159,12 @@ section{padding:72px 0}
 .book.is-done .form{display:none}
 .book.is-done .done{display:block}
 .err{color:#F2A7BC}
+.step.missing .step-label span:first-child{color:#F2A7BC}
+.step.missing .step-label span:first-child::after{content:" — выберите"}
+#stName.missing .step-label span:first-child::after{content:" — заполните"}
+.step.missing .opt:not([disabled]){border-color:#E08AA3}
+.send[aria-busy="true"]{opacity:.75;cursor:progress}
+.hint.err-big{font-size:15px;color:#F2A7BC}
 .err a{color:#fff}
 .phone{background:var(--wa-bg);border-radius:32px;padding:14px;color:#111B21;max-width:380px;width:100%;justify-self:center;box-shadow:0 30px 60px rgba(0,0,0,.35);border:8px solid #16101A}
 .phone-top{display:flex;align-items:center;gap:10px;background:#fff;margin:-14px -14px 14px;padding:14px 16px;border-radius:24px 24px 0 0;font-size:15px}
@@ -309,15 +315,15 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
         <h2 style="margin-top:10px">Запись онлайн за&nbsp;одну минуту</h2>
 
         <div class="form">
-          <div class="step">
+          <div class="step" id="stService">
             <div class="step-label"><span>Услуга</span></div>
             <div class="opts" id="optService"></div>
           </div>
-          <div class="step">
+          <div class="step" id="stDay">
             <div class="step-label"><span>День</span></div>
             <div class="opts days" id="optDay"></div>
           </div>
-          <div class="step">
+          <div class="step" id="stTime">
             <div class="step-label"><span>Время</span></div>
             <div class="opts" id="optTime"></div>
             <div class="slot-note" id="slotNote" aria-live="polite"></div>
@@ -326,7 +332,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
             <div class="step-label"><span>Оттенок</span><span>можно решить на месте</span></div>
             <div class="mini-shades" id="optShade"></div>
           </div>
-          <div class="step">
+          <div class="step" id="stName">
             <label class="step-label" for="name"><span>Имя и телефон</span></label>
             <input class="field" id="name" autocomplete="given-name" placeholder="Ваше имя">
             <input class="field" id="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 900 000-00-00" aria-label="Телефон">
@@ -554,18 +560,42 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
     $("#bubble").innerHTML = esc(message()).replace(/…/g, '<span class="blank">…</span>') +
       '<span class="time">' + now.getHours() + ":" + String(now.getMinutes()).padStart(2, "0") + "</span>";
     if (book.classList.contains("is-done")) return;
-    const missing = [];
-    if (!st.service) missing.push("услугу");
-    if (!st.date) missing.push("день");
-    if (!st.time) missing.push("время");
-    if (!nameI.value.trim()) missing.push("имя");
-    if (!telOk()) missing.push("телефон");
-    $("#send").disabled = missing.length > 0 || sending;
-    $("#hint").textContent = missing.length ? "Осталось указать: " + missing.join(", ") : "Время закрепится за вами сразу после нажатия.";
+    const m = missingList();
+    if (tried) markMissing(m);
+    if (!sending) {
+      $("#hint").classList.toggle("err-big", tried && m.length > 0);
+      $("#hint").textContent = !m.length ? "Время закрепится за вами сразу после нажатия." :
+        tried ? "Чтобы записаться, укажите: " + m.map(x => x.word).join(", ") : "";
+    }
   }
+  let tried = false;
+  function missingList(){
+    const m = [];
+    if (!st.service) m.push({ word: "услугу", step: "#stService" });
+    if (!st.date) m.push({ word: "день", step: "#stDay" });
+    if (!st.time) m.push({ word: "время", step: "#stTime" });
+    if (!nameI.value.trim()) m.push({ word: "имя", step: "#stName", field: nameI });
+    if (!telOk()) m.push({ word: "телефон", step: "#stName", field: telI });
+    return m;
+  }
+  function markMissing(m){
+    ["#stService", "#stDay", "#stTime", "#stName"].forEach(id => $(id).classList.toggle("missing", m.some(x => x.step === id)));
+    nameI.classList.toggle("bad", m.some(x => x.field === nameI));
+    telI.classList.toggle("bad", m.some(x => x.field === telI));
+  }
+  const smooth = () => matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 
   $("#send").onclick = async () => {
-    sending = true; $("#send").disabled = true; $("#send").textContent = "Записываю…";
+    if (sending) return;
+    const m = missingList();
+    if (m.length) {
+      tried = true; render();
+      $(m[0].step).scrollIntoView({ behavior: smooth(), block: "center" });
+      if (m[0].field) setTimeout(() => m[0].field.focus({ preventScroll: true }), 400);
+      return;
+    }
+    sending = true; $("#send").setAttribute("aria-busy", "true"); $("#send").textContent = "Записываю…";
+    $("#hint").classList.remove("err-big"); $("#hint").textContent = "Секунду, закрепляю время за вами…";
     try {
       const r = await API.call("book", { date: st.date, time: st.time, service: st.service.title,
         name: nameI.value.trim(), phone: telI.value.trim(), shade: st.shade ? st.shade.name : "" });
@@ -579,6 +609,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
         $("#phoneCap").textContent = "Нажмите, чтобы " + (C.masterDat || "мастеру") + " пришло уведомление";
         $("#hint").textContent = "";
         busy.add(key(st.date, st.time));
+        book.scrollIntoView({ behavior: smooth() });
       } else if (r.error === "taken") {
         st.time = null; await loadSlots();
         $("#hint").innerHTML = '<span class="err">Это время только что заняли. Выберите другое.</span>';
@@ -586,11 +617,10 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
     } catch (e) {
       $("#hint").innerHTML = '<span class="err">Не получилось записаться: нет связи. Попробуйте ещё раз.</span>';
     }
-    sending = false; $("#send").textContent = "Записаться";
-    if (!book.classList.contains("is-done")) $("#send").disabled = !(st.service && st.date && st.time && nameI.value.trim() && telOk());
+    sending = false; $("#send").removeAttribute("aria-busy"); $("#send").textContent = "Записаться";
   };
   $("#again").onclick = () => {
-    book.classList.remove("is-done");
+    book.classList.remove("is-done"); tried = false; markMissing([]);
     st.time = null; $("#send").style.display = ""; $("#notify").style.display = "none";
     $("#phoneCap").textContent = "Так запись придёт " + (C.masterDat || "мастеру") + " в WhatsApp";
     drawDays(); drawTimes(); render(); loadSlots();
