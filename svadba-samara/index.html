@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Алина и Максим — 12 июня 2027</title>
+<meta name="description" content="Приглашение на свадьбу Алины и Максима. 12 июня 2027, Самара.">
+<meta property="og:title" content="Алина и Максим приглашают вас на свадьбу">
+<meta property="og:description" content="12 июня 2027 · Самара">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap&subset=cyrillic" rel="stylesheet">
+<script>
+/* ВСЕ ДАННЫЕ ПАРЫ — ЗДЕСЬ. Меняется только этот блок. */
+const CONFIG = {
+  bride: 'Алина',
+  groom: 'Максим',
+  initials: ['А', 'М'],
+  dateISO: '2027-06-12T16:30:00+04:00',   // время церемонии, Самара UTC+4
+  dateText: '12 июня 2027',
+  weekday: 'суббота',
+  city: 'Самара',
+  rsvpUntil: '1 мая 2027',
+  whatsapp: '79662864905',                // куда приходят ответы гостей
+  venue: {
+    name: 'Загородный клуб «Сосновый берег»',
+    address: 'Самарская область, Волжский район, берег Волги',
+    note: 'От центра Самары около 40 минут. В 15:30 от площади Славы отправится автобус для гостей — пожалуйста, отметьте в анкете, если поедете с нами.',
+    map: 'https://yandex.ru/maps/?text=' + encodeURIComponent('Самара, Волжский район, загородный клуб')
+  },
+  program: [
+    ['15:30', 'Отправление автобуса', 'Площадь Славы, у Вечного огня'],
+    ['16:00', 'Сбор гостей', 'Лёгкий фуршет и музыка на террасе'],
+    ['16:30', 'Церемония', 'Под соснами, у самой воды'],
+    ['17:30', 'Ужин', 'Тосты, танцы и много любви'],
+    ['22:30', 'Торт и фейерверк над Волгой', ''],
+    ['23:30', 'Автобус обратно в город', '']
+  ],
+  dresscode: {
+    text: 'Будем рады, если вы поддержите нежную палитру нашего дня. Просим не надевать белое — этот цвет мы оставим невесте.',
+    colors: [['#E9D6D3', 'пудровый'], ['#C9A3A6', 'пыльная роза'], ['#B7C2B0', 'шалфей'], ['#D9CCB8', 'беж'], ['#8E7F8A', 'лиловый туман']]
+  },
+  wishes: [
+    ['Подарки', 'Мы будем благодарны за вклад в бюджет нашей молодой семьи — так вам не придётся ломать голову, а мы исполним общую мечту.'],
+    ['Цветы', 'Пожалуйста, не дарите нам цветы: на следующий день мы улетаем. Вместо букета можно взять бутылку любимого вина — мы откроем её в первую годовщину.'],
+    ['Дети', 'Праздник задуман для взрослых. Надеемся, вы сможете отдохнуть вместе с нами.']
+  ],
+  contact: { name: 'Анна, организатор', phone: '+7 (900) 000-00-00' }
+};
+</script>
+<style>
+:root{
+  --pearl:#FBF7F5;
+  --petal:#F3E7E4;
+  --ink:#4B3F47;
+  --muted:#8A7C84;
+  --rose:#B98A8F;
+  --rose-deep:#A2737A;
+  --sage:#9DAA95;
+  --line:#E6D7D3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--pearl);color:var(--ink);
+  font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;
+  font-size:20px;line-height:1.6;-webkit-font-smoothing:antialiased;font-variant-numeric:lining-nums;
+}
+body.locked{overflow:hidden}
+.script{font-family:'Great Vibes',cursive;font-weight:400;line-height:1.1}
+.caps{font-size:13px;letter-spacing:.32em;text-transform:uppercase;font-weight:500;color:var(--muted)}
+a{color:inherit}
+:focus-visible{outline:1.5px solid var(--rose-deep);outline-offset:4px;border-radius:2px}
+
+/* ── Конверт ── */
+.cover{
+  position:fixed;inset:0;z-index:50;background:var(--petal);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+  padding:24px;text-align:center;
+  transition:transform 1.3s cubic-bezier(.7,0,.2,1),opacity 1.3s ease;
+}
+.cover::before{content:"";position:absolute;inset:16px;border:1px solid var(--line);pointer-events:none}
+.cover::after{content:"";position:absolute;inset:22px;border:1px solid var(--line);opacity:.6;pointer-events:none}
+.cover.open{transform:translateY(-100%);opacity:0;pointer-events:none}
+.cover .to{font-style:italic;font-weight:300;font-size:22px;color:var(--muted)}
+.seal{
+  width:132px;height:132px;border-radius:50%;border:0;cursor:pointer;
+  background:radial-gradient(circle at 38% 32%,#C99BA0 0%,var(--rose-deep) 62%,#8F636A 100%);
+  color:#FBF1EF;display:flex;align-items:center;justify-content:center;
+  font-family:'Great Vibes',cursive;font-size:44px;
+  box-shadow:0 0 0 6px rgba(162,115,122,.18),0 0 0 7px rgba(162,115,122,.10),0 10px 24px -8px rgba(110,70,78,.45);
+  transition:transform .4s ease;
+}
+.seal:hover{transform:scale(1.04)}
+.seal span{transform:translateY(4px)}
+.cover .hint{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+
+/* ── Общее ── */
+main{max-width:680px;margin:0 auto;padding:0 24px}
+section{padding:88px 0;text-align:center}
+.title{font-size:clamp(48px,11vw,64px);color:var(--rose-deep);margin-bottom:28px}
+.sprig{display:block;margin:0 auto;width:120px;height:28px;color:var(--rose)}
+p+p{margin-top:14px}
+
+/* ── Первый экран ── */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:64px 0}
+.names{font-size:clamp(56px,15.5vw,132px);color:var(--ink);margin:28px 0 12px}
+.names .amp{display:block;font-size:.5em;color:var(--rose);margin:-.12em 0 -.05em}
+.date{display:flex;align-items:center;gap:18px;font-weight:300;font-variant-numeric:lining-nums;font-size:clamp(22px,5vw,28px);letter-spacing:.14em}
+.date i{display:block;width:1px;height:28px;background:var(--rose)}
+.place{margin-top:10px;font-style:italic;font-weight:300;color:var(--muted)}
+.down{margin-top:56px;font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.down::after{content:"";display:block;width:1px;height:40px;background:var(--rose);margin:14px auto 0;animation:drop 2.4s ease-in-out infinite;transform-origin:top}
+@keyframes drop{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+/* ── Отсчёт ── */
+.count{display:grid;grid-template-columns:repeat(4,1fr);margin-top:8px}
+.count div{padding:6px 4px}
+.count div+div{border-left:1px solid var(--line)}
+.count b{display:block;font-weight:300;font-size:clamp(40px,11vw,76px);line-height:1;font-variant-numeric:lining-nums tabular-nums;color:var(--ink)}
+.count small{display:block;margin-top:10px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.count-done{font-style:italic;font-size:26px}
+
+/* ── Приглашение ── */
+.letter{font-size:22px;font-weight:300}
+.letter em{font-style:italic;color:var(--rose-deep)}
+
+/* ── Программа ── */
+.program{list-style:none;text-align:left;max-width:440px;margin:0 auto;position:relative}
+.program::before{content:"";position:absolute;left:76px;top:14px;bottom:14px;width:1px;background:var(--line)}
+.program li{display:grid;grid-template-columns:62px 1fr;column-gap:30px;padding:12px 0;position:relative}
+.program li::before{content:"";position:absolute;left:72px;top:23px;width:9px;height:9px;border-radius:50%;background:var(--pearl);border:1px solid var(--rose)}
+.program time{font-weight:500;font-size:19px;letter-spacing:.04em;color:var(--rose-deep);padding-top:1px}
+.program strong{font-weight:500;display:block}
+.program span{display:block;font-style:italic;font-weight:300;color:var(--muted);font-size:18px}
+
+/* ── Место ── */
+.venue-name{font-size:26px;font-weight:500}
+.venue-addr{font-style:italic;color:var(--muted);margin-top:4px}
+.venue-note{max-width:500px;margin:20px auto 0;font-weight:300}
+.btn{
+  display:inline-block;margin-top:30px;padding:15px 34px;border:1px solid var(--rose-deep);
+  border-radius:999px;color:var(--rose-deep);text-decoration:none;cursor:pointer;background:transparent;
+  font:500 13px/1 'Cormorant Garamond',serif;letter-spacing:.28em;text-transform:uppercase;
+  transition:background .3s,color .3s;
+}
+.btn:hover{background:var(--rose-deep);color:var(--pearl)}
+.btn.solid{background:var(--rose-deep);color:var(--pearl)}
+.btn.solid:hover{background:var(--ink);border-color:var(--ink)}
+
+/* ── Дресс-код ── */
+.swatches{display:flex;justify-content:center;flex-wrap:wrap;gap:22px 26px;margin-top:34px}
+.swatches figure{width:76px}
+.swatches i{display:block;width:58px;height:58px;margin:0 auto;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(75,63,71,.08)}
+.swatches figcaption{margin-top:10px;font-size:15px;font-style:italic;color:var(--muted);line-height:1.2}
+
+/* ── Пожелания ── */
+.wishes{text-align:left;max-width:520px;margin:0 auto}
+.wishes div{padding:22px 0;border-top:1px solid var(--line)}
+.wishes div:last-child{border-bottom:1px solid var(--line)}
+.wishes h3{font-family:'Great Vibes',cursive;font-weight:400;font-size:34px;color:var(--rose-deep);line-height:1.2}
+.wishes p{font-weight:300;margin-top:4px}
+
+/* ── Анкета ── */
+.rsvp-lead{font-weight:300;margin-bottom:34px}
+form{text-align:left;max-width:460px;margin:0 auto}
+.field{margin-bottom:26px}
+.field>label,.field legend{display:block;font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-weight:500}
+fieldset{border:0}
+input[type=text],textarea,select{
+  width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;
+  font:400 21px 'Cormorant Garamond',serif;font-variant-numeric:lining-nums;color:var(--ink);padding:6px 0;border-radius:0;
+}
+input[type=text]:focus,textarea:focus,select:focus{outline:0;border-bottom-color:var(--rose-deep)}
+textarea{resize:vertical;min-height:64px}
+.choice{display:flex;flex-wrap:wrap;gap:10px}
+.choice label{position:relative;cursor:pointer}
+.choice input{position:absolute;opacity:0;pointer-events:none}
+.choice span{display:inline-block;padding:9px 18px;border:1px solid var(--line);border-radius:999px;font-size:18px;transition:all .25s}
+.choice input:checked+span{border-color:var(--rose-deep);background:var(--rose-deep);color:var(--pearl)}
+.choice input:focus-visible+span{outline:1.5px solid var(--rose-deep);outline-offset:3px}
+.err{color:var(--rose-deep);font-style:italic;font-size:17px;margin-top:6px;min-height:1px}
+.form-end{text-align:center}
+.until{margin-top:18px;font-style:italic;font-size:17px;color:var(--muted)}
+.thanks{display:none;text-align:center}
+.thanks .script{font-size:56px;color:var(--rose-deep)}
+
+/* ── Финал ── */
+.final{padding:96px 0 40px}
+.final .script{font-size:clamp(54px,13vw,80px);color:var(--ink);margin-top:10px}
+.contact{margin-top:40px;font-weight:300;font-size:18px;color:var(--muted)}
+.contact a{text-decoration:none;border-bottom:1px solid var(--line)}
+footer{text-align:center;padding:40px 24px 32px;font-size:14px;color:var(--muted);letter-spacing:.06em}
+footer a{text-decoration:none;border-bottom:1px solid var(--line)}
+
+/* ── Плавное появление ── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 1s ease,transform 1s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:520px){
+  body{font-size:19px}
+  section{padding:68px 0}
+  .program::before{left:66px}
+  .program li{grid-template-columns:54px 1fr;column-gap:26px}
+  .program li::before{left:62px}
+  .count small{font-size:10px;letter-spacing:.14em}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body class="locked">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="sprig" viewBox="0 0 120 28">
+    <path d="M4 14 H50 M70 14 H116" stroke="currentColor" stroke-width=".8" fill="none"/>
+    <path d="M60 22 C60 16 60 10 60 5" stroke="currentColor" stroke-width=".8" fill="none"/>
+    <path d="M60 14 C55 13 52 9 52 6 C56 7 59 10 60 14Z M60 14 C65 13 68 9 68 6 C64 7 61 10 60 14Z M60 20 C56 20 53 17 52 15 C56 15 59 17 60 20Z M60 20 C64 20 67 17 68 15 C64 15 61 17 60 20Z" fill="currentColor" opacity=".55"/>
+    <circle cx="60" cy="4" r="1.6" fill="currentColor"/>
+  </symbol>
+</svg>
+
+<div class="cover" id="cover">
+  <p class="to" id="coverTo">Приглашение на свадьбу</p>
+  <button class="seal" id="seal" aria-label="Открыть приглашение"><span id="sealText"></span></button>
+  <p class="hint">Нажмите на печать</p>
+</div>
+
+<main>
+  <section class="hero">
+    <p class="caps">Мы женимся</p>
+    <h1 class="names script" id="names"></h1>
+    <p class="date" id="date"></p>
+    <p class="place" id="place"></p>
+    <a class="down" href="#countdown">Листайте</a>
+  </section>
+
+  <section id="countdown" class="reveal">
+    <h2 class="title script">До нашего дня</h2>
+    <div class="count" id="count" aria-live="off">
+      <div><b data-u="d">0</b><small data-l="d">дней</small></div>
+      <div><b data-u="h">0</b><small data-l="h">часов</small></div>
+      <div><b data-u="m">0</b><small data-l="m">минут</small></div>
+      <div><b data-u="s">0</b><small data-l="s">секунд</small></div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <svg class="sprig"><use href="#sprig"/></svg>
+    <div class="letter" style="margin-top:30px">
+      <p>Дорогие родные и друзья!</p>
+      <p>Совсем скоро в нашей жизни случится главный день, и нам очень хочется провести его рядом с теми, кого мы любим.</p>
+      <p>Приглашаем вас разделить с нами <em>радость этого дня</em>, а мы постараемся, чтобы он запомнился и вам.</p>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2 class="title script">Программа дня</h2>
+    <ol class="program" id="program"></ol>
+  </section>
+
+  <section class="reveal">
+    <h2 class="title script">Где нас искать</h2>
+    <p class="venue-name" id="venueName"></p>
+    <p class="venue-addr" id="venueAddr"></p>
+    <p class="venue-note" id="venueNote"></p>
+    <a class="btn" id="venueMap" target="_blank" rel="noopener">Открыть на карте</a>
+  </section>
+
+  <section class="reveal">
+    <h2 class="title script">Дресс-код</h2>
+    <p id="dressText" style="font-weight:300;max-width:520px;margin:0 auto"></p>
+    <div class="swatches" id="swatches"></div>
+  </section>
+
+  <section class="reveal">
+    <h2 class="title script">Несколько просьб</h2>
+    <div class="wishes" id="wishes"></div>
+  </section>
+
+  <section class="reveal" id="rsvp">
+    <h2 class="title script">Вы с нами?</h2>
+    <p class="rsvp-lead">Пожалуйста, ответьте до <span id="rsvpUntil"></span> — так нам будет проще всё подготовить.</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label for="fName">Ваше имя и фамилия</label>
+        <input type="text" id="fName" autocomplete="name" placeholder="Например, Мария и Олег Соколовы">
+        <p class="err" id="eName"></p>
+      </div>
+      <fieldset class="field">
+        <legend>Придёте?</legend>
+        <div class="choice">
+          <label><input type="radio" name="go" value="Да, придём с радостью"><span>Да, с радостью</span></label>
+          <label><input type="radio" name="go" value="К сожалению, не сможем"><span>Не смогу</span></label>
+        </div>
+        <p class="err" id="eGo"></p>
+      </fieldset>
+      <div class="field" id="moreFields">
+        <label for="fCount">Сколько вас будет</label>
+        <select id="fCount"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+      </div>
+      <fieldset class="field more">
+        <legend>Что будете пить</legend>
+        <div class="choice">
+          <label><input type="checkbox" name="drink" value="вино"><span>Вино</span></label>
+          <label><input type="checkbox" name="drink" value="шампанское"><span>Шампанское</span></label>
+          <label><input type="checkbox" name="drink" value="крепкое"><span>Покрепче</span></label>
+          <label><input type="checkbox" name="drink" value="без алкоголя"><span>Без алкоголя</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="field more">
+        <legend>Автобус от площади Славы</legend>
+        <div class="choice">
+          <label><input type="radio" name="bus" value="поеду на автобусе"><span>Поеду на автобусе</span></label>
+          <label><input type="radio" name="bus" value="доберусь сам"><span>Доберусь сам</span></label>
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="fNote">Пожелания</label>
+        <textarea id="fNote" placeholder="Аллергия, любимая песня — всё, что нам стоит знать"></textarea>
+      </div>
+      <div class="form-end">
+        <button class="btn solid" type="submit">Отправить ответ</button>
+      </div>
+    </form>
+
+    <div class="thanks" id="thanks">
+      <p class="script">Спасибо!</p>
+      <p style="font-weight:300">Ваш ответ получен.</p>
+    </div>
+  </section>
+
+  <section class="final reveal">
+    <svg class="sprig"><use href="#sprig"/></svg>
+    <p style="margin-top:28px;font-weight:300;font-size:22px">Ждём вас!</p>
+    <p class="script" id="sign"></p>
+    <p class="contact">По всем вопросам — <span id="cName"></span><br><a id="cPhone"></a></p>
+  </section>
+</main>
+
+<footer>Сайт-приглашение сделан в&nbsp;<a href="https://tk-webb.ru/" target="_blank" rel="noopener">TK Web</a></footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const C = CONFIG;
+
+/* Заполнение */
+document.title = `${C.bride} и ${C.groom} — ${C.dateText}`;
+$('sealText').textContent = `${C.initials[0]}&${C.initials[1]}`;
+$('names').innerHTML = `${C.bride}<span class="amp">&amp;</span>${C.groom}`;
+const [dd, mm, yy] = (() => { const d = new Date(C.dateISO); return [d.getDate(), d.getMonth() + 1, d.getFullYear()]; })();
+$('date').innerHTML = `${String(dd).padStart(2,'0')}<i></i>${String(mm).padStart(2,'0')}<i></i>${yy}`;
+$('place').textContent = `${C.weekday}, ${C.city}`;
+$('program').innerHTML = C.program.map(([t, h, s]) => `<li><time>${t}</time><div><strong>${h}</strong>${s ? `<span>${s}</span>` : ''}</div></li>`).join('');
+$('venueName').textContent = C.venue.name;
+$('venueAddr').textContent = C.venue.address;
+$('venueNote').textContent = C.venue.note;
+$('venueMap').href = C.venue.map;
+$('dressText').textContent = C.dresscode.text;
+$('swatches').innerHTML = C.dresscode.colors.map(([c, n]) => `<figure><i style="background:${c}"></i><figcaption>${n}</figcaption></figure>`).join('');
+$('wishes').innerHTML = C.wishes.map(([h, p]) => `<div><h3>${h}</h3><p>${p}</p></div>`).join('');
+$('rsvpUntil').textContent = C.rsvpUntil;
+$('sign').textContent = `${C.bride} и ${C.groom}`;
+$('cName').textContent = C.contact.name;
+$('cPhone').textContent = C.contact.phone;
+$('cPhone').href = 'tel:' + C.contact.phone.replace(/[^\d+]/g, '');
+
+/* Имя гостя из ссылки: ?to=Мария%20и%20Олег */
+const guest = new URLSearchParams(location.search).get('to');
+if (guest) $('coverTo').textContent = guest + ', для вас приглашение';
+
+/* Конверт */
+$('seal').addEventListener('click', () => {
+  $('cover').classList.add('open');
+  document.body.classList.remove('locked');
+  setTimeout(() => $('cover').remove(), 1400);
+});
+
+/* Обратный отсчёт */
+const plural = (n, f) => f[(n % 100 > 10 && n % 100 < 20) ? 2 : [2,0,1,1,1,2][Math.min(n % 10, 5)]];
+const forms = { d: ['день','дня','дней'], h: ['час','часа','часов'], m: ['минута','минуты','минут'], s: ['секунда','секунды','секунд'] };
+const target = new Date(C.dateISO).getTime();
+function tick() {
+  let diff = Math.max(0, target - Date.now());
+  if (!diff) { $('count').outerHTML = '<p class="count-done">Этот день настал!</p>'; return; }
+  const v = { d: Math.floor(diff / 864e5), h: Math.floor(diff / 36e5) % 24, m: Math.floor(diff / 6e4) % 60, s: Math.floor(diff / 1e3) % 60 };
+  for (const k in v) {
+    document.querySelector(`[data-u="${k}"]`).textContent = k === 'd' ? v[k] : String(v[k]).padStart(2, '0');
+    document.querySelector(`[data-l="${k}"]`).textContent = plural(v[k], forms[k]);
+  }
+  setTimeout(tick, 1000);
+}
+tick();
+
+/* Анкета: если «не смогу» — лишние вопросы прячем */
+const more = [$('moreFields'), ...document.querySelectorAll('.more')];
+document.querySelectorAll('input[name=go]').forEach(r => r.addEventListener('change', () => {
+  const no = r.value.startsWith('К сожалению') && r.checked;
+  more.forEach(el => el.style.display = no ? 'none' : '');
+}));
+
+$('form').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('fName').value.trim();
+  const go = document.querySelector('input[name=go]:checked');
+  $('eName').textContent = name ? '' : 'Напишите, как вас зовут';
+  $('eGo').textContent = go ? '' : 'Выберите вариант ответа';
+  if (!name) { $('fName').focus(); return; }
+  if (!go) return;
+  const lines = [`Ответ на приглашение (${C.bride} и ${C.groom})`, `Гость: ${name}`, go.value];
+  if (!go.value.startsWith('К сожалению')) {
+    lines.push(`Человек: ${$('fCount').value}`);
+    const drinks = [...document.querySelectorAll('input[name=drink]:checked')].map(x => x.value);
+    if (drinks.length) lines.push('Напитки: ' + drinks.join(', '));
+    const bus = document.querySelector('input[name=bus]:checked');
+    if (bus) lines.push('Дорога: ' + bus.value);
+  }
+  const note = $('fNote').value.trim();
+  if (note) lines.push('Пожелания: ' + note);
+  window.open(`https://wa.me/${C.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank');
+  $('form').style.display = 'none';
+  $('thanks').style.display = 'block';
+});
+
+/* Плавное появление секций */
+const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target); } }), { threshold: .15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
