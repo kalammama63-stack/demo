@@ -231,8 +231,7 @@ footer a{text-decoration:none;border-bottom:1px solid var(--line)}
 .ar.thin{stroke-width:.6;opacity:.7}
 .deco{position:fixed;top:50%;transform:translateY(-50%);height:auto;z-index:-1;display:none;pointer-events:none}
 .deco-left{left:0;height:min(92vh,760px);opacity:.9}
-.deco-right{right:max(0px,calc(25vw - 470px));width:min(calc(50vw - 380px),440px);height:auto;max-height:92vh;object-fit:contain;
-  -webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 58%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 58%,#000 62%,transparent 100%)}
+.deco-right{right:0;height:min(92vh,760px);opacity:.9;transform:translateY(-50%) scaleX(-1)}
 .arch-bow{position:absolute;left:50%;top:1%;width:34%;transform:translateX(-50%)}
 .arch-lily{position:absolute;bottom:-2%;width:38%;pointer-events:none}
 .arch-lily.l{left:-9%;transform:scaleX(-1)}
@@ -264,7 +263,7 @@ footer a{text-decoration:none;border-bottom:1px solid var(--line)}
 </style>
 </head>
 <body class="locked">
-<!--SIDES--><img class="deco deco-left" src="img/ornament-left.png" alt=""><img class="deco deco-right" src="img/basket.png" alt=""><!--/SIDES-->
+<!--SIDES--><img class="deco deco-left" src="img/ornament-left.png" alt=""><img class="deco deco-right" src="img/ornament-left.png" alt=""><!--/SIDES-->
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="sprig" viewBox="0 0 120 28">
@@ -284,7 +283,7 @@ footer a{text-decoration:none;border-bottom:1px solid var(--line)}
 <main>
   <section class="hero">
     <div class="frame">
-      <!--ARCH--><svg class="arch" viewBox="-40 0 720 760" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><path class="ar" d="M30.0,760 V330 A290,290 0 0 1 610.0,330 V760"/><path class="ar thin" d="M44.0,760 V330 A276,276 0 0 1 596.0,330 V760"/></svg><img class="arch-bow" src="img/bow.png" alt=""><img class="arch-lily l" src="img/lily-branch.png" alt=""><img class="arch-lily r" src="img/lily-branch.png" alt=""><!--/ARCH-->
+      <!--ARCH--><svg class="arch" viewBox="-40 0 720 760" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><path class="ar" d="M30.0,760 V330 A290,290 0 0 1 610.0,330 V760"/><path class="ar thin" d="M44.0,760 V330 A276,276 0 0 1 596.0,330 V760"/></svg><img class="arch-bow" src="img/bow.png" alt=""><!--/ARCH-->
       <p class="caps">Мы женимся</p>
       <h1 class="names script" id="names"></h1>
       <p class="date" id="date"></p>
@@ -399,7 +398,7 @@ footer a{text-decoration:none;border-bottom:1px solid var(--line)}
   </section>
 </main>
 
-<footer>Сайт-приглашение сделан в&nbsp;<a href="https://tk-webb.ru/" target="_blank" rel="noopener">TK Web</a><br><small style="font-size:11px;opacity:.7">Фото лилии: Sergey Urzhumskov, <a href="https://www.flickr.com/photos/7999280@N03/8926313128" target="_blank" rel="noopener">CC BY 2.0</a></small></footer>
+<footer>Сайт-приглашение сделан в&nbsp;<a href="https://tk-webb.ru/" target="_blank" rel="noopener">TK Web</a></footer>
 
 <script>
 const $ = id => document.getElementById(id);
