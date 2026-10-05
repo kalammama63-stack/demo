@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кафе «Хохлома» — Владивосток</title>
+<meta name="description" content="Кафе русской кухни «Хохлома» во Владивостоке: меню с ценами, доставка, банкетные залы до 65 гостей. Посьетская, 20.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ================= НАСТРОЙКИ =================
+   Телефон для заказов и заявок — CONFIG в <script> внизу.
+*/
+:root{
+  --ink:#140807; --wine:#2a0b09; --wine2:#3d120e;
+  --red:#b3261c; --gold:#e0ad4a; --gold2:#f5d58a;
+  --cream:#f6ecd9; --muted:#c9b59a; --line:rgba(224,173,74,.28);
+  --serif:'Prata',Georgia,serif; --sans:'Golos Text',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--cream);font:16px/1.55 var(--sans);overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+/* ---------- ШАПКА ---------- */
+.top{position:fixed;inset:0 0 auto 0;z-index:40;display:flex;align-items:center;justify-content:space-between;
+  padding:12px 20px;transition:background .4s,backdrop-filter .4s}
+.top.solid{background:rgba(20,8,7,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .brand img{height:44px;width:auto}
+.top nav{display:flex;gap:22px;align-items:center;font-size:15px}
+.top nav a{text-decoration:none;opacity:.9}
+.top nav a:hover{color:var(--gold2)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;text-decoration:none;
+  font:600 15px var(--sans);padding:13px 22px;border-radius:999px;transition:transform .2s,box-shadow .2s}
+.btn-gold{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a0b09;box-shadow:0 6px 24px rgba(224,173,74,.35)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(224,173,74,.5)}
+.btn-ghost{border:1px solid var(--gold);color:var(--gold2);background:rgba(20,8,7,.35)}
+.btn-ghost:hover{background:rgba(224,173,74,.12)}
+.top .tel{font-weight:600;color:var(--gold2);text-decoration:none}
+@media (max-width:760px){.top nav a:not(.tel){display:none}.top .brand img{height:36px}}
+
+/* ---------- ВХОД: подходим к дверям, двери открываются ---------- */
+.hero{position:relative;height:100svh;min-height:560px;overflow:hidden;perspective:1400px;background:#000}
+.hero .inside{position:absolute;inset:0;background:url(img/hall-big.jpg) center/cover;
+  transform:scale(1.25);filter:brightness(.35) saturate(1.1);animation:inside 3.2s cubic-bezier(.2,.7,.2,1) 5.4s forwards}
+@keyframes inside{to{transform:scale(1.02);filter:brightness(.62) saturate(1.15)}}
+.hero .glow{position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:radial-gradient(ellipse 40% 60% at 50% 55%,rgba(255,196,110,.75),rgba(255,160,60,.15) 45%,transparent 70%);
+  animation:glow 2.6s ease-out 5s forwards}
+@keyframes glow{0%{opacity:0}35%{opacity:1}100%{opacity:.25}}
+.leaf{position:absolute;top:0;bottom:0;width:50%;overflow:hidden;transform-style:preserve-3d;backface-visibility:hidden;
+  animation-duration:2s;animation-timing-function:cubic-bezier(.45,0,.2,1);animation-delay:5s;animation-fill-mode:forwards}
+.leaf.l{left:0;transform-origin:left center;animation-name:openL}
+.leaf.r{right:0;transform-origin:right center;animation-name:openR}
+@keyframes openL{to{transform:rotateY(-98deg);filter:brightness(.4)}}
+@keyframes openR{to{transform:rotateY(98deg);filter:brightness(.4)}}
+.leaf .view{position:absolute;top:0;bottom:0;width:200%}
+.leaf.l .view{left:0}.leaf.r .view{right:0}
+.walk{position:absolute;inset:0;animation:bob .9s ease-in-out 6 alternate}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-.5%)}}
+.facade{position:absolute;inset:-2%;background:url(img/facade.jpg) 47% 22%/cover;
+  transform-origin:47% 60%;animation:approach 5.6s cubic-bezier(.45,0,.25,1) forwards}
+@media (max-aspect-ratio:1/1){
+  .facade{background:url(img/facade.jpg) center 45%/100% auto no-repeat,url(img/facade-blur.jpg) center/cover;
+    transform-origin:47% 49%;animation-name:approachM}
+}
+@keyframes approachM{0%{transform:scale(1);filter:brightness(.95)}45%{transform:scale(1.8)}100%{transform:scale(6.2);filter:brightness(1.05)}}
+@keyframes approach{0%{transform:scale(1);filter:brightness(.95) blur(1px)}
+  12%{filter:brightness(1) blur(0)}100%{transform:scale(3.1);filter:brightness(1.05)}}
+.hero .vign{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.55) 100%),linear-gradient(180deg,rgba(0,0,0,.35),transparent 18%,transparent 70%,rgba(20,8,7,.9))}
+.hero-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:90px 20px 40px;opacity:0;transform:translateY(24px);animation:rise 1.4s ease-out 6.6s forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+.hero-text img{width:min(420px,78vw);filter:drop-shadow(0 4px 30px rgba(0,0,0,.6))}
+.hero-text h1{font:400 clamp(22px,3.4vw,36px)/1.25 var(--serif);margin:14px 0 8px;text-shadow:0 2px 18px rgba(0,0,0,.8)}
+.hero-text p{color:#f0dfc2;max-width:520px;text-shadow:0 1px 12px rgba(0,0,0,.9)}
+.hero-text .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:26px}
+.hint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-size:13px;color:var(--muted);opacity:0;
+  animation:rise 1s ease-out 8s forwards}
+.replay{position:absolute;right:16px;bottom:16px;z-index:5;background:rgba(20,8,7,.55);border:1px solid var(--line);
+  color:var(--gold2);border-radius:999px;padding:8px 14px;font:500 13px var(--sans);cursor:pointer;opacity:0;animation:rise 1s ease-out 8s forwards}
+.intro-title{position:absolute;left:0;right:0;top:16%;text-align:center;font:400 clamp(15px,2vw,19px) var(--serif);
+  letter-spacing:.3em;text-transform:uppercase;color:var(--gold2);text-shadow:0 2px 14px rgba(0,0,0,.9);
+  animation:fadeOut 4.6s ease-in forwards}
+@media (max-width:600px){.intro-title{letter-spacing:.14em;font-size:13px;top:13%}}
+@keyframes fadeOut{0%,10%{opacity:0}25%,70%{opacity:1}100%{opacity:0}}
+/* анимация стартует, когда фото фасада загрузилось */
+.hero:not(.go) *{animation-play-state:paused!important}
+@media (max-width:600px){.hint{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .facade,.leaf,.inside,.glow,.walk,.hero-text,.hint,.replay,.intro-title{animation-duration:.01s!important;animation-delay:0s!important}
+}
+
+/* ---------- ПОЛОСА ИНФО ---------- */
+.info{border-block:1px solid var(--line);background:linear-gradient(90deg,var(--wine),var(--wine2),var(--wine))}
+.info .wrap{display:flex;flex-wrap:wrap;gap:10px 34px;justify-content:center;padding:16px 20px;font-size:15px}
+.info b{color:var(--gold2);font-weight:600}
+
+/* ---------- ОБЩЕЕ ДЛЯ РАЗДЕЛОВ ---------- */
+section{position:relative}
+.sec{padding:90px 0}
+.kicker{font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+h2{font:400 clamp(30px,4.4vw,48px)/1.15 var(--serif);margin:10px 0 14px}
+.lead{color:var(--muted);max-width:640px}
+.orn{position:absolute;pointer-events:none;width:300px;opacity:.85}
+.orn.tr{top:0;right:0}
+.orn.bl{bottom:0;left:0;transform:scale(-1,-1);opacity:.5}
+@media (max-width:760px){.orn{width:170px;opacity:.55}.sec{padding:64px 0}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s ease}
+.reveal.on{opacity:1;transform:none}
+
+/* ---------- МЕНЮ ---------- */
+#menu{background:radial-gradient(ellipse at 80% 0%,#2e0d0a,transparent 60%),var(--ink)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:6px 0 18px;margin-top:26px;scrollbar-width:none;position:sticky;top:64px;z-index:20;
+  background:linear-gradient(var(--ink) 75%,transparent)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;border:1px solid var(--line);background:transparent;color:var(--cream);padding:9px 16px;border-radius:999px;
+  font:500 14px var(--sans);cursor:pointer;white-space:nowrap}
+.tab.on{background:var(--gold);border-color:var(--gold);color:#2a0b09}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.dish{background:linear-gradient(180deg,#22100c,#1a0a08);border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  display:flex;flex-direction:column;transition:transform .3s,border-color .3s}
+.dish:hover{transform:translateY(-4px);border-color:var(--gold)}
+.dish .ph{aspect-ratio:1/1;overflow:hidden;position:relative}
+.dish .ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.dish:hover .ph img{transform:scale(1.06)}
+.dish .tag{position:absolute;left:12px;top:12px;background:var(--red);color:#fff;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px}
+.dish .bd{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.dish h3{font:400 19px/1.25 var(--serif)}
+.dish .ds{font-size:14px;color:var(--muted);flex:1}
+.dish .row{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.dish .pr{font-weight:600;font-size:19px;color:var(--gold2)}
+.dish .w{font-size:13px;color:var(--muted);margin-left:8px;font-weight:400}
+.add{border:0;cursor:pointer;background:var(--gold);color:#2a0b09;font:600 14px var(--sans);border-radius:999px;padding:9px 16px}
+.qty{display:flex;align-items:center;gap:10px;background:#2c120d;border:1px solid var(--gold);border-radius:999px;padding:3px}
+.qty button{width:30px;height:30px;border-radius:50%;border:0;background:var(--gold);color:#2a0b09;font:600 18px/1 var(--sans);cursor:pointer}
+.qty span{min-width:18px;text-align:center;font-weight:600}
+.note{margin-top:26px;font-size:13px;color:var(--muted);text-align:center}
+
+/* ---------- КОРЗИНА ---------- */
+.bar{position:fixed;left:50%;bottom:16px;transform:translate(-50%,140%);z-index:50;transition:transform .45s cubic-bezier(.2,.8,.2,1);
+  width:min(560px,calc(100% - 24px));display:flex;align-items:center;gap:12px;justify-content:space-between;
+  background:#25d366;color:#06301a;border-radius:18px;padding:12px 14px 12px 18px;box-shadow:0 14px 40px rgba(0,0,0,.5);cursor:pointer}
+.bar.show{transform:translate(-50%,0)}
+.bar b{font-size:16px}.bar small{display:block;font-size:13px;opacity:.85}
+.bar .go{background:#06301a;color:#fff;border-radius:12px;padding:10px 14px;font-weight:600;font-size:14px;white-space:nowrap}
+.sheet{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center}
+.sheet.open{display:flex}
+.panel{background:#1d0b09;border:1px solid var(--line);border-radius:22px 22px 0 0;width:min(560px,100%);max-height:92svh;overflow:auto;padding:22px 20px 26px}
+.panel h3{font:400 24px var(--serif);margin-bottom:12px}
+.line span:last-child{white-space:nowrap}
+.line{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.total{display:flex;justify-content:space-between;font-weight:600;font-size:18px;margin:14px 0;color:var(--gold2)}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
+input,select,textarea{width:100%;background:#2a120e;border:1px solid var(--line);color:var(--cream);border-radius:12px;padding:12px 14px;font:15px var(--sans)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);border-color:transparent}
+.wa{width:100%;justify-content:center;margin-top:18px;background:#25d366;color:#06301a;font-size:16px;padding:15px}
+.x{float:right;background:none;border:0;color:var(--muted);font-size:26px;cursor:pointer;line-height:1}
+
+/* ---------- БАНКЕТЫ ---------- */
+#banket{background:linear-gradient(180deg,var(--ink),#1c0907 40%,var(--ink));overflow:hidden}
+.bk-hero{position:relative;border-radius:24px;overflow:hidden;height:min(78vh,640px);margin-top:34px;border:1px solid var(--line)}
+.bk-hero .img{position:absolute;inset:-4%;background:url(img/banket.jpg) center 60%/cover;animation:walkin 18s ease-in-out infinite alternate}
+@keyframes walkin{from{transform:scale(1) translateY(0)}to{transform:scale(1.22) translateY(3%)}}
+.bk-hero .flick{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 15%,rgba(255,190,100,.28),transparent 55%);
+  mix-blend-mode:screen;animation:flick 3.5s ease-in-out infinite}
+@keyframes flick{0%,100%{opacity:.6}40%{opacity:1}60%{opacity:.75}}
+.bk-hero .cap{position:absolute;left:0;right:0;bottom:0;padding:30px 28px;background:linear-gradient(transparent,rgba(10,4,3,.92))}
+.bk-hero .cap h3{font:400 clamp(24px,3vw,34px) var(--serif)}
+.bk-hero .cap p{color:#ecd9bb;max-width:560px}
+.halls{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
+@media (max-width:760px){.halls{grid-template-columns:1fr}}
+.hall{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#1d0b09}
+.hall .ph{height:260px;overflow:hidden}
+.hall .ph div{height:100%;background-size:cover;background-position:center;transition:transform 8s ease}
+.hall:hover .ph div{transform:scale(1.12)}
+.hall .bd{padding:18px 20px 22px}
+.hall h3{font:400 23px var(--serif)}
+.facts{display:flex;gap:18px;flex-wrap:wrap;margin:10px 0 4px}
+.fact b{display:block;font:400 26px var(--serif);color:var(--gold2)}
+.fact span{font-size:13px;color:var(--muted)}
+.occ{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.occ span{border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14px;background:rgba(224,173,74,.06)}
+.form{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:30px;background:#1d0b09;border:1px solid var(--gold);
+  border-radius:22px;padding:24px}
+.form h3{grid-column:1/-1;font:400 26px var(--serif)}
+.form .full{grid-column:1/-1}
+.form .half{grid-column:span 2}
+@media (max-width:760px){.form{grid-template-columns:1fr 1fr}.form .half{grid-column:1/-1}}
+
+/* ---------- ОТЗЫВЫ / ПОДВАЛ ---------- */
+.rate{display:flex;flex-wrap:wrap;gap:28px;align-items:center;justify-content:center;text-align:center;padding:56px 20px;
+  border-block:1px solid var(--line);background:url(img/window.jpg) center/cover;position:relative}
+.rate::before{content:"";position:absolute;inset:0;background:rgba(20,8,7,.82)}
+.rate>*{position:relative}
+.rate b{font:400 54px/1 var(--serif);color:var(--gold2)}
+.rate p{max-width:430px;color:#ecd9bb}
+footer{padding:56px 0 110px;background:#0e0504}
+footer .wrap{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px}
+@media (max-width:760px){footer .wrap{grid-template-columns:1fr}}
+footer h4{font:400 18px var(--serif);color:var(--gold2);margin-bottom:8px}
+footer p,footer a{color:var(--muted);font-size:15px;text-decoration:none}
+.demo{margin-top:34px;text-align:center;font-size:13px;color:#8c7860;grid-column:1/-1}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <a class="brand" href="#"><img src="img/logo.png" alt="Кафе «Хохлома»"></a>
+  <nav>
+    <a href="#menu">Меню</a><a href="#banket">Банкеты</a><a href="#contacts">Контакты</a>
+    <a class="tel" href="tel:+74232727151">272-71-51</a>
+  </nav>
+</header>
+
+<!-- ВХОД -->
+<section class="hero" id="hero">
+  <div class="inside"></div>
+  <div class="glow"></div>
+  <div class="leaf l"><div class="view"><div class="walk"><div class="facade"></div></div></div></div>
+  <div class="leaf r"><div class="view"><div class="walk"><div class="facade"></div></div></div></div>
+  <div class="vign"></div>
+  <div class="intro-title">Владивосток · Посьетская, 20</div>
+  <div class="hero-text">
+    <img src="img/logo.png" alt="Кафе «Хохлома»">
+    <h1>Русская кухня и тёплый зал<br>в самом центре Владивостока</h1>
+    <p>Завтраки с 7:30, домашние пельмени и борщ, банкеты до 65 гостей. Заходите — или закажите домой.</p>
+    <div class="cta">
+      <a class="btn btn-gold" href="#menu">Меню и доставка</a>
+      <a class="btn btn-ghost" href="#banket">Банкетные залы</a>
+    </div>
+  </div>
+  <button class="replay" id="replay">↻ Войти ещё раз</button>
+  <div class="hint">листайте вниз ↓</div>
+</section>
+
+<div class="info"><div class="wrap">
+  <span>Ежедневно <b>7:30 – 23:00</b></span>
+  <span>Посьетская, 20 · гостиница «Приморье»</span>
+  <span>Доставка по Владивостоку</span>
+  <span>Банкеты <b>до 65 гостей</b></span>
+</div></div>
+
+<!-- МЕНЮ -->
+<section class="sec" id="menu">
+  <img class="orn tr" src="img/orn-tr.png" alt="">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Меню и доставка</div>
+      <h2>Выберите блюда — заказ придёт к нам в WhatsApp</h2>
+      <p class="lead">Цены и вес видны сразу. Добавьте блюда в заказ, укажите адрес — администратор подтвердит время доставки.</p>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="grid" id="grid"></div>
+    <p class="note">Демо-версия: цены и вес блюд примерные — в готовом сайте будут ваши точные данные.</p>
+  </div>
+</section>
+
+<div class="rate reveal">
+  <div><b>4,3</b><br><span style="color:var(--muted);font-size:14px">на Яндекс Картах</span></div>
+  <p>«Хохломе» больше 10 лет. Гости в отзывах чаще всего хвалят атмосферу, интерьер и завтраки.</p>
+</div>
+
+<!-- БАНКЕТЫ -->
+<section class="sec" id="banket">
+  <img class="orn bl" src="img/orn-tr.png" alt="">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Банкеты и праздники</div>
+      <h2>Два зала для вашего праздника</h2>
+      <p class="lead">Дни рождения, юбилеи, корпоративы, семейные встречи. Посмотрите залы, выберите дату — мы перезвоним и составим меню под ваш бюджет.</p>
+    </div>
+    <div class="bk-hero reveal">
+      <div class="img"></div><div class="flick"></div>
+      <div class="cap">
+        <h3>Стол накрыт — гости уже в пути</h3>
+        <p>Банкетное меню от 2 500 ₽ на гостя. Оформим зал под ваш повод.</p>
+      </div>
+    </div>
+    <div class="halls">
+      <div class="hall reveal">
+        <div class="ph"><div style="background-image:url(img/hall-big2.jpg)"></div></div>
+        <div class="bd">
+          <h3>Большой зал</h3>
+          <div class="facts">
+            <div class="fact"><b>25–65</b><span>гостей</span></div>
+            <div class="fact"><b>от 2 500 ₽</b><span>на гостя</span></div>
+          </div>
+          <p class="lead">Для свадеб, юбилеев и корпоративов. Экран для поздравлений, место для ведущего.</p>
+        </div>
+      </div>
+      <div class="hall reveal">
+        <div class="ph"><div style="background-image:url(img/hall-small.jpg)"></div></div>
+        <div class="bd">
+          <h3>Малый зал</h3>
+          <div class="facts">
+            <div class="fact"><b>10–35</b><span>гостей</span></div>
+            <div class="fact"><b>от 2 500 ₽</b><span>на гостя</span></div>
+          </div>
+          <p class="lead">Уютный зал для дня рождения, семейного обеда или встречи друзей.</p>
+        </div>
+      </div>
+    </div>
+    <div class="occ reveal">
+      <span>День рождения</span><span>Юбилей</span><span>Корпоратив</span><span>Свадьба</span><span>Выпускной</span><span>Семейный обед</span>
+    </div>
+
+    <form class="form reveal" id="bkform">
+      <h3>Заявка на банкет</h3>
+      <div class="half"><label>Дата</label><input type="date" name="date" required></div>
+      <div><label>Гостей</label><input type="number" name="guests" min="5" max="65" placeholder="30" required></div>
+      <div><label>Зал</label><select name="hall"><option>Большой</option><option>Малый</option><option>Подскажите</option></select></div>
+      <div class="half"><label>Повод</label><select name="occ"><option>День рождения</option><option>Юбилей</option><option>Корпоратив</option><option>Свадьба</option><option>Выпускной</option><option>Другое</option></select></div>
+      <div class="half"><label>Ваше имя</label><input name="name" required placeholder="Анна"></div>
+      <div class="full"><label>Телефон</label><input name="phone" type="tel" required placeholder="+7 ___ ___-__-__"></div>
+      <button class="btn wa full" type="submit">Отправить заявку в WhatsApp</button>
+    </form>
+  </div>
+</section>
+
+<footer id="contacts">
+  <div class="wrap">
+    <div>
+      <img src="img/logo.png" alt="" style="width:190px;margin-bottom:10px">
+      <p>Кафе русской кухни во Владивостоке</p>
+    </div>
+    <div>
+      <h4>Адрес и часы</h4>
+      <p>Посьетская ул., 20, 1 этаж<br>гостиница «Приморье»<br>Ежедневно 7:30 – 23:00</p>
+      <p style="margin-top:8px"><a href="https://yandex.ru/maps/org/khokhloma/62983179362/" target="_blank" rel="noopener">Как добраться →</a></p>
+    </div>
+    <div>
+      <h4>Связаться</h4>
+      <p><a href="tel:+74232727151">+7 (423) 272-71-51</a><br><a href="https://wa.me/79147927151" target="_blank" rel="noopener">WhatsApp: +7 914 792-71-51</a></p>
+    </div>
+    <p class="demo">Демо-сайт подготовлен TK Web (Тамара Коломейцева) по открытым данным кафе. Фото — с Яндекс Карт.</p>
+  </div>
+</footer>
+
+<div class="bar" id="bar">
+  <div><b id="barSum">0 ₽</b><small id="barCnt">0 блюд</small></div>
+  <div class="go">Оформить заказ →</div>
+</div>
+
+<div class="sheet" id="sheet">
+  <div class="panel">
+    <button class="x" id="close" aria-label="Закрыть">×</button>
+    <h3>Ваш заказ</h3>
+    <div id="lines"></div>
+    <div class="total"><span>Итого</span><span id="sum">0 ₽</span></div>
+    <form id="order">
+      <label>Имя</label><input name="name" required placeholder="Как к вам обращаться">
+      <label>Телефон</label><input name="phone" type="tel" required placeholder="+7 ___ ___-__-__">
+      <label>Адрес доставки</label><input name="addr" required placeholder="Улица, дом, квартира">
+      <label>Комментарий</label><textarea name="comment" rows="2" placeholder="Например: к 19:00, без лука"></textarea>
+      <button class="btn wa" type="submit">Отправить заказ в WhatsApp</button>
+      <p class="note" style="margin-top:10px">Стоимость доставки и время подтвердит администратор.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+const CONFIG={
+  whatsapp:'79147927151', // номер, куда приходят заказы и заявки
+  menu:[
+    {cat:'Русская кухня',name:'Борщ с салом и бородинским хлебом',desc:'Наваристый, со сметаной',w:'350 г',price:490,img:'borsch',tag:'Хит'},
+    {cat:'Русская кухня',name:'Пельмени домашние в бульоне',desc:'Ручная лепка, зелень, сметана',w:'300 г',price:450,img:'pelmeni',tag:'Ручная лепка'},
+    {cat:'Русская кухня',name:'Вареники с творогом',desc:'С ягодным джемом',w:'250 г',price:520,img:'vareniki'},
+    {cat:'Русская кухня',name:'Суп куриный с домашней лапшой',desc:'Как у бабушки',w:'300 г',price:420,img:'lapsha'},
+    {cat:'Супы',name:'Томатный суп с чиабаттой',desc:'Из летнего меню',w:'300 г',price:580,img:'tomat'},
+    {cat:'Супы',name:'Крем-супы',desc:'Грибной, сырный, с морепродуктами',w:'300 г',price:450,img:'kremsup'},
+    {cat:'Горячее',name:'Антрекот свиной',desc:'С картофельными дольками',w:'350 г',price:720,img:'antrekot'},
+    {cat:'Горячее',name:'Стейк палтуса',desc:'С картофельным пюре и сливочным соусом',w:'300 г',price:990,img:'paltus'},
+    {cat:'Горячее',name:'Паста с морепродуктами',desc:'В сливочном соусе',w:'320 г',price:640,img:'pasta'},
+    {cat:'Горячее',name:'Бургер BlackHohloma',desc:'Чёрная булочка, рубленая телятина, чеддер',w:'380 г',price:660,img:'burger',tag:'Фирменный'},
+    {cat:'Горячее',name:'Сет «Приморский»',desc:'Рыба и морепродукты на компанию',w:'1,5 кг',price:4200,img:'set-primorsky'},
+    {cat:'Салаты и закуски',name:'Цезарь с куриным филе',desc:'Классический',w:'250 г',price:420,img:'cezar'},
+    {cat:'Салаты и закуски',name:'Гренки чесночные и сырные палочки',desc:'К пиву и в компанию',w:'250 г',price:330,img:'grenki'},
+    {cat:'Завтраки',name:'Шведский завтрак',desc:'Ежедневно с 7:30',w:'шведский стол',price:1300,img:'zavtrak'},
+    {cat:'Десерты',name:'Медовик',desc:'Домашний, с орехами',w:'150 г',price:440,img:'medovik'},
+    {cat:'Десерты',name:'Тирамису',desc:'Нежный, с маскарпоне',w:'150 г',price:440,img:'tiramisu'},
+    {cat:'Напитки',name:'Домашние лимонады и морсы',desc:'Арбуз, дюшес, барбарис, ягодный морс',w:'400 мл',price:370,img:'napitki'},
+    {cat:'Напитки',name:'Авторский чай',desc:'Чайник на компанию',w:'800 мл',price:450,img:'chai'},
+  ]
+};
+const rub=n=>n.toLocaleString('ru-RU')+' ₽';
+const cart={};
+const cats=['Все',...new Set(CONFIG.menu.map(d=>d.cat))];
+let cur='Все';
+const $=s=>document.querySelector(s);
+
+function renderTabs(){
+  $('#tabs').innerHTML=cats.map(c=>`<button class="tab ${c===cur?'on':''}" data-c="${c}">${c}</button>`).join('');
+}
+function ctl(i){
+  const q=cart[i]||0;
+  return q?`<div class="qty"><button data-m="${i}">−</button><span>${q}</span><button data-p="${i}">+</button></div>`
+          :`<button class="add" data-p="${i}">В заказ</button>`;
+}
+function renderGrid(){
+  $('#grid').innerHTML=CONFIG.menu.map((d,i)=>(cur==='Все'||d.cat===cur)?`
+    <article class="dish">
+      <div class="ph"><img src="img/${d.img}.jpg" alt="${d.name}" loading="lazy">${d.tag?`<span class="tag">${d.tag}</span>`:''}</div>
+      <div class="bd"><h3>${d.name}</h3><div class="ds">${d.desc}</div>
+        <div class="row"><div><span class="pr">${rub(d.price)}</span><span class="w">${d.w}</span></div><div id="c${i}">${ctl(i)}</div></div>
+      </div></article>`:'').join('');
+}
+function totals(){
+  let n=0,s=0;for(const i in cart){n+=cart[i];s+=cart[i]*CONFIG.menu[i].price}
+  return{n,s};
+}
+function word(n){const a=n%10,b=n%100;return (a===1&&b!==11)?'блюдо':(a>=2&&a<=4&&(b<12||b>14))?'блюда':'блюд'}
+function update(i){
+  if(i!==undefined){const el=document.getElementById('c'+i);if(el)el.innerHTML=ctl(i)}
+  const{n,s}=totals();
+  $('#barSum').textContent=rub(s);$('#barCnt').textContent=n+' '+word(n)+' в заказе';
+  $('#bar').classList.toggle('show',n>0);
+  $('#lines').innerHTML=Object.keys(cart).map(i=>`<div class="line"><span>${CONFIG.menu[i].name} × ${cart[i]}</span><span>${rub(cart[i]*CONFIG.menu[i].price)}</span></div>`).join('');
+  $('#sum').textContent=rub(s);
+}
+document.addEventListener('click',e=>{
+  const t=e.target;
+  if(t.dataset.c){cur=t.dataset.c;renderTabs();renderGrid();}
+  if(t.dataset.p){const i=t.dataset.p;cart[i]=(cart[i]||0)+1;update(i)}
+  if(t.dataset.m){const i=t.dataset.m;cart[i]--;if(!cart[i])delete cart[i];update(i)}
+});
+$('#bar').onclick=()=>$('#sheet').classList.add('open');
+$('#close').onclick=()=>$('#sheet').classList.remove('open');
+$('#sheet').onclick=e=>{if(e.target.id==='sheet')$('#sheet').classList.remove('open')};
+const wa=t=>window.open('https://wa.me/'+CONFIG.whatsapp+'?text='+encodeURIComponent(t),'_blank');
+$('#order').onsubmit=e=>{
+  e.preventDefault();const f=new FormData(e.target);const{s}=totals();
+  wa('Здравствуйте! Заказ с сайта на доставку:\n'+Object.keys(cart).map(i=>`• ${CONFIG.menu[i].name} × ${cart[i]} — ${rub(cart[i]*CONFIG.menu[i].price)}`).join('\n')+
+    `\nИтого: ${rub(s)}\n\nИмя: ${f.get('name')}\nТелефон: ${f.get('phone')}\nАдрес: ${f.get('addr')}`+(f.get('comment')?`\nКомментарий: ${f.get('comment')}`:''));
+};
+$('#bkform').onsubmit=e=>{
+  e.preventDefault();const f=new FormData(e.target);
+  const d=f.get('date')?new Date(f.get('date')).toLocaleDateString('ru-RU'):'';
+  wa(`Здравствуйте! Заявка на банкет с сайта:\nДата: ${d}\nГостей: ${f.get('guests')}\nЗал: ${f.get('hall')}\nПовод: ${f.get('occ')}\nИмя: ${f.get('name')}\nТелефон: ${f.get('phone')}`);
+};
+renderTabs();renderGrid();
+
+// шапка становится плотной при прокрутке
+addEventListener('scroll',()=>$('#top').classList.toggle('solid',scrollY>60),{passive:true});
+// плавное появление блоков
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('on');io.unobserve(x.target)}}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// вход: запускаем, когда фото загрузились
+function startHero(h){
+  let n=0;const done=()=>{if(++n===2)requestAnimationFrame(()=>h.classList.add('go'))};
+  ['img/facade.jpg','img/hall-big.jpg'].forEach(src=>{const i=new Image();i.onload=i.onerror=done;i.src=src});
+  h.querySelector('#replay').onclick=()=>{const c=h.cloneNode(true);c.classList.remove('go');h.replaceWith(c);scrollTo(0,0);startHero(c)};
+}
+startHero($('#hero'));
+</script>
+</body>
+</html>
