@@ -212,6 +212,42 @@ footer .wrap{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px}
 footer h4{font:400 18px var(--serif);color:var(--gold2);margin-bottom:8px}
 footer p,footer a{color:var(--muted);font-size:15px;text-decoration:none}
 .demo{margin-top:34px;text-align:center;font-size:13px;color:#8c7860;grid-column:1/-1}
+
+/* ================= СВЕТЛАЯ ТЕМА (поверх базовых стилей) ================= */
+:root{--paper:#fbf5ea;--brown:#3a120d;--soft:#7a5546;--line2:rgba(160,110,40,.35);--cin:#b3261c}
+body{background:var(--paper);color:var(--brown)}
+.info{background:linear-gradient(90deg,#7a1810,#a0231a,#7a1810);color:#fff4e0;border:0}
+.kicker{color:var(--cin)}
+.lead,.note,.dish .ds,.dish .w,.fact span,label{color:var(--soft)}
+#menu{background:radial-gradient(ellipse at 85% 0%,#f5dfbd,transparent 55%),var(--paper)}
+.tabs{background:linear-gradient(var(--paper) 75%,transparent)}
+.tab{background:#fff;color:var(--brown);border-color:var(--line2)}
+.tab.on{background:var(--cin);border-color:var(--cin);color:#fff}
+.dish{background:#fff;border-color:var(--line2);box-shadow:0 8px 24px rgba(90,40,10,.08)}
+.dish:hover{border-color:var(--gold);box-shadow:0 14px 34px rgba(90,40,10,.16)}
+.dish .pr{color:var(--cin)}
+.qty{background:#fff6e4}
+.panel{background:#fffaf2;color:var(--brown);border-color:var(--line2)}
+.total{color:var(--cin)}
+.line{border-color:var(--line2)}
+input,select,textarea{background:#fff;color:var(--brown);border-color:var(--line2)}
+.x{color:var(--soft)}
+#banket{background:linear-gradient(180deg,var(--paper),#f4e4c9 50%,var(--paper))}
+.bk-hero{border-color:var(--line2);box-shadow:0 20px 50px rgba(90,40,10,.18)}
+.bk-hero .cap{color:#fff7ea;background:linear-gradient(transparent,rgba(42,11,9,.85))}
+.hall{background:#fff;border-color:var(--line2);box-shadow:0 8px 24px rgba(90,40,10,.08)}
+.fact b{color:var(--cin)}
+.occ span{background:#fff;border-color:var(--line2)}
+.form{background:#fff;box-shadow:0 14px 40px rgba(90,40,10,.12)}
+.rate{border-color:var(--line2)}
+.rate::before{background:rgba(251,245,234,.86)}
+.rate b{color:var(--cin)}
+.rate p{color:var(--brown)}
+.rate span{color:var(--soft)!important}
+footer{background:#2a0b09;color:var(--cream)}
+.orn{opacity:.75;width:230px}
+@media (max-width:760px){.orn{width:140px;opacity:.5}}
+#menu h2{max-width:900px}
 </style>
 </head>
 <body>
@@ -303,7 +339,7 @@ footer p,footer a{color:var(--muted);font-size:15px;text-decoration:none}
         </div>
       </div>
       <div class="hall reveal">
-        <div class="ph"><div style="background-image:url(img/hall-small.jpg)"></div></div>
+        <div class="ph"><div style="background-image:url(img/hall-small2.jpg)"></div></div>
         <div class="bd">
           <h3>Малый зал</h3>
           <div class="facts">
