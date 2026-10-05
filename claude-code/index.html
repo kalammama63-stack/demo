@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Интерактивное обучение Claude Code для новичков: 12 коротких глав с живыми примерами.">
+<title>Claude Code с нуля</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: учебник-мастерская. Главы как слайды на «бумаге», живые демо на тёмном «экране терминала», маркер-выделение для главного. */
+:root{
+  --paper:#EDF0EA; --surface:#F8FAF6; --surface-2:#E2E7DF; --ink:#16202A; --muted:#58656F; --line:#C7D0C9;
+  --accent:#2B45D9; --accent-ink:#FFFFFF; --accent-soft:#DCE2FB;
+  --mark:#FFD94A; --mark-ink:#16202A;
+  --term:#121820; --term-2:#1B232D; --term-fg:#D6DEE4; --term-dim:#7F8D99; --term-acc:#9DB0FF; --term-ok:#6FD39C; --term-warn:#F2C35B;
+  --ok:#1E8752; --ok-soft:#D7EEDF; --warn:#A8690F; --warn-soft:#F7E7C8; --bad:#BE3434; --bad-soft:#F6DADA;
+  --shadow:0 1px 0 rgba(22,32,42,.06),0 10px 30px -18px rgba(22,32,42,.35);
+  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --f-body:"Golos Text","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,"Courier New",monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F141A; --surface:#18202A; --surface-2:#212B37; --ink:#E6EBEE; --muted:#97A5B0; --line:#2E3B48;
+    --accent:#8197FF; --accent-ink:#0B0F14; --accent-soft:#232E55;
+    --mark:#E8C63E; --mark-ink:#16202A;
+    --term:#090D11; --term-2:#121920;
+    --ok:#56C98D; --ok-soft:#173527; --warn:#E5A54A; --warn-soft:#3A2B12; --bad:#F07474; --bad-soft:#3D1D1D;
+    --shadow:0 1px 0 rgba(0,0,0,.4),0 12px 30px -18px rgba(0,0,0,.8);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F141A; --surface:#18202A; --surface-2:#212B37; --ink:#E6EBEE; --muted:#97A5B0; --line:#2E3B48;
+  --accent:#8197FF; --accent-ink:#0B0F14; --accent-soft:#232E55;
+  --mark:#E8C63E; --mark-ink:#16202A;
+  --term:#090D11; --term-2:#121920;
+  --ok:#56C98D; --ok-soft:#173527; --warn:#E5A54A; --warn-soft:#3A2B12; --bad:#F07474; --bad-soft:#3D1D1D;
+  --shadow:0 1px 0 rgba(0,0,0,.4),0 12px 30px -18px rgba(0,0,0,.8);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.15;text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+a{color:var(--accent);text-underline-offset:3px}
+code,kbd,.mono{font-family:var(--f-mono);font-size:.88em}
+kbd{display:inline-block;padding:1px 7px;border:1px solid var(--line);border-bottom-width:3px;border-radius:6px;background:var(--surface);color:var(--ink);font-size:.82em;line-height:1.5;white-space:nowrap}
+mark{background:linear-gradient(transparent 12%,var(--mark) 12%,var(--mark) 88%,transparent 88%);color:var(--mark-ink);padding:0 .15em}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+/* ---------- кнопки ---------- */
+.btn{display:inline-flex;align-items:center;gap:.5em;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);padding:.55em 1em;border-radius:999px;font-weight:600;font-size:.95rem;box-shadow:0 3px 0 var(--ink);transition:transform .08s,box-shadow .08s,background .2s}
+.btn:hover{background:var(--surface-2)}
+.btn:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);box-shadow:0 3px 0 var(--ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:.45em .9em;border-radius:999px;font-size:.92rem;font-weight:500;transition:all .15s;box-shadow:0 2px 0 var(--line)}
+.chip:active{transform:translateY(2px);box-shadow:none}
+.chip[aria-pressed="true"],.chip[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink);box-shadow:0 2px 0 var(--accent)}
+
+/* ---------- верхняя панель ---------- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px}
+.logo{font-family:var(--f-display);font-weight:700;font-size:.95rem;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.logo span{color:var(--accent)}
+.dots{flex:1;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;min-width:0}
+.dots::-webkit-scrollbar{display:none}
+.dots a{flex:1 0 auto;min-width:26px;height:26px;display:grid;place-items:center;border-radius:6px;font-family:var(--f-mono);font-size:.72rem;color:var(--muted);text-decoration:none;border:1px solid transparent;transition:all .2s}
+.dots a:hover{border-color:var(--line);color:var(--ink)}
+.dots a.on{background:var(--ink);color:var(--paper)}
+.dots a.seen:not(.on){color:var(--ink);background:var(--surface-2)}
+.navbtns{display:flex;gap:6px}
+.navbtns button{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--ink);background:var(--surface);box-shadow:0 2px 0 var(--ink);display:grid;place-items:center;transition:transform .08s,box-shadow .08s}
+.navbtns button:active{transform:translateY(2px);box-shadow:none}
+.progress{height:3px;background:var(--accent);width:0;transition:width .3s}
+
+/* ---------- главы ---------- */
+main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:24px 80px;display:grid;gap:28px}
+.ch{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,4vw,48px);box-shadow:var(--shadow);display:grid;gap:26px;position:relative;overflow:hidden}
+.ch-head{display:grid;gap:12px;max-width:760px}
+.eyebrow{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;align-items:center}
+.eyebrow b{color:var(--accent);font-weight:600}
+.ch h2{font-size:clamp(1.6rem,3.6vw,2.5rem)}
+.lead{font-size:1.1rem;color:var(--muted);max-width:62ch}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px;align-items:start}
+.two>*{min-width:0}
+.note{border-left:4px solid var(--mark);background:var(--surface-2);padding:14px 18px;border-radius:0 var(--r) var(--r) 0;max-width:72ch}
+.note b{display:block;margin-bottom:2px}
+
+/* ---------- терминал ---------- */
+.term{background:var(--term);color:var(--term-fg);border-radius:14px;font-family:var(--f-mono);font-size:.84rem;line-height:1.65;overflow:hidden;box-shadow:0 20px 40px -24px rgba(0,0,0,.6);min-width:0}
+.term-top{display:flex;align-items:center;gap:7px;padding:10px 14px;background:var(--term-2);color:var(--term-dim);font-size:.75rem}
+.term-top i{width:10px;height:10px;border-radius:50%;background:#3A4652;display:block}
+.term-top span{margin-left:8px}
+.term-body{padding:16px 18px;min-height:300px;overflow-x:auto}
+.tl{white-space:pre-wrap;word-break:break-word;opacity:1;transition:opacity .25s,transform .25s}
+.tl.hide{opacity:0;transform:translateY(4px)}
+.tl.u{color:#fff}.tl.u::before{content:"> ";color:var(--term-acc)}
+.tl.d{color:var(--term-dim)}
+.tl.t::before{content:"● ";color:var(--term-acc)}
+.tl.ok{color:var(--term-ok)}
+.tl.ask{color:var(--term-warn)}
+.cursor{display:inline-block;width:.6em;height:1.1em;background:var(--term-fg);vertical-align:-.2em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- обложка ---------- */
+.hero{background:var(--ink);color:var(--paper);border:none}
+.hero .eyebrow{color:color-mix(in srgb,var(--paper) 65%,transparent)}
+.hero .eyebrow b{color:var(--mark)}
+.hero h1{font-size:clamp(2.2rem,6.4vw,4.6rem);letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--mark)}
+.hero .lead{color:color-mix(in srgb,var(--paper) 78%,transparent);font-size:1.15rem}
+.hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:28px;align-items:center}
+.hero-grid>*{min-width:0}
+.hero-copy{display:grid;gap:20px;align-content:start}
+.hero .btn{background:var(--mark);color:var(--mark-ink);border-color:var(--mark);box-shadow:0 3px 0 color-mix(in srgb,var(--mark) 45%,#000)}
+.hero .btn.ghost{background:transparent;color:var(--paper);border-color:color-mix(in srgb,var(--paper) 45%,transparent);box-shadow:none}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px}
+.stage{display:grid;grid-template-columns:1fr 150px;gap:10px;min-width:0}
+.files{background:var(--term-2);border-radius:14px;padding:14px;font-family:var(--f-mono);font-size:.76rem;color:var(--term-dim);display:flex;flex-direction:column;gap:6px;min-width:0}
+.files .ft{color:var(--term-fg);font-weight:600;margin-bottom:4px}
+.files .f{padding:5px 8px;border-radius:6px;background:var(--term);color:var(--term-fg);transition:all .35s;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.files .f.hide{opacity:0;transform:translateX(-10px) scale(.95)}
+.files .f.new{background:color-mix(in srgb,var(--term-ok) 25%,var(--term));}
+@media (max-width:560px){.stage{grid-template-columns:1fr}.files{flex-direction:row;flex-wrap:wrap}.files .ft{width:100%}}
+.meta{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:.9rem;color:color-mix(in srgb,var(--paper) 70%,transparent)}
+.meta b{color:var(--paper);font-weight:600}
+
+/* ---------- 1. сравнение ---------- */
+.seg{display:inline-flex;gap:6px;flex-wrap:wrap}
+.compare{display:grid;gap:14px}
+.compare-req{font-family:var(--f-mono);font-size:.9rem;background:var(--surface-2);padding:12px 16px;border-radius:var(--r)}
+.compare-req::before{content:"Ваша просьба: ";color:var(--muted);font-family:var(--f-body)}
+.flow{display:grid;gap:8px;counter-reset:s}
+.flow li{list-style:none;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);animation:rise .35s both}
+.flow li .who{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-family:var(--f-mono);font-size:.72rem;font-weight:600}
+.flow li .who.you{background:var(--surface-2);color:var(--ink)}
+.flow li .who.ai{background:var(--accent);color:var(--accent-ink)}
+.flow ul{padding:0;margin:0}
+.verdict{display:flex;gap:10px;align-items:center;font-weight:600}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.8rem;font-weight:600}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.info{background:var(--accent-soft);color:var(--accent)}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.big-idea{font-family:var(--f-display);font-size:clamp(1.2rem,2.4vw,1.6rem);line-height:1.3;font-weight:500;max-width:30ch}
+
+/* ---------- 2. галерея ---------- */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:16px}
+.card{border:1.5px solid var(--line);border-radius:14px;background:var(--paper);padding:0;text-align:left;display:grid;grid-template-rows:auto 1fr;overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s}
+.card:hover{transform:translateY(-4px) rotate(-.4deg);box-shadow:var(--shadow);border-color:var(--ink)}
+.card:active{transform:scale(.98)}
+.card .shot{height:150px;background:var(--surface-2);position:relative;overflow:hidden;border-bottom:1.5px solid var(--line)}
+.card .cap{padding:14px 16px 16px;display:grid;gap:4px}
+.card .cap h3{font-size:1rem}
+.card .cap p{font-size:.88rem;color:var(--muted)}
+.card .cap .more{font-size:.8rem;font-family:var(--f-mono);color:var(--accent);margin-top:6px}
+
+/* мини-макеты внутри карточек */
+.mk{position:absolute;inset:14px;border-radius:8px;background:var(--surface);border:1px solid var(--line);overflow:hidden;font-size:9px;font-family:var(--f-body);color:var(--ink)}
+.mk-site .nav{height:14px;background:#F3D9DE;display:flex;align-items:center;padding:0 8px;gap:6px;font-weight:600;color:#7A3446}
+.mk-site .h{padding:10px 10px 4px;font-family:var(--f-display);font-size:12px;color:#7A3446}
+.mk-site .row{display:flex;gap:5px;padding:4px 10px}
+.mk-site .row i{flex:1;height:34px;border-radius:5px;background:linear-gradient(135deg,#F6C7D0,#E9A4B4)}
+.mk-site .b{margin:6px 10px;display:inline-block;background:#7A3446;color:#fff;padding:3px 8px;border-radius:99px}
+.mk-chat{background:#DCE6EE;padding:8px;display:flex;flex-direction:column;gap:5px}
+.mk-chat .m{max-width:78%;padding:4px 7px;border-radius:8px;background:#fff;color:#1d2a35}
+.mk-chat .m.me{align-self:flex-end;background:#D2F0C4}
+.mk-chat .kb{display:flex;gap:4px}.mk-chat .kb span{flex:1;text-align:center;background:#fff;border-radius:5px;padding:3px;color:#2B45D9;font-weight:600}
+.mk-bars{display:flex;align-items:flex-end;gap:4px;padding:12px 10px 18px;height:100%}
+.mk-bars i{flex:1;background:var(--accent);border-radius:3px 3px 0 0;transform-origin:bottom;transition:transform .5s}
+.card:hover .mk-bars i{transform:scaleY(1.06)}
+.mk-diff{font-family:var(--f-mono);font-size:9px;padding:8px;display:grid;gap:3px;background:var(--term);color:var(--term-fg)}
+.mk-diff .del{background:rgba(240,116,116,.18);color:#F7A9A9}.mk-diff .add{background:rgba(111,211,156,.18);color:#9BE5BB}
+.mk-folders{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:12px}
+.mk-folders div{background:var(--surface-2);border-radius:5px;padding:6px;text-align:center;font-weight:600}
+.mk-folders div b{display:block;font-family:var(--f-display);font-size:14px;color:var(--accent)}
+.mk-doc{padding:12px 16px;display:grid;gap:5px}
+.mk-doc .t{font-family:var(--f-display);font-size:11px}
+.mk-doc i{display:block;height:5px;border-radius:3px;background:var(--line)}
+
+/* лайтбокс */
+.lb{position:fixed;inset:0;z-index:50;background:rgba(10,14,18,.7);display:grid;place-items:center;padding:16px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.lb-box{background:var(--surface);color:var(--ink);border-radius:18px;max-width:880px;width:100%;max-height:calc(100% - 20px);overflow:auto;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 30px 80px -20px rgba(0,0,0,.6);animation:zoomIn .3s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes zoomIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+.lb-shot{background:var(--surface-2);position:relative;min-height:280px}
+.lb-shot .mk{inset:22px;font-size:12px}
+.lb-info{padding:26px;display:grid;gap:14px;align-content:start;min-width:0}
+.lb-info h3{font-size:1.3rem}
+.lb-say{font-family:var(--f-mono);font-size:.85rem;background:var(--term);color:var(--term-fg);padding:12px 14px;border-radius:10px}
+.lb-say::before{content:"Вы пишете";display:block;color:var(--term-dim);font-size:.72rem;margin-bottom:4px;font-family:var(--f-body)}
+.lb-steps{margin:0;padding-left:1.2em;display:grid;gap:4px;font-size:.95rem}
+.lb-steps li::marker{color:var(--accent);font-family:var(--f-mono)}
+.lb-nav{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.lb-count{font-family:var(--f-mono);font-size:.8rem;color:var(--muted)}
+@media (max-width:700px){.lb-box{grid-template-columns:1fr}.lb-shot{min-height:200px}}
+
+/* ---------- 3. цикл ---------- */
+.loop{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:28px;align-items:center}
+.loop>*{min-width:0}
+.ring{position:relative;width:min(100%,340px);aspect-ratio:1;margin:0 auto}
+.ring svg{width:100%;height:100%;display:block}
+.node{position:absolute;width:44%;transform:translate(-50%,-50%);border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 6px;text-align:center;font-weight:600;font-size:.88rem;transition:all .3s;line-height:1.25}
+.node small{display:block;font-family:var(--f-mono);font-weight:400;font-size:.68rem;color:var(--muted)}
+.node.on{border-color:var(--accent);background:var(--accent);color:var(--accent-ink);transform:translate(-50%,-50%) scale(1.08)}
+.node.on small{color:inherit;opacity:.8}
+.ring .center{position:absolute;inset:34%;display:grid;place-items:center;text-align:center;font-family:var(--f-display);font-size:.8rem;color:var(--muted)}
+.loop-text{display:grid;gap:14px}
+.loop-text .step-title{font-size:1.35rem}
+.loop-ex{font-family:var(--f-mono);font-size:.84rem;background:var(--surface-2);padding:12px 14px;border-radius:var(--r);min-height:3.4em}
+
+/* ---------- 4. где живёт ---------- */
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.place{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:24px;align-items:center}
+.place>*{min-width:0}
+.screen{border-radius:14px;overflow:hidden;border:1.5px solid var(--line);background:var(--paper);min-height:230px;display:grid;animation:rise .3s both}
+.scr-term{background:var(--term);color:var(--term-fg);font-family:var(--f-mono);font-size:.8rem;padding:16px;display:grid;gap:4px;align-content:start}
+.scr-ide{display:grid;grid-template-columns:34% 1fr;min-height:230px}
+.scr-ide .code{background:var(--surface);padding:12px;font-family:var(--f-mono);font-size:.72rem;color:var(--muted);display:grid;gap:4px;align-content:start;border-right:1px solid var(--line)}
+.scr-ide .side{background:var(--surface-2);padding:12px;display:grid;gap:8px;align-content:start;font-size:.8rem}
+.bub{background:var(--surface);border-radius:10px;padding:8px 10px;border:1px solid var(--line)}
+.bub.me{background:var(--accent);color:var(--accent-ink);border:none;justify-self:end}
+.scr-app{display:grid;grid-template-columns:28% 1fr;min-height:230px}
+.scr-app .list{background:var(--surface-2);padding:12px;display:grid;gap:6px;align-content:start;font-size:.76rem}
+.scr-app .list div{padding:6px 8px;border-radius:6px}
+.scr-app .list div.a{background:var(--surface);font-weight:600}
+.scr-app .main{padding:14px;display:grid;gap:8px;align-content:start;font-size:.8rem}
+.place-text{display:grid;gap:10px}
+.place-text h3{font-size:1.3rem}
+.tag{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+
+/* ---------- 5. режимы ---------- */
+.modes{display:grid;gap:18px}
+.mode-desc{display:grid;gap:6px;max-width:68ch;min-height:5.2em}
+.mode-desc h3{font-size:1.2rem}
+.acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.act{border:1.5px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:10px;background:var(--paper);transition:border-color .3s}
+.act .what{font-weight:600;display:flex;gap:10px;align-items:center}
+.act .ico{width:30px;height:30px;border-radius:8px;background:var(--surface-2);display:grid;place-items:center;font-family:var(--f-mono);font-size:.75rem;flex:none}
+.act .res{transition:all .25s}
+.act.flash .res{animation:pop .4s}
+@keyframes pop{0%{transform:scale(.8);opacity:.2}60%{transform:scale(1.08)}100%{transform:none;opacity:1}}
+.shift{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.95rem}
+
+/* ---------- 6. промпт ---------- */
+.prompt-lab{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:24px;align-items:start}
+.prompt-lab>*{min-width:0}
+.prompt-box{background:var(--term);color:var(--term-fg);border-radius:14px;padding:18px;font-family:var(--f-mono);font-size:.9rem;line-height:1.7;min-height:200px}
+.prompt-box .base{color:#fff}
+.prompt-box .add{background:rgba(255,217,74,.18);color:var(--term-warn);border-radius:4px;padding:0 3px;animation:rise .35s both}
+.meter{display:grid;gap:6px}
+.meter-row{display:flex;justify-content:space-between;font-size:.85rem;font-family:var(--f-mono);color:var(--muted)}
+.meter-bar{height:12px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.meter-bar i{display:block;height:100%;width:15%;background:var(--bad);transition:width .45s cubic-bezier(.2,.9,.3,1.1),background .3s}
+.ingr{display:flex;flex-wrap:wrap;gap:8px}
+.answer{font-size:.95rem;border:1px dashed var(--line);border-radius:var(--r);padding:12px 14px;color:var(--muted);min-height:3em}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.rule{padding:16px;border-radius:12px;background:var(--paper);border:1px solid var(--line);display:grid;gap:4px}
+.rule b{font-size:1rem}
+.rule span{font-size:.92rem;color:var(--muted)}
+
+/* ---------- 7. откат ---------- */
+.rew{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:24px;align-items:start}
+.rew>*{min-width:0}
+.tline{display:grid;gap:8px;position:relative}
+.cp{display:grid;grid-template-columns:32px 1fr auto;gap:12px;align-items:center;text-align:left;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper);transition:all .25s}
+.cp:hover{border-color:var(--ink)}
+.cp:active{transform:scale(.99)}
+.cp .n{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper);font-family:var(--f-mono);font-size:.8rem}
+.cp .p{font-family:var(--f-mono);font-size:.85rem}
+.cp .h{font-size:.72rem;color:var(--muted);font-family:var(--f-mono)}
+.cp.gone{opacity:.38;border-style:dashed}
+.cp.gone .p{text-decoration:line-through}
+.cp.here{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.proj{border-radius:14px;background:var(--term);color:var(--term-fg);padding:16px;font-family:var(--f-mono);font-size:.84rem;display:grid;gap:6px;min-height:240px;align-content:start}
+.proj .t{color:var(--term-dim);font-size:.75rem}
+.proj .f{padding:6px 10px;border-radius:6px;background:var(--term-2);display:flex;justify-content:space-between;gap:8px;transition:all .35s}
+.proj .f.hide{opacity:0;height:0;padding-block:0;margin:-3px 0;overflow:hidden}
+.proj .f em{font-style:normal;color:var(--term-warn);font-size:.72rem}
+.rew-status{font-weight:600;min-height:1.6em}
+
+/* ---------- 8. инструменты ---------- */
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:16px}
+.flip{perspective:1000px;border:none;background:none;padding:0;text-align:left;min-height:230px}
+.flip-in{position:relative;width:100%;height:100%;min-height:230px;transition:transform .55s cubic-bezier(.3,.8,.3,1);transform-style:preserve-3d}
+.flip[aria-pressed="true"] .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:14px;padding:18px;display:grid;gap:8px;align-content:start;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1.5px solid var(--line)}
+.face.front{background:var(--paper)}
+.face.back{background:var(--ink);color:var(--paper);transform:rotateY(180deg);border-color:var(--ink);font-size:.92rem}
+.face.back code{color:var(--mark)}
+.face .sym{font-family:var(--f-mono);font-size:1.4rem;color:var(--accent);font-weight:600}
+.face h3{font-size:1.1rem}
+.face .meta-line{font-size:.9rem;color:var(--muted)}
+.face .hint{position:absolute;bottom:14px;left:18px;font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.face.back .hint{color:color-mix(in srgb,var(--paper) 60%,transparent)}
+.flip:hover .face.front{border-color:var(--ink)}
+
+/* ---------- 9. установка ---------- */
+.steps{display:grid;gap:14px;counter-reset:st}
+.st{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start}
+.st .num{width:44px;height:44px;border-radius:12px;background:var(--mark);color:var(--mark-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:700}
+.st .body{display:grid;gap:8px;min-width:0}
+.st h3{font-size:1.05rem;font-family:var(--f-body);font-weight:600;letter-spacing:0}
+.cmd{display:flex;align-items:center;gap:8px;background:var(--term);color:var(--term-fg);border-radius:10px;padding:10px 10px 10px 14px;font-family:var(--f-mono);font-size:.85rem;min-width:0}
+.cmd code{flex:1;overflow-x:auto;white-space:nowrap;font-size:inherit;scrollbar-width:thin}
+.cmd code::before{content:"$ ";color:var(--term-dim)}
+.copy{border:1px solid #3A4652;background:var(--term-2);color:var(--term-fg);border-radius:8px;padding:5px 10px;font-size:.78rem;font-family:var(--f-body);flex:none;transition:all .15s}
+.copy:active{transform:scale(.94)}
+.copy.done{background:var(--term-ok);color:#0B1A12;border-color:var(--term-ok)}
+.need{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px}
+.need div{padding:14px;border-radius:12px;background:var(--paper);border:1px solid var(--line);font-size:.92rem}
+.need b{display:block;font-size:1rem}
+
+/* ---------- 10. Россия ---------- */
+.ru{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.ru>div{padding:18px;border-radius:12px;border:1px solid var(--line);background:var(--paper);display:grid;gap:8px;align-content:start}
+.ru h3{font-size:1.05rem}
+.ru p,.ru li{font-size:.95rem}
+.ru ul{margin:0;padding-left:1.1em;display:grid;gap:6px}
+
+/* ---------- 11. шпаргалка ---------- */
+.cheat-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search{flex:1;min-width:200px;max-width:380px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:.55em 1em;font:inherit;font-size:.95rem}
+.search:focus{outline:none;border-color:var(--accent)}
+.cheat{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:10px}
+.cm{display:grid;grid-template-columns:minmax(110px,auto) 1fr;gap:12px;align-items:center;padding:12px 14px;border-radius:10px;background:var(--paper);border:1px solid var(--line);transition:opacity .2s}
+.cm .k{font-family:var(--f-mono);font-size:.86rem;font-weight:600;color:var(--accent)}
+.cm .v{font-size:.92rem}
+.cm[hidden]{display:none}
+.empty{color:var(--muted)}
+
+/* ---------- 12. тест ---------- */
+.quiz{display:grid;gap:18px}
+.q{display:grid;gap:10px}
+.q h3{font-size:1.05rem;font-family:var(--f-body);font-weight:600;letter-spacing:0}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:12px 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);transition:all .2s;display:flex;gap:10px;align-items:center}
+.opt:hover{border-color:var(--ink)}
+.opt:active{transform:scale(.99)}
+.opt .l{font-family:var(--f-mono);font-size:.78rem;width:24px;height:24px;border-radius:6px;display:grid;place-items:center;background:var(--surface-2);flex:none}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.right .l{background:var(--ok);color:var(--paper)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft);animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.why{font-size:.92rem;color:var(--muted);padding-left:4px}
+.score{font-family:var(--f-display);font-size:1.3rem}
+.next{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.next a{display:grid;gap:4px;padding:16px;border-radius:12px;border:1.5px solid var(--line);background:var(--paper);text-decoration:none;color:var(--ink);transition:all .2s}
+.next a:hover{border-color:var(--ink);transform:translateY(-2px)}
+.next a b{color:var(--accent)}
+.next a span{font-size:.88rem;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding-bottom:30px}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+
+
+<header class="bar">
+  <div class="bar-in">
+    <a class="logo" href="#ch0">Claude Code <span>с нуля</span></a>
+    <nav class="dots" id="dots" aria-label="Главы"></nav>
+    <div class="navbtns">
+      <button id="prev" aria-label="Предыдущая глава">&#8592;</button>
+      <button id="next" aria-label="Следующая глава">&#8594;</button>
+    </div>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<main>
+
+<!-- 0. ОБЛОЖКА -->
+<section class="ch hero" id="ch0" data-name="Начало">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow"><b>Обучение</b> 12 глав · около 20 минут</div>
+      <h1>Помощник, который <em>сам делает</em> работу на вашем компьютере</h1>
+      <p class="lead">Claude Code создаёт сайты, ботов и таблицы, исправляет ошибки и наводит порядок в файлах. Вы объясняете обычными словами, что нужно. Программировать уметь не надо.</p>
+      <div class="hero-btns">
+        <button class="btn" id="replay">&#9654; Посмотреть, как он работает</button>
+        <a class="btn ghost" href="#ch1">Начать с первой главы</a>
+      </div>
+      <div class="meta"><span><b>Составила:</b> Тамара · <a href="https://tk-webb.ru" target="_blank" rel="noopener" style="color:var(--mark)">TK Web</a></span><span><b>Claude Code:</b> Anthropic</span><span><b>Для кого:</b> с нуля</span><span><b>Что нужно:</b> компьютер и подписка Claude</span></div>
+    </div>
+    <div class="stage" aria-label="Пример работы Claude Code">
+      <div class="term">
+        <div class="term-top"><i></i><i></i><i></i><span>Мои сайты / маникюр</span></div>
+        <div class="term-body" id="heroTerm"></div>
+      </div>
+      <div class="files" id="heroFiles"><div class="ft">Папка проекта</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 1. ЧТО ЭТО -->
+<section class="ch" id="ch1" data-name="Что это">
+  <div class="ch-head">
+    <div class="eyebrow"><b>Глава 1</b> Что это такое</div>
+    <h2>Чат советует. Claude Code делает сам.</h2>
+    <p class="lead">Модель внутри та же, что и в обычном Claude. Разница в том, что у Claude Code есть руки: он открывает файлы в вашей папке, меняет их, запускает программы и проверяет результат.</p>
+  </div>
+  <div class="two">
+    <div class="compare">
+      <div class="seg" role="tablist" aria-label="Сравнение">
+        <button class="chip" role="tab" aria-selected="true" data-cmp="chat">Обычный чат</button>
+        <button class="chip" role="tab" aria-selected="false" data-cmp="code">Claude Code</button>
+      </div>
+      <div class="compare-req">На сайте не работает кнопка «Записаться»</div>
+      <ol class="flow" id="cmpFlow"></ol>
+      <div class="verdict" id="cmpVerdict"></div>
+    </div>
+    <div style="display:grid;gap:18px;align-content:start">
+      <p class="big-idea">Представьте <mark>мастера, который пришёл к вам домой</mark>, а не консультанта по телефону.</p>
+      <p>Консультант расскажет, что подкрутить, а крутить будете вы. Мастер сам посмотрит, сам починит и покажет, что всё работает. При этом он спрашивает разрешения, прежде чем что-то менять, и вы в любой момент можете его остановить.</p>
+      <div class="note"><b>Главное слово: агент.</b>Так называют ИИ, который не только отвечает, но и действует: сам выбирает следующий шаг, пока задача не будет сделана.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. ЧТО УМЕЕТ -->
+<section class="ch" id="ch2" data-name="Что умеет">
+  <div class="ch-head">
+    <div class="eyebrow"><b>Глава 2</b> Что он умеет</div>
+    <h2>Шесть задач, которые можно поручить ему уже сегодня</h2>
+    <p class="lead">Нажмите на карточку: увидите, что вы пишете, что он делает по шагам и что получается в итоге.</p>
+  </div>
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<!-- 3. КАК ДУМАЕТ -->
+<section class="ch" id="ch3" data-name="Как думает">
+  <div class="ch-head">
+    <div class="eyebrow"><b>Глава 3</b> Как он думает</div>
+    <h2>Он работает по кругу, пока не доделает</h2>
+    <p class="lead">Любая задача проходит через одни и те же три шага. Если проверка показала ошибку, круг начинается снова. Нажимайте «Следующий шаг».</p>
+  </div>
+  <div class="loop">
+    <div class="ring" id="ring">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="34" fill="none" stroke="var(--line)" stroke-width="1.2" stroke-dasharray="2 2.4"></circle>
+        <circle id="ringArc" cx="50" cy="50" r="34" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-dasharray="0 214" transform="rotate(-90 50 50)" style="transition:stroke-dasharray .5s"></circle>
+      </svg>
+      <div class="node" data-i="0" style="left:50%;top:16%">Собирает<br>контекст<small>читает файлы</small></div>
+      <div class="node" data-i="1" style="left:83%;top:68%">Действует<small>пишет, меняет</small></div>
+      <div class="node" data-i="2" style="left:17%;top:68%">Проверяет<small>запускает, смотрит</small></div>
+      <div class="center" id="ringCenter">круг 1</div>
+    </div>
+    <div class="loop-text">
+      <div class="eyebrow" id="loopEyebrow">Задача: «добавь на сайт форму записи»</div>
+      <h3 class="step-title" id="loopTitle">Нажмите «Следующий шаг»</h3>
+      <p id="loopDesc">Посмотрим, как Claude Code выполняет одну задачу от начала до конца.</p>
+      <div class="loop-ex" id="loopEx">&nbsp;</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn primary" id="loopNext">Следующий шаг &#8594;</button>
+        <button class="btn" id="loopReset">Сначала</button>
+      </div>
+      <div class="note"><b>Вы можете вмешаться в любой момент.</b>Нажмите <kbd>Esc</kbd>, и он остановится. Напишите, что не так, и он продолжит с учётом ваших слов.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ГДЕ ЖИВЁТ -->
+<section class="ch" id="ch4" data-name="Где живёт">
+  <div class="ch-head">
+    <div class="eyebrow"><b>Глава 4</b> Где он живёт</div>
+    <h2>Один помощник, четыре входа</h2>
+    <p class="lead">Возможности везде почти одинаковые. Выбирайте тот вход, где вам удобнее.</p>
+  </div>
+  <div class="tabs" role="tablist" id="placeTabs"></div>
+  <div class="place" id="place"></div>
+</section>
+
+<!-- 5. КТО ГЛАВНЫЙ -->
+<section class="ch" id="ch5" data-name="Кто главный">
+  <div class="ch-head">
+    <div class="eyebrow"><b>Глава 5</b> Кто здесь главный</div>
+    <h2>Вы решаете, что ему можно делать без спроса</h2>
+    <p class="lead">Для этого есть режимы. Переключайте их и смотрите, как меняется поведение в четырёх обычных ситуациях.</p>
+  </div>
+  <div class="modes">
+    <div class="seg" role="tablist" id="modeTabs"></div>
+    <div class="mode-desc" id="modeDesc"></div>
+    <div class="acts" id="acts"></div>
+    <div class="shift">Режимы переключаются клавишами <kbd>Shift</kbd> + <kbd>Tab</kbd>. Текущий режим написан под строкой ввода.</div>
+  </div>
+  <div class="note"><b>Совет для начала.</b>Первые недели работайте в режиме «Спрашивать» и читайте, что он предлагает. Так вы быстро поймёте, как он думает, и ничего не потеряете.</div>
+</section>
+
+<!-- 6. КАК СТАВИТЬ ЗАДАЧУ -->
+<section class="ch" id="ch6" data-name="Задача">
+  <div class="ch-head">
+    <div class="eyebrow"><b>Глава 6</b> Как ставить задачу</div>
+    <h2>Чем понятнее просьба, тем меньше переделок</h2>
+    <p class="lead">«Сделай сайт» тоже сработает, но угадывать ему придётся почти всё. Добавляйте детали кнопками ниже и смотрите, как растёт качество задачи.</p>
+  </div>
+  <div class="prompt-lab">
+    <div style="display:grid;gap:14px">
+      <div class="prompt-box" id="promptBox"></div>
+      <div class="meter">
+        <div class="meter-row"><span>Насколько понятна задача</span><span id="meterVal">15%</span></div>
+        <div class="meter-bar"><i id="meterBar"></i></div>
+      </div>
+    </div>
+    <div style="display:grid;gap:14px;align-content:start">
+      <div class="eyebrow">Добавить в задачу</div>
+      <div class="ingr" id="ingr"></div>
+      <div class="answer" id="promptAnswer"></div>
+    </div>
+  </div>
+  <div class="rules">
+    <div class="rule"><b>Сначала план</b><span>Для большой задачи попросите: «Сначала составь план и покажи мне». Или включите режим «Только план».</span></div>
+    <div class="rule"><b>Одна задача за раз</b><span>Сайт, потом бот, потом таблица. Так легче проверять и проще откатить.</span></div>
+    <div class="rule"><b>Покажите пример</b><span>Скриншот, ссылка на понравившийся сайт или старый файл объясняют лучше длинного текста.</span></div>
+    <div class="rule"><b>Пусть спросит</b><span>Допишите: «Если что-то непонятно, сначала задай вопросы». Он так и сделает.</span></div>
+  </div>
+</section>
+
+<!-- 7. ОТКАТ -->
+<section class="ch" id="ch7" data-name="Откат">
+  <div class="ch-head">
+    <div class="eyebrow"><b>Глава 7</b> Если что-то пошло не так</div>
+    <h2>Каждый шаг можно отмотать назад</h2>
+    <p class="lead">Перед каждым вашим сообщением Claude Code сохраняет точку возврата. Нажмите на любой шаг ниже и посмотрите, что станет с файлами проекта.</p>
+  </div>
+  <div class="rew">
+    <div style="display:grid;gap:12px">
+      <div class="tline" id="tline"></div>
+      <div class="rew-status" id="rewStatus"></div>
+    </div>
+    <div style="display:grid;gap:12px">
+      <div class="proj" id="proj"><div class="t">Файлы в папке проекта</div></div>
+      <div class="shift">В настоящей программе: <kbd>Esc</kbd> <kbd>Esc</kbd> или команда <code>/rewind</code></div>
+    </div>
+  </div>
+  <div class="note"><b>Одно ограничение.</b>Отмотать можно правки в файлах, которые он сделал сам. То, что сделано командами (например, удаление папки), так не вернётся. Поэтому важное держите в копии, а для проектов попросите его настроить Git: это журнал всех версий.</div>
+</section>
+
+<!-- 8. ИНСТРУМЕНТЫ -->
+<section class="ch" id="ch8" data-name="Инструменты">
+  <div class="ch-head">
+    <div class="eyebrow"><b>Глава 8</b> Его инструменты</div>
+    <h2>Пять вещей, которые делают его по-настоящему вашим</h2>
+    <p class="lead">Для начала они не обязательны. Но когда освоитесь, именно они превращают помощника из случайного в постоянного. Нажмите на карточку, чтобы перевернуть.</p>
+  </div>
+  <div class="tools" id="tools"></div>
+</section>
+
+<!-- 9. УСТАНОВКА -->
+<section class="ch" id="ch9" data-name="Запуск">
+  <div class="ch-head">
+    <div class="eyebrow"><b>Глава 9</b> Первый запуск</div>
+    <h2>Пять минут от установки до первой задачи</h2>
+    <p class="lead">Можно поставить приложение для компьютера и не трогать командную строку. Ниже путь через терминал: он самый полный.</p>
+  </div>
+  <div class="need">
+    <div><b>Подписка Claude</b>Pro или выше. Бесплатного тарифа для Claude Code нет.</div>
+    <div><b>Компьютер</b>Windows, macOS или Linux. Достаточно обычного ноутбука.</div>
+    <div><b>Папка для проекта</b>Пустая или с вашими файлами. Он работает внутри неё.</div>
+  </div>
+  <div class="seg" role="tablist" id="osTabs">
+    <button class="chip" role="tab" aria-selected="true" data-os="win">Windows</button>
+    <button class="chip" role="tab" aria-selected="false" data-os="mac">macOS и Linux</button>
+  </div>
+  <div class="steps">
+    <div class="st"><div class="num">1</div><div class="body">
+      <h3 id="s1title">Откройте PowerShell</h3>
+      <p class="tag" id="s1hint">Пуск → наберите «PowerShell» → Enter</p>
+    </div></div>
+    <div class="st"><div class="num">2</div><div class="body">
+      <h3>Вставьте команду установки и нажмите Enter</h3>
+      <div class="cmd"><code id="installCmd">irm https://claude.ai/install.ps1 | iex</code><button class="copy" data-copy="installCmd">Копировать</button></div>
+    </div></div>
+    <div class="st"><div class="num">3</div><div class="body">
+      <h3>Перейдите в папку проекта и запустите</h3>
+      <div class="cmd"><code id="runCmd">cd Documents\мой-сайт; claude</code><button class="copy" data-copy="runCmd">Копировать</button></div>
+    </div></div>
+    <div class="st"><div class="num">4</div><div class="body">
+      <h3>Войдите в аккаунт</h3>
+      <p>При первом запуске откроется браузер. Войдите в свой аккаунт Claude, и программа это запомнит.</p>
+    </div></div>
+    <div class="st"><div class="num">5</div><div class="body">
+      <h3>Дайте первое задание</h3>
+      <div class="cmd"><code id="firstCmd">Расскажи, что лежит в этой папке и что с этим можно сделать</code><button class="copy" data-copy="firstCmd">Копировать</button></div>
+      <p class="tag">Хорошее первое задание: безопасное, он только читает.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- 10. РОССИЯ -->
+<section class="ch" id="ch10" data-name="Россия">
+  <div class="ch-head">
+    <div class="eyebrow"><b>Глава 10</b> Доступ из России</div>
+    <h2>Почему из России не получается зарегистрироваться</h2>
+    <p class="lead">Это частый вопрос у новичков, поэтому коротко о том, как обстоят дела.</p>
+  </div>
+  <div class="ru">
+    <div>
+      <span class="pill bad">Ограничение</span>
+      <h3>Anthropic не работает с Россией</h3>
+      <p>Россия не входит в <a href="https://www.anthropic.com/supported-countries" target="_blank" rel="noopener">список стран</a>, где компания предоставляет сервис. Причина в американских правилах экспорта, а не в российских блокировках.</p>
+    </div>
+    <div>
+      <span class="pill warn">Что из этого следует</span>
+      <h3>Регистрация и оплата</h3>
+      <ul>
+        <li>Для оплаты подписки нужна карта банка из поддерживаемой страны.</li>
+        <li>Правила Anthropic не разрешают пользоваться сервисом из неподдерживаемых стран. Аккаунт, созданный в обход этих правил, могут заблокировать вместе с оплаченной подпиской.</li>
+        <li>Способы обойти ограничения в этом обучении не описываются.</li>
+      </ul>
+    </div>
+    <div>
+      <span class="pill ok">Что доступно в России</span>
+      <h3>Российские помощники для кода</h3>
+      <ul>
+        <li><a href="https://gigacode.ru" target="_blank" rel="noopener">GigaCode</a> от Сбера: для частных лиц бесплатный.</li>
+        <li><a href="https://sourcecraft.dev/portal/code-assistant/" target="_blank" rel="noopener">SourceCraft Code Assistant</a> от Яндекса: умеет работать как агент.</li>
+      </ul>
+      <p>Они устроены по тем же принципам. Главы о постановке задачи, плане и проверке подходят и к ним.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 11. ШПАРГАЛКА -->
+<section class="ch" id="ch11" data-name="Шпаргалка">
+  <div class="ch-head">
+    <div class="eyebrow"><b>Глава 11</b> Шпаргалка</div>
+    <h2>Команды и клавиши, которые нужны каждый день</h2>
+    <p class="lead">Команды с косой чертой пишутся прямо в строке ввода. Наберите <code>/</code>, и он покажет список.</p>
+  </div>
+  <div class="cheat-tools">
+    <input class="search" id="cheatSearch" type="search" placeholder="Найти: отмена, память, файл…" aria-label="Поиск по шпаргалке">
+    <div class="seg" id="cheatFilter">
+      <button class="chip" aria-pressed="true" data-f="all">Все</button>
+      <button class="chip" aria-pressed="false" data-f="key">Клавиши</button>
+      <button class="chip" aria-pressed="false" data-f="cmd">Команды</button>
+    </div>
+  </div>
+  <div class="cheat" id="cheat"></div>
+  <p class="empty" id="cheatEmpty" hidden>Ничего не нашлось. Попробуйте другое слово.</p>
+</section>
+
+<!-- 12. ПРОВЕРКА -->
+<section class="ch" id="ch12" data-name="Проверка">
+  <div class="ch-head">
+    <div class="eyebrow"><b>Глава 12</b> Проверьте себя</div>
+    <h2>Четыре вопроса, чтобы закрепить</h2>
+  </div>
+  <div class="quiz" id="quiz"></div>
+  <div class="score" id="score"></div>
+  <div class="ch-head" style="margin-top:6px">
+    <div class="eyebrow"><b>Дальше</b> Официальные материалы</div>
+  </div>
+  <div class="next">
+    <a href="https://code.claude.com/docs/en/quickstart" target="_blank" rel="noopener"><b>Быстрый старт &#8599;</b><span>Официальная инструкция по установке и первым шагам. На английском.</span></a>
+    <a href="https://academy.claude.com" target="_blank" rel="noopener"><b>Claude Academy &#8599;</b><span>Бесплатные курсы Anthropic, есть курс по Claude Code. На английском.</span></a>
+    <a href="https://code.claude.com/docs/en/terminal-guide" target="_blank" rel="noopener"><b>Терминал для новичков &#8599;</b><span>Если командная строка пугает, начните с этой страницы. На английском.</span></a>
+  </div>
+</section>
+
+</main>
+<footer>Составила Тамара · <a href="https://tk-webb.ru" target="_blank" rel="noopener">TK Web</a> · по официальной документации Anthropic, октябрь 2026</footer>
+
+<!-- лайтбокс галереи -->
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+  <div class="lb-box">
+    <div class="lb-shot" id="lbShot"></div>
+    <div class="lb-info">
+      <h3 id="lbTitle"></h3>
+      <div class="lb-say" id="lbSay"></div>
+      <div class="eyebrow">Что он делает</div>
+      <ol class="lb-steps" id="lbSteps"></ol>
+      <div class="lb-nav">
+        <button class="btn" id="lbPrev">&#8592; Назад</button>
+        <span class="lb-count" id="lbCount"></span>
+        <button class="btn" id="lbNext">Дальше &#8594;</button>
+      </div>
+      <button class="btn primary" id="lbClose" style="justify-self:start">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ===== навигация по главам ===== */
+const chs=$$('.ch'), dots=$('#dots');
+chs.forEach((c,i)=>{const a=document.createElement('a');a.href='#'+c.id;a.textContent=i===0?'↑':i;a.title=c.dataset.name;dots.appendChild(a)});
+const dotEls=[...dots.children]; let cur=0;
+function setCur(i){cur=i;dotEls.forEach((d,j)=>{d.classList.toggle('on',j===i);if(j<i)d.classList.add('seen')});$('#progress').style.width=(i/(chs.length-1)*100)+'%';const on=dotEls[i];if(on&&dots.scrollWidth>dots.clientWidth)dots.scrollTo({left:on.offsetLeft-dots.clientWidth/2,behavior:'smooth'})}
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)setCur(chs.indexOf(e.target))})},{rootMargin:'-45% 0px -50% 0px'});
+chs.forEach(c=>io.observe(c)); setCur(0);
+const go=i=>{i=Math.max(0,Math.min(chs.length-1,i));chs[i].scrollIntoView({behavior:reduce?'auto':'smooth'})};
+$('#prev').onclick=()=>go(cur-1); $('#next').onclick=()=>go(cur+1);
+document.addEventListener('keydown',e=>{if(!$('#lb').hidden)return;const t=e.target.tagName;if(t==='INPUT'||t==='TEXTAREA')return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();go(cur+1)}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1)}});
+
+/* ===== 0. обложка: живой терминал ===== */
+const heroLines=[
+ ['u','Сделай сайт-визитку для мастера маникюра Анны: услуги с ценами, фото работ и кнопка записи в Телеграм'],
+ ['d','Смотрю, что лежит в папке…'],
+ ['t','Нашёл 6 фото в папке photos и прайс в файле цены.txt'],
+ ['t','План: страница, стили, галерея фото, кнопка записи'],
+ ['ask','Создать 3 файла?  1. Да   2. Нет'],
+ ['u','1'],
+ ['t','Создаю index.html',          'index.html'],
+ ['t','Создаю style.css',           'style.css'],
+ ['t','Собираю галерею из 6 фото',  'gallery.js'],
+ ['t','Открываю в браузере, проверяю на ширине телефона'],
+ ['ok','Готово. Сайт открыт в браузере. Поменять цвета или тексты?']
+];
+const term=$('#heroTerm'), files=$('#heroFiles');
+const baseFiles=['photos/','цены.txt'];
+function renderHero(n){
+  term.innerHTML=heroLines.map((l,i)=>`<div class="tl ${l[0]}${i>=n?' hide':''}">${esc(l[1])}</div>`).join('')+'<span class="cursor"></span>';
+  const made=heroLines.slice(0,n).filter(l=>l[2]).map(l=>l[2]);
+  files.innerHTML='<div class="ft">Папка проекта</div>'+baseFiles.map(f=>`<div class="f">${f}</div>`).join('')+heroLines.filter(l=>l[2]).map(l=>`<div class="f ${made.includes(l[2])?'new':'hide'}">${l[2]}</div>`).join('');
+}
+renderHero(heroLines.length);
+let heroTimer=null;
+function playHero(){
+  clearTimeout(heroTimer); if(reduce){renderHero(heroLines.length);return}
+  let n=0; renderHero(0);
+  const tick=()=>{n++;renderHero(n);if(n<heroLines.length)heroTimer=setTimeout(tick,heroLines[n-1][0]==='u'?1100:(heroLines[n-1][0]==='ask'?1300:650))};
+  heroTimer=setTimeout(tick,350);
+}
+$('#replay').onclick=playHero;
+setTimeout(playHero,700);
+
+/* ===== 1. чат против Claude Code ===== */
+const cmp={
+ chat:{flow:[['you','Описываете проблему и копируете код в чат'],['ai','Предполагает причину и пишет, что исправить'],['you','Ищете нужное место в файле и вставляете исправление'],['you','Проверяете. Не помогло? Снова копируете код в чат']],v:['warn','Работу делаете вы, ИИ подсказывает']},
+ code:{flow:[['you','Пишете: «на сайте не работает кнопка Записаться»'],['ai','Сам находит кнопку в файлах и видит причину'],['ai','Спрашивает разрешения и исправляет'],['ai','Открывает сайт и проверяет, что кнопка нажимается']],v:['ok','Работу делает он, вы решаете и проверяете']}
+};
+function showCmp(k){
+  $$('[data-cmp]').forEach(b=>b.setAttribute('aria-selected',b.dataset.cmp===k));
+  $('#cmpFlow').innerHTML=cmp[k].flow.map((f,i)=>`<li style="animation-delay:${i*90}ms"><span class="who ${f[0]}">${f[0]==='you'?'Вы':'ИИ'}</span><span>${f[1]}</span></li>`).join('');
+  $('#cmpVerdict').innerHTML=`<span class="pill ${cmp[k].v[0]}">${k==='chat'?'Чат':'Claude Code'}</span>${cmp[k].v[1]}`;
+}
+$$('[data-cmp]').forEach(b=>b.onclick=()=>showCmp(b.dataset.cmp)); showCmp('chat');
+
+/* ===== 2. галерея ===== */
+const mk={
+ site:`<div class="mk mk-site"><div class="nav">Анна · ногти</div><div class="h">Маникюр с заботой</div><div class="row"><i></i><i></i><i></i></div><div class="row" style="justify-content:space-between"><span>Маникюр</span><b>1 500 ₽</b></div><span class="b">Записаться</span></div>`,
+ bot:`<div class="mk mk-chat"><div class="m">Здравствуйте! Выберите услугу</div><div class="m me">Маникюр</div><div class="m">Свободно в четверг:</div><div class="kb"><span>11:00</span><span>14:30</span><span>17:00</span></div></div>`,
+ table:`<div class="mk mk-bars">${[42,55,48,63,70,66,81,77,60,72,88,95].map(h=>`<i style="height:${h}%"></i>`).join('')}</div>`,
+ bug:`<div class="mk mk-diff"><div>style.css</div><div class="del">- .photo { z-index: 10 }</div><div class="add">+ .photo { z-index: 1 }</div><div style="color:var(--term-dim)">  .button { z-index: 5 }</div><div style="color:var(--term-ok)">✓ кнопка нажимается</div></div>`,
+ folders:`<div class="mk mk-folders"><div><b>112</b>Фото</div><div><b>87</b>Документы</div><div><b>34</b>Архивы</div><div><b>41</b>Таблицы</div><div><b>19</b>Видео</div><div><b>7</b>Разное</div></div>`,
+ doc:`<div class="mk mk-doc"><div class="t">Памятка для клиента</div><i style="width:92%"></i><i style="width:80%"></i><i style="width:86%"></i><i style="width:60%"></i><div class="t" style="font-size:9px;margin-top:4px">Сроки и оплата</div><i style="width:88%"></i><i style="width:74%"></i></div>`
+};
+const items=[
+ {k:'site',t:'Сайт-визитка',d:'Одна страница с услугами, фото и кнопкой записи',say:'Сделай одностраничный сайт для мастера маникюра Анны: услуги с ценами, фото работ из папки photos, кнопка записи в Телеграм. Светлый и нежный.',st:['Смотрит фото и прайс в папке','Показывает план и ждёт вашего «да»','Создаёт страницу, стили и галерею','Открывает в браузере и проверяет на ширине телефона']},
+ {k:'bot',t:'Бот для записи',d:'Клиентка выбирает время, мастеру приходит уведомление',say:'Сделай Телеграм-бота для записи: клиентка выбирает услугу и время, мне приходит уведомление о новой записи.',st:['Предлагает план из нескольких шагов','Объясняет, как получить ключ бота у @BotFather','Пишет код бота','Запускает и проверяет запись на тестовом времени']},
+ {k:'table',t:'Разбор таблицы',d:'Выручка по месяцам и график из выгрузки за год',say:'В папке выгрузка заказов за год в Excel. Посчитай выручку по месяцам и сделай график.',st:['Открывает файл и смотрит столбцы','Находит пустые и повторяющиеся строки, спрашивает, что с ними делать','Считает суммы по месяцам','Сохраняет новую таблицу с графиком, исходник не трогает']},
+ {k:'bug',t:'Найти ошибку',d:'Кнопка не нажимается на телефоне',say:'На сайте не работает кнопка «Записаться», когда открываю с телефона.',st:['Ищет кнопку в коде','Находит причину: на телефоне кнопку перекрывает фото','Меняет одну строку в стилях','Проверяет на ширине телефона']},
+ {k:'folders',t:'Порядок в папке',d:'300 файлов разложены по папкам за минуту',say:'В «Загрузках» 300 файлов. Разложи их по папкам: фото, документы, архивы и так далее. Ничего не удаляй.',st:['Смотрит, какие файлы там лежат','Показывает план раскладки','Ждёт вашего подтверждения','Раскладывает и пишет отчёт: что куда переехало']},
+ {k:'doc',t:'Документ из заметок',d:'Из разрозненных записей готовый файл Word',say:'По заметкам из папки «встречи» составь памятку для клиента в Word: сроки, оплата, что от него нужно.',st:['Читает все заметки','Собирает главное по разделам','Создаёт файл Word с оформлением','Пересказывает, что вошло, а что нет']}
+];
+const gal=$('#gallery');
+gal.innerHTML=items.map((it,i)=>`<button class="card" data-i="${i}"><div class="shot">${mk[it.k]}</div><div class="cap"><h3>${it.t}</h3><p>${it.d}</p><span class="more">Посмотреть по шагам →</span></div></button>`).join('');
+let lbI=0, lbFrom=null;
+function openLb(i){lbI=(i+items.length)%items.length;const it=items[lbI];$('#lbShot').innerHTML=mk[it.k];$('#lbTitle').textContent=it.t;$('#lbSay').textContent=it.say;$('#lbSteps').innerHTML=it.st.map(s=>`<li>${esc(s)}</li>`).join('');$('#lbCount').textContent=`${lbI+1} из ${items.length}`;const box=$('.lb-box');box.style.animation='none';box.offsetHeight;box.style.animation='';$('#lb').hidden=false;$('#lbClose').focus()}
+function closeLb(){$('#lb').hidden=true;if(lbFrom)lbFrom.focus()}
+gal.addEventListener('click',e=>{const c=e.target.closest('.card');if(!c)return;lbFrom=c;openLb(+c.dataset.i)});
+$('#lbPrev').onclick=()=>openLb(lbI-1); $('#lbNext').onclick=()=>openLb(lbI+1); $('#lbClose').onclick=closeLb;
+$('#lb').addEventListener('click',e=>{if(e.target.id==='lb')closeLb()});
+document.addEventListener('keydown',e=>{if($('#lb').hidden)return;if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')openLb(lbI+1);if(e.key==='ArrowLeft')openLb(lbI-1)});
+
+/* ===== 3. цикл ===== */
+const loopSteps=[
+ [0,'Собирает контекст','Читает файлы сайта, чтобы понять, как он устроен и где будет форма.','● Читаю index.html, style.css…\n● Форма будет после блока «Услуги»'],
+ [1,'Действует','Пишет код формы и вставляет его в страницу. Перед правкой спрашивает разрешения.','● Добавляю форму в index.html (+24 строки)'],
+ [2,'Проверяет','Открывает страницу и пробует отправить форму.','✗ Ошибка: кнопка «Отправить» не реагирует'],
+ [0,'Снова собирает контекст','Проверка не прошла, поэтому круг начинается заново. Он ищет причину ошибки.','● Причина: забыл подключить файл form.js'],
+ [1,'Снова действует','Исправляет ровно то, что сломалось.','● Подключаю form.js в index.html (+1 строка)'],
+ [2,'Снова проверяет','Отправляет тестовую заявку ещё раз.','✓ Заявка отправлена, форма работает']
+];
+let lp=-1;
+function drawLoop(){
+  const s=loopSteps[lp];
+  $$('.node').forEach(n=>n.classList.toggle('on',s&&+n.dataset.i===s[0]));
+  const frac=lp<0?0:((lp%3)+1)/3; const L=2*Math.PI*34;
+  $('#ringArc').setAttribute('stroke-dasharray',`${frac*L} ${L}`);
+  $('#ringCenter').textContent=lp<0?'старт':(lp<3?'круг 1':'круг 2');
+  if(!s){$('#loopTitle').textContent='Нажмите «Следующий шаг»';$('#loopDesc').textContent='Посмотрим, как Claude Code выполняет одну задачу от начала до конца.';$('#loopEx').innerHTML='&nbsp;';$('#loopNext').innerHTML='Следующий шаг &#8594;';return}
+  $('#loopTitle').textContent=`${lp+1}. ${s[1]}`;$('#loopDesc').textContent=s[2];
+  $('#loopEx').innerHTML=esc(s[3]).replace(/\n/g,'<br>').replace('✗','<span style="color:var(--bad)">✗</span>').replace('✓','<span style="color:var(--ok)">✓</span>');
+  $('#loopNext').innerHTML=lp===loopSteps.length-1?'Задача готова ✓':'Следующий шаг &#8594;';
+}
+$('#loopNext').onclick=()=>{if(lp<loopSteps.length-1){lp++;drawLoop()}};
+$('#loopReset').onclick=()=>{lp=-1;drawLoop()}; drawLoop();
+
+/* ===== 4. где живёт ===== */
+const places=[
+ {t:'Терминал',tag:'командная строка · Windows, macOS, Linux',d:'Самый полный вариант: тут первыми появляются все новые возможности. Выглядит как чёрное окно с текстом, но работать в нём так же, как в чате.',scr:`<div class="scr-term"><div style="color:var(--term-dim)">C:\\Users\\Анна\\мой-сайт&gt; claude</div><div style="color:#fff">&gt; Сделай фон светлее</div><div><span style="color:var(--term-acc)">●</span> Меняю цвет фона в style.css</div><div style="color:var(--term-ok)">Готово</div><div style="color:var(--term-dim);margin-top:10px">⏵⏵ режим: спрашивать · shift+tab</div></div>`},
+ {t:'VS Code',tag:'редактор кода · расширение',d:'Если вы уже работаете в редакторе VS Code или JetBrains, Claude Code живёт в боковой панели. Его правки видно прямо в файлах, по строкам.',scr:`<div class="scr-ide"><div class="code"><div>index.html</div><div>&lt;section&gt;</div><div style="background:var(--ok-soft);color:var(--ok)">+ &lt;form&gt;…</div><div>&lt;/section&gt;</div></div><div class="side"><div class="bub me">Добавь форму записи</div><div class="bub">Добавил форму в index.html. Посмотрите изменения слева.</div></div></div>`},
+ {t:'Приложение',tag:'Claude для компьютера · Windows, macOS',d:'Привычное окно с кнопками, без командной строки. Удобно начинать отсюда, если терминал пугает. Можно вести несколько задач параллельно.',scr:`<div class="scr-app"><div class="list"><div class="a">Сайт маникюр</div><div>Бот записи</div><div>Таблица заказов</div></div><div class="main"><div class="bub me">Проверь сайт на телефоне</div><div class="bub">Проверил. На ширине 375 px всё помещается.</div></div></div>`},
+ {t:'Браузер',tag:'claude.ai/code · без установки',d:'Работает в облаке с проектами на GitHub. Можно дать задачу и закрыть ноутбук: он доделает сам. Подходит, когда проект уже хранится на GitHub.',scr:`<div class="scr-app"><div class="list"><div class="a">demo-site</div><div>landing</div></div><div class="main"><div class="tag">claude.ai/code</div><div class="bub me">Обнови цены на сайте</div><div class="bub">Готово. Изменения сохранены в GitHub.</div></div></div>`}
+];
+$('#placeTabs').innerHTML=places.map((p,i)=>`<button class="chip" role="tab" aria-selected="${i===0}" data-p="${i}">${p.t}</button>`).join('');
+function showPlace(i){$$('[data-p]').forEach(b=>b.setAttribute('aria-selected',+b.dataset.p===i));const p=places[i];$('#place').innerHTML=`<div class="screen">${p.scr}</div><div class="place-text"><span class="tag">${p.tag}</span><h3>${p.t}</h3><p>${p.d}</p></div>`}
+$('#placeTabs').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(b)showPlace(+b.dataset.p)}); showPlace(0);
+
+/* ===== 5. режимы ===== */
+const actsDef=[['Ч','Прочитать файлы'],['П','Изменить файл'],['К','Запустить команду'],['У','Удалить папку']];
+const R={do:['ok','Делает сам'],ask:['warn','Спросит вас'],no:['bad','Не делает'],look:['info','Только чтобы изучить'],chk:['info','Проверит контролёр'],stop:['bad','Контролёр остановит']};
+const modes=[
+ {n:'Спрашивать',s:'режим по умолчанию',d:'Читает сам, а перед правкой файлов и запуском команд спрашивает вас. Лучший режим для начала.',a:['do','ask','ask','ask']},
+ {n:'Правки без вопросов',s:'accept edits',d:'Сам меняет файлы в папке проекта, а команды по-прежнему согласует с вами. Удобно, когда план уже одобрен.',a:['do','do','ask','ask']},
+ {n:'Только план',s:'plan mode',d:'Изучает проект и пишет план, но ничего не меняет. Вы читаете план и решаете, запускать ли его.',a:['do','no','look','no']},
+ {n:'Авто',s:'auto mode',d:'Вместо вас каждое действие проверяет вторая модель-контролёр. Обычное пропускает, рискованное останавливает. Для опытных.',a:['do','do','chk','stop']}
+];
+$('#modeTabs').innerHTML=modes.map((m,i)=>`<button class="chip" role="tab" aria-selected="${i===0}" data-m="${i}">${m.n}</button>`).join('');
+$('#acts').innerHTML=actsDef.map(a=>`<div class="act"><div class="what"><span class="ico">${a[0]}</span>${a[1]}</div><div class="res"></div></div>`).join('');
+function showMode(i){
+  $$('[data-m]').forEach(b=>b.setAttribute('aria-selected',+b.dataset.m===i));const m=modes[i];
+  $('#modeDesc').innerHTML=`<span class="tag">${m.s}</span><h3>${m.n}</h3><p>${m.d}</p>`;
+  $$('.act').forEach((el,j)=>{const r=R[m.a[j]];const res=el.querySelector('.res');const html=`<span class="pill ${r[0]}">${r[1]}</span>`;if(res.innerHTML!==html){res.innerHTML=html;el.classList.remove('flash');el.offsetWidth;el.classList.add('flash')}});
+}
+$('#modeTabs').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b)showMode(+b.dataset.m)}); showMode(0);
+
+/* ===== 6. конструктор задачи ===== */
+const ingr=[
+ {k:'who',l:'Для кого',t:' для мастера маникюра Анны из Владивостока',p:20},
+ {k:'what',l:'Что должно быть',t:': услуги с ценами из файла цены.txt, 6 фото работ из папки photos и кнопка записи в Телеграм',p:25},
+ {k:'look',l:'Как выглядит',t:'. Светлые тона, нежно-розовый акцент, как на сайте-примере на скриншоте',p:15},
+ {k:'check',l:'Как проверить',t:'. Проверь, что на телефоне всё помещается и кнопка работает',p:15},
+ {k:'ask',l:'Пусть спросит',t:'. Если чего-то не хватает, сначала задай вопросы',p:10}
+];
+const on=new Set();
+$('#ingr').innerHTML=ingr.map(g=>`<button class="chip" aria-pressed="false" data-g="${g.k}">+ ${g.l}</button>`).join('');
+function drawPrompt(){
+  let txt='<span class="base">Сделай сайт</span>';
+  ingr.forEach(g=>{if(on.has(g.k))txt+=`<span class="add">${esc(g.t)}</span>`});
+  $('#promptBox').innerHTML=txt+'<span class="cursor"></span>';
+  const v=15+ingr.reduce((s,g)=>s+(on.has(g.k)?g.p:0),0);
+  $('#meterVal').textContent=v+'%';const bar=$('#meterBar');bar.style.width=v+'%';bar.style.background=v<45?'var(--bad)':v<80?'var(--warn)':'var(--ok)';
+  $('#promptAnswer').textContent=v<45?'Что получится: сайт «вообще», с придуманными услугами и случайным дизайном. Скорее всего, придётся переделывать.':v<80?'Что получится: уже похоже на то, что нужно, но кое-что он додумает сам.':'Что получится: почти то, что вы представляли, с первого раза. Остальное поправите парой фраз.';
+  $$('[data-g]').forEach(b=>b.setAttribute('aria-pressed',on.has(b.dataset.g)));
+}
+$('#ingr').addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;const k=b.dataset.g;on.has(k)?on.delete(k):on.add(k);drawPrompt()}); drawPrompt();
+
+/* ===== 7. откат ===== */
+const cps=[
+ {p:'Сделай сайт-визитку',add:['index.html','style.css']},
+ {p:'Добавь галерею фото',add:['gallery.js','photos/'],chg:['index.html']},
+ {p:'Сделай фон чёрным',chg:['style.css']},
+ {p:'Добавь форму записи',add:['form.js'],chg:['index.html']}
+];
+let at=cps.length-1;
+$('#tline').innerHTML=cps.map((c,i)=>`<button class="cp" data-c="${i}"><span class="n">${i+1}</span><span class="p">${c.p}</span><span class="h">вернуться</span></button>`).join('')+`<button class="btn" id="rewAll" style="justify-self:start">Вернуть всё, как было</button>`;
+function drawRew(){
+  $$('.cp').forEach((b,i)=>{b.classList.toggle('gone',i>at);b.classList.toggle('here',i===at);b.querySelector('.h').textContent=i===at?'вы здесь':(i>at?'отменено':'вернуться')});
+  const all=[]; cps.forEach((c,i)=>(c.add||[]).forEach(f=>all.push([f,i])));
+  const changedAt=f=>{let last=-1;cps.forEach((c,i)=>{if(i<=at&&(c.chg||[]).includes(f))last=i});return last};
+  $('#proj').innerHTML='<div class="t">Файлы в папке проекта</div>'+all.map(([f,i])=>{const c=changedAt(f);return `<div class="f${i>at?' hide':''}"><span>${f}</span>${c>i?`<em>изменён на шаге ${c+1}</em>`:''}</div>`}).join('');
+  $('#rewStatus').innerHTML=at===cps.length-1?'Сейчас всё на месте. Нажмите на шаг, чтобы вернуться к нему.':`Вернулись к шагу ${at+1}. ${cps.length-1-at===1?'Последний шаг отменён':'Отменено шагов: '+(cps.length-1-at)}, файлы снова такие, какими были тогда.`;
+}
+$('#tline').addEventListener('click',e=>{const b=e.target.closest('.cp');if(b){at=+b.dataset.c;drawRew()}if(e.target.id==='rewAll'){at=cps.length-1;drawRew()}}); drawRew();
+
+/* ===== 8. инструменты ===== */
+const tools=[
+ {s:'CLAUDE.md',t:'Памятка проекта',m:'Как инструкция новому сотруднику в первый день.',b:'Файл с правилами вашего проекта. Он читает его в начале каждого разговора, поэтому не нужно повторять одно и то же. Создать: команда <code>/init</code>.<br><br>Пример: «Пиши тексты на русском. Сайты делай светлыми. Перед удалением всегда спрашивай».'},
+ {s:'/skill',t:'Навыки',m:'Как рецепт, который достают, когда готовят это блюдо.',b:'Готовые инструкции для повторяющихся задач: как делать презентацию, как оформлять документ Word. Он сам подключает нужный навык, когда задача подходит.<br><br>Свои навыки тоже можно создавать.'},
+ {s:'MCP',t:'Подключения',m:'Как ключи от других кабинетов.',b:'Дают доступ к вашим сервисам: Google Диск, GitHub, Figma, базы данных. После подключения можно просить: «найди на Диске договор и сделай из него памятку».'},
+ {s:'agents',t:'Помощники',m:'Как бригадир, который раздаёт поручения.',b:'Для большой задачи он может запустить отдельных помощников: один ищет по файлам, другой проверяет код. Так основной разговор не засоряется лишним.'},
+ {s:'hooks',t:'Автоправила',m:'Как будильник: срабатывает всегда, без напоминаний.',b:'Действия, которые выполняются автоматически в нужный момент. Например: после каждой правки проверять сайт или присылать уведомление, когда задача готова.'}
+];
+$('#tools').innerHTML=tools.map((t,i)=>`<button class="flip" aria-pressed="false" data-t="${i}" aria-label="${t.t}: перевернуть карточку"><div class="flip-in"><div class="face front"><span class="sym">${t.s}</span><h3>${t.t}</h3><p class="meta-line">${t.m}</p><span class="hint">нажмите, чтобы перевернуть ↻</span></div><div class="face back"><div>${t.b}</div><span class="hint">↻ назад</span></div></div></button>`).join('');
+$('#tools').addEventListener('click',e=>{const b=e.target.closest('.flip');if(b)b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')!=='true')});
+
+/* ===== 9. установка ===== */
+const os={
+ win:{t:'Откройте PowerShell',h:'Пуск → наберите «PowerShell» → Enter',i:'irm https://claude.ai/install.ps1 | iex',r:'cd Documents\\мой-сайт; claude'},
+ mac:{t:'Откройте Терминал',h:'macOS: Программы → Утилиты → Терминал',i:'curl -fsSL https://claude.ai/install.sh | bash',r:'cd ~/Documents/мой-сайт && claude'}
+};
+$('#osTabs').addEventListener('click',e=>{const b=e.target.closest('[data-os]');if(!b)return;$$('[data-os]').forEach(x=>x.setAttribute('aria-selected',x===b));const o=os[b.dataset.os];$('#s1title').textContent=o.t;$('#s1hint').textContent=o.h;$('#installCmd').textContent=o.i;$('#runCmd').textContent=o.r});
+document.addEventListener('click',e=>{const b=e.target.closest('.copy');if(!b)return;const el=document.getElementById(b.dataset.copy);const done=()=>{b.textContent='Скопировано';b.classList.add('done');setTimeout(()=>{b.textContent='Копировать';b.classList.remove('done')},1600)};
+  const sel=()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Выделено, нажмите Ctrl+C'};
+  try{navigator.clipboard.writeText(el.textContent).then(done,sel)}catch(_){sel()}});
+
+/* ===== 11. шпаргалка ===== */
+const cheat=[
+ ['key','Esc','Остановить его на полуслове'],
+ ['key','Esc Esc','Отмотать назад к прошлому шагу'],
+ ['key','Shift + Tab','Переключить режим: спрашивать, правки, план'],
+ ['key','@ имя файла','Указать конкретный файл: «посмотри @index.html»'],
+ ['key','! команда','Выполнить команду самому, без его участия'],
+ ['key','Ctrl + C','Выйти из программы (нажать дважды)'],
+ ['cmd','/help','Показать справку'],
+ ['cmd','/init','Создать CLAUDE.md, памятку проекта'],
+ ['cmd','/clear','Начать новый разговор с чистого листа'],
+ ['cmd','/rewind','Отмотать назад к любому шагу'],
+ ['cmd','/resume','Вернуться к одному из прошлых разговоров'],
+ ['cmd','/compact','Сжать длинный разговор, чтобы освободить память'],
+ ['cmd','/model','Выбрать модель: умнее или быстрее'],
+ ['cmd','/exit','Выйти из программы']
+];
+$('#cheat').innerHTML=cheat.map(c=>`<div class="cm" data-type="${c[0]}"><span class="k">${esc(c[1])}</span><span class="v">${c[2]}</span></div>`).join('');
+let cf='all';
+function filt(){const q=$('#cheatSearch').value.trim().toLowerCase();let n=0;$$('.cm').forEach(el=>{const ok=(cf==='all'||el.dataset.type===cf)&&(!q||el.textContent.toLowerCase().includes(q));el.hidden=!ok;if(ok)n++});$('#cheatEmpty').hidden=n>0}
+$('#cheatSearch').addEventListener('input',filt);
+$('#cheatFilter').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(!b)return;cf=b.dataset.f;$$('[data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));filt()});
+
+/* ===== 12. проверка ===== */
+const qs=[
+ {q:'Чем Claude Code отличается от обычного чата с Claude?',o:['Он умнее, внутри другая модель','Он сам работает с файлами на вашем компьютере','Он бесплатный'],r:1,w:'Модель та же. Разница в том, что он умеет действовать: читать, менять файлы и запускать программы.'},
+ {q:'Вы хотите сначала увидеть, что он собирается сделать, и только потом разрешить. Какой режим включить?',o:['Авто','Правки без вопросов','Только план'],r:2,w:'В режиме «Только план» он изучает проект и пишет план, ничего не меняя.'},
+ {q:'Он изменил файл, и стало хуже. Что делать?',o:['Нажать Esc два раза и вернуться к нужному шагу','Переустановить программу','Удалить папку и начать заново'],r:0,w:'Перед каждым вашим сообщением сохраняется точка возврата. Esc Esc или /rewind вернут файлы.'},
+ {q:'Где он каждый раз берёт правила вашего проекта?',o:['Ищет в интернете','Читает файл CLAUDE.md','Запоминает навсегда после первого разговора'],r:1,w:'CLAUDE.md читается в начале каждого разговора. Создать его можно командой /init.'}
+];
+let got=0, answered=0;
+$('#quiz').innerHTML=qs.map((q,i)=>`<div class="q" data-q="${i}"><h3>${i+1}. ${q.q}</h3><div class="opts">${q.o.map((o,j)=>`<button class="opt" data-o="${j}"><span class="l">${'АБВ'[j]}</span>${o}</button>`).join('')}</div><p class="why" hidden></p></div>`).join('');
+$('#quiz').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;const box=b.closest('.q');if(box.dataset.done)return;const q=qs[+box.dataset.q];const j=+b.dataset.o;
+  if(j===q.r){b.classList.add('right');box.dataset.done=1;answered++;if(!box.dataset.miss)got++;const w=box.querySelector('.why');w.textContent=q.w;w.hidden=false;
+    if(answered===qs.length)$('#score').textContent=got===qs.length?'Все ответы с первого раза. Можно запускать первую задачу.':`С первого раза: ${got} из ${qs.length}. Загляните в главы, где ошиблись.`}
+  else{b.classList.remove('wrong');b.offsetWidth;b.classList.add('wrong');box.dataset.miss=1}});
+})();
+</script>
+
+</body>
+</html>
