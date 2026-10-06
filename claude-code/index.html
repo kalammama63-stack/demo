@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="description" content="Интерактивное обучение Claude Code для новичков: 12 коротких глав с живыми примерами.">
 <title>Claude Code с нуля</title>
+<meta property="og:title" content="Claude Code с нуля: короткое обучение человеческим языком">
+<meta property="og:description" content="12 глав, около 20 минут, без заумных слов. Поймёте, что это за помощник, и поручите ему первую задачу.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -113,7 +116,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:24px 80px;
 .hero{background:var(--ink);color:var(--paper);border:none}
 .hero .eyebrow{color:color-mix(in srgb,var(--paper) 65%,transparent)}
 .hero .eyebrow b{color:var(--mark)}
-.hero h1{font-size:clamp(2.2rem,6.4vw,4.6rem);letter-spacing:-.02em}
+.hero h1{font-size:clamp(1.7rem,3.6vw,2.9rem);line-height:1.15;letter-spacing:-.01em;overflow-wrap:break-word;hyphens:auto}
 .hero h1 em{font-style:normal;color:var(--mark)}
 .hero .lead{color:color-mix(in srgb,var(--paper) 78%,transparent);font-size:1.15rem}
 .hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:28px;align-items:center}
@@ -122,6 +125,7 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:24px 80px;
 .hero .btn{background:var(--mark);color:var(--mark-ink);border-color:var(--mark);box-shadow:0 3px 0 color-mix(in srgb,var(--mark) 45%,#000)}
 .hero .btn.ghost{background:transparent;color:var(--paper);border-color:color-mix(in srgb,var(--paper) 45%,transparent);box-shadow:none}
 .hero-btns{display:flex;flex-wrap:wrap;gap:12px}
+.stage-cap{grid-column:1/-1;font-family:var(--f-mono);font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mark)}
 .stage{display:grid;grid-template-columns:1fr 150px;gap:10px;min-width:0}
 .files{background:var(--term-2);border-radius:14px;padding:14px;font-family:var(--f-mono);font-size:.76rem;color:var(--term-dim);display:flex;flex-direction:column;gap:6px;min-width:0}
 .files .ft{color:var(--term-fg);font-weight:600;margin-bottom:4px}
@@ -383,16 +387,17 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding-bottom:30px
 <section class="ch hero" id="ch0" data-name="Начало">
   <div class="hero-grid">
     <div class="hero-copy">
-      <div class="eyebrow"><b>Обучение</b> 12 глав · около 20 минут</div>
-      <h1>Помощник, который <em>сам делает</em> работу на вашем компьютере</h1>
-      <p class="lead">Claude Code создаёт сайты, ботов и таблицы, исправляет ошибки и наводит порядок в файлах. Вы объясняете обычными словами, что нужно. Программировать уметь не надо.</p>
+      <div class="eyebrow"><b>Бесплатное обучение</b> Claude Code от Anthropic · 12 глав · около 20 минут</div>
+      <h1>Я долго искала понятное обучение по Claude Code. <em>Не нашла и сделала сама</em></h1>
+      <p class="lead">Claude Code — помощник, который сам делает сайты, ботов и таблицы на вашем компьютере. Вы просто объясняете обычными словами, что нужно. Здесь коротко и без заумных слов: поймёте, как он работает, и поручите ему первую задачу.</p>
       <div class="hero-btns">
-        <button class="btn" id="replay">&#9654; Посмотреть, как он работает</button>
-        <a class="btn ghost" href="#ch1">Начать с первой главы</a>
+        <a class="btn" href="#ch1">Начать с первой главы &rarr;</a>
+        <button class="btn ghost" id="replay">&#9654; Посмотреть, как он работает</button>
       </div>
       <div class="meta"><span><b>Составила:</b> Тамара · <a href="https://tk-webb.ru" target="_blank" rel="noopener" style="color:var(--mark)">TK Web</a></span><span><b>Claude Code:</b> Anthropic</span><span><b>Для кого:</b> с нуля</span><span><b>Что нужно:</b> компьютер и подписка Claude</span></div>
     </div>
     <div class="stage" aria-label="Пример работы Claude Code">
+      <div class="stage-cap">Вот как это выглядит</div>
       <div class="term">
         <div class="term-top"><i></i><i></i><i></i><span>Мои сайты / маникюр</span></div>
         <div class="term-body" id="heroTerm"></div>
