@@ -116,7 +116,8 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:24px 80px;
 .hero{background:var(--ink);color:var(--paper);border:none}
 .hero .eyebrow{color:color-mix(in srgb,var(--paper) 65%,transparent)}
 .hero .eyebrow b{color:var(--mark)}
-.hero h1{font-size:clamp(1.7rem,3.6vw,2.9rem);line-height:1.15;letter-spacing:-.01em;overflow-wrap:break-word;hyphens:auto}
+.hero h1{font-size:clamp(1.6rem,3.1vw,2.5rem);line-height:1.18;letter-spacing:-.01em;hyphens:none}
+.hero h1 span,.ch h2 .ln{display:block}
 .hero h1 em{font-style:normal;color:var(--mark)}
 .hero .lead{color:color-mix(in srgb,var(--paper) 78%,transparent);font-size:1.15rem}
 .hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:28px;align-items:center}
@@ -388,7 +389,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding-bottom:30px
   <div class="hero-grid">
     <div class="hero-copy">
       <div class="eyebrow"><b>Бесплатное обучение</b> Claude Code от Anthropic · 12 глав · около 20 минут</div>
-      <h1>Я долго искала понятное обучение по Claude Code. <em>Не нашла и сделала сама</em></h1>
+      <h1><span>Я долго искала</span><span>понятное обучение</span><span>по Claude Code.</span><em><span>Не нашла</span><span>и сделала сама</span></em></h1>
       <p class="lead">Claude Code — помощник, который сам делает сайты, ботов и таблицы на вашем компьютере. Вы просто объясняете обычными словами, что нужно. Здесь коротко и без заумных слов: поймёте, как он работает, и поручите ему первую задачу.</p>
       <div class="hero-btns">
         <a class="btn" href="#ch1">Начать с первой главы &rarr;</a>
@@ -411,7 +412,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding-bottom:30px
 <section class="ch" id="ch1" data-name="Что это">
   <div class="ch-head">
     <div class="eyebrow"><b>Глава 1</b> Что это такое</div>
-    <h2>Чат советует. Claude Code делает сам.</h2>
+    <h2><span class="ln">Чат советует.</span><span class="ln">Claude Code делает сам.</span></h2>
     <p class="lead">Модель внутри та же, что и в обычном Claude. Разница в том, что у Claude Code есть руки: он открывает файлы в вашей папке, меняет их, запускает программы и проверяет результат.</p>
   </div>
   <div class="two">
