@@ -10,7 +10,7 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,500;0,7..72,600;1,7..72,500;1,7..72,600&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
 /* Layout: учебник-мастерская. Главы как слайды на «бумаге», живые демо на тёмном «экране терминала», маркер-выделение для главного. */
 :root{
@@ -20,7 +20,7 @@
   --term:#121820; --term-2:#1B232D; --term-fg:#D6DEE4; --term-dim:#7F8D99; --term-acc:#9DB0FF; --term-ok:#6FD39C; --term-warn:#F2C35B;
   --ok:#1E8752; --ok-soft:#D7EEDF; --warn:#A8690F; --warn-soft:#F7E7C8; --bad:#BE3434; --bad-soft:#F6DADA;
   --shadow:0 1px 0 rgba(22,32,42,.06),0 10px 30px -18px rgba(22,32,42,.35);
-  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --f-display:"Literata",Georgia,"Times New Roman",serif;
   --f-body:"Golos Text","Segoe UI",system-ui,-apple-system,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Consolas,"Courier New",monospace;
   --r:10px;
@@ -48,7 +48,8 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
 body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
-h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.15;text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;line-height:1.12;text-wrap:balance;hyphens:manual;margin:0;letter-spacing:-.015em}
+::selection{background:var(--mark);color:var(--mark-ink)}
 p{margin:0}
 a{color:var(--accent);text-underline-offset:3px}
 code,kbd,.mono{font-family:var(--f-mono);font-size:.88em}
@@ -58,10 +59,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
 
 /* ---------- кнопки ---------- */
-.btn{display:inline-flex;align-items:center;gap:.5em;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);padding:.55em 1em;border-radius:999px;font-weight:600;font-size:.95rem;box-shadow:0 3px 0 var(--ink);transition:transform .08s,box-shadow .08s,background .2s}
+.btn{display:inline-flex;align-items:center;gap:.5em;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);padding:.75em 1.4em;border-radius:999px;font-weight:600;font-size:1rem;box-shadow:0 6px 18px -10px rgba(22,32,42,.45);transition:transform .15s,box-shadow .15s,background .2s}
 .btn:hover{background:var(--surface-2)}
-.btn:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
-.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);box-shadow:0 3px 0 var(--ink)}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(1px);box-shadow:none}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .btn.primary:hover{filter:brightness(1.08)}
 .chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);padding:.45em .9em;border-radius:999px;font-size:.92rem;font-weight:500;transition:all .15s;box-shadow:0 2px 0 var(--line)}
 .chip:active{transform:translateY(2px);box-shadow:none}
@@ -79,21 +81,22 @@ button{font:inherit;color:inherit;cursor:pointer}
 .dots a.on{background:var(--ink);color:var(--paper)}
 .dots a.seen:not(.on){color:var(--ink);background:var(--surface-2)}
 .navbtns{display:flex;gap:6px}
-.navbtns button{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--ink);background:var(--surface);box-shadow:0 2px 0 var(--ink);display:grid;place-items:center;transition:transform .08s,box-shadow .08s}
+.navbtns button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;transition:transform .15s,border-color .15s}
+.navbtns button:hover{border-color:var(--ink)}
 .navbtns button:active{transform:translateY(2px);box-shadow:none}
 .progress{height:3px;background:var(--accent);width:0;transition:width .3s}
 
 /* ---------- главы ---------- */
-main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:24px 80px;display:grid;gap:28px}
-.ch{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,4vw,48px);box-shadow:var(--shadow);display:grid;gap:26px;position:relative;overflow:hidden}
-.ch-head{display:grid;gap:12px;max-width:760px}
-.eyebrow{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;align-items:center}
+main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:24px 120px;display:grid;gap:clamp(56px,10vh,120px)}
+.ch{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:clamp(28px,6vw,80px);display:grid;gap:clamp(32px,5vw,56px);position:relative;overflow:hidden}
+.ch-head{display:grid;gap:18px;max-width:760px}
+.eyebrow{font-size:.95rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
 .eyebrow b{color:var(--accent);font-weight:600}
-.ch h2{font-size:clamp(1.6rem,3.6vw,2.5rem)}
-.lead{font-size:1.1rem;color:var(--muted);max-width:62ch}
+.ch h2{font-size:clamp(1.8rem,4vw,3rem)}
+.lead{font-size:clamp(1.1rem,1.6vw,1.3rem);line-height:1.55;color:var(--muted);max-width:52ch}
 .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px;align-items:start}
 .two>*{min-width:0}
-.note{border-left:4px solid var(--mark);background:var(--surface-2);padding:14px 18px;border-radius:0 var(--r) var(--r) 0;max-width:72ch}
+.note{background:var(--surface-2);padding:18px 22px;border-radius:14px;max-width:62ch}
 .note b{display:block;margin-bottom:2px}
 
 /* ---------- терминал ---------- */
@@ -114,15 +117,53 @@ main{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:24px 80px;
 
 /* ---------- обложка ---------- */
 .hero{background:var(--ink);color:var(--paper);border:none}
+/* ---------- главы-презентации: один экран = одна мысль ---------- */
+html{scroll-snap-type:y proximity}
+.ch.deck{background:none;border:0;padding:0;border-radius:0;gap:0;overflow:visible}
+.slide{min-height:calc(100svh - 70px);display:grid;align-content:center;gap:clamp(24px,4vh,40px);padding:clamp(40px,8vh,96px) clamp(4px,4vw,64px);scroll-snap-align:start}
+.slide+.slide{border-top:1px solid var(--line)}
+.hero.slide{border-radius:28px;padding:clamp(40px,6vw,96px)}
+.cover-top{font-size:1rem;color:color-mix(in srgb,var(--paper) 70%,transparent)}
+.cover-top b{color:var(--mark);font-weight:600}
+.hero h1{font-size:clamp(2.3rem,4.8vw,4.3rem);line-height:1.04;letter-spacing:-.02em;max-width:16ch}
+.hero h1 em{display:block;font-style:italic;font-weight:500;color:var(--mark);margin-top:.15em}
+.cover-sub{font-size:clamp(1.1rem,1.8vw,1.35rem);color:color-mix(in srgb,var(--paper) 80%,transparent);max-width:34ch}
+.cover-foot{display:flex;flex-wrap:wrap;align-items:center;gap:16px 28px;margin-top:clamp(8px,3vh,32px)}
+.cover-by{font-size:.95rem;color:color-mix(in srgb,var(--paper) 65%,transparent)}
+.cover-by a{color:var(--paper)}
+.hero .btn{background:var(--mark);color:var(--mark-ink);border-color:var(--mark);font-size:1.05rem}
+.big{font-family:var(--f-display);font-weight:600;font-size:clamp(2.2rem,6vw,4.6rem);line-height:1.05;letter-spacing:-.02em;margin:0}
+.big span{display:block}
+.big .soft{color:var(--muted);font-weight:500}
+.big .hl{font-style:italic;color:var(--accent)}
+.slide .lead{max-width:44ch}
+.chap{font-size:1rem;color:var(--accent);font-weight:600}
+.demo-wrap{display:grid;gap:28px;max-width:860px;width:100%;justify-self:center}
+.demo-wrap .stage{grid-template-columns:1fr 170px}
+.btn.ghost-light{background:transparent;border-color:var(--line);box-shadow:none;color:var(--muted);font-size:.92rem}
+.vs-task{font-size:clamp(1.1rem,1.8vw,1.35rem)}
+.vs-task b{font-family:var(--f-display);font-weight:600}
+.vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(32px,5vw,72px)}
+.vs-col{display:grid;gap:18px;align-content:start}
+.vs-col h3{font-size:clamp(1.4rem,2.4vw,1.9rem)}
+.vs-col ol{margin:0;padding:0;list-style:none;display:grid;gap:14px;counter-reset:st}
+.vs-col li{counter-increment:st;display:grid;grid-template-columns:2.2em 1fr;gap:10px;font-size:1.05rem;line-height:1.45}
+.vs-col li::before{content:counter(st);font-family:var(--f-display);font-style:italic;color:var(--muted);font-size:1.1rem}
+.vs-col .who{display:block;font-size:.85rem;font-weight:600;color:var(--muted)}
+.vs-col .who.ai{color:var(--accent)}
+.vs-sum{font-family:var(--f-display);font-size:1.2rem;font-weight:600;padding-top:16px;border-top:1px solid var(--line)}
+.vs-col.code .vs-sum{color:var(--ok)}
+.quote{font-family:var(--f-display);font-weight:500;font-size:clamp(1.9rem,4.6vw,3.6rem);line-height:1.12;letter-spacing:-.015em;max-width:20ch;margin:0}
+.quote mark{font-style:italic}
+.small-note{font-size:1rem;color:var(--muted);max-width:52ch}
+.small-note b{color:var(--ink)}
+@media (max-width:560px){.slide{min-height:auto;padding-block:64px}.hero.slide{min-height:calc(100svh - 70px)}.demo-wrap .stage{grid-template-columns:1fr}}
 .hero .eyebrow{color:color-mix(in srgb,var(--paper) 65%,transparent)}
 .hero .eyebrow b{color:var(--mark)}
-.hero h1{font-size:clamp(1.7rem,3.6vw,2.9rem);line-height:1.15;letter-spacing:-.01em;overflow-wrap:break-word;hyphens:auto}
-.hero h1 em{font-style:normal;color:var(--mark)}
 .hero .lead{color:color-mix(in srgb,var(--paper) 78%,transparent);font-size:1.15rem}
 .hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:28px;align-items:center}
 .hero-grid>*{min-width:0}
 .hero-copy{display:grid;gap:20px;align-content:start}
-.hero .btn{background:var(--mark);color:var(--mark-ink);border-color:var(--mark);box-shadow:0 3px 0 color-mix(in srgb,var(--mark) 45%,#000)}
 .hero .btn.ghost{background:transparent;color:var(--paper);border-color:color-mix(in srgb,var(--paper) 45%,transparent);box-shadow:none}
 .hero-btns{display:flex;flex-wrap:wrap;gap:12px}
 .stage-cap{grid-column:1/-1;font-family:var(--f-mono);font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mark)}
@@ -384,51 +425,67 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding-bottom:30px
 <main>
 
 <!-- 0. ОБЛОЖКА -->
-<section class="ch hero" id="ch0" data-name="Начало">
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <div class="eyebrow"><b>Бесплатное обучение</b> Claude Code от Anthropic · 12 глав · около 20 минут</div>
-      <h1>Я долго искала понятное обучение по Claude Code. <em>Не нашла и сделала сама</em></h1>
-      <p class="lead">Claude Code — помощник, который сам делает сайты, ботов и таблицы на вашем компьютере. Вы просто объясняете обычными словами, что нужно. Здесь коротко и без заумных слов: поймёте, как он работает, и поручите ему первую задачу.</p>
-      <div class="hero-btns">
-        <a class="btn" href="#ch1">Начать с первой главы &rarr;</a>
-        <button class="btn ghost" id="replay">&#9654; Посмотреть, как он работает</button>
-      </div>
-      <div class="meta"><span><b>Составила:</b> Тамара · <a href="https://tk-webb.ru" target="_blank" rel="noopener" style="color:var(--mark)">TK Web</a></span><span><b>Claude Code:</b> Anthropic</span><span><b>Для кого:</b> с нуля</span><span><b>Что нужно:</b> компьютер и подписка Claude</span></div>
+<section class="ch deck" id="ch0" data-name="Начало">
+  <div class="slide hero">
+    <p class="cover-top"><b>Бесплатное обучение</b> по Claude Code от Anthropic</p>
+    <h1>Я долго искала понятное обучение по Claude Code. <em>Не нашла и сделала сама.</em></h1>
+    <p class="cover-sub">Двенадцать коротких глав, минут на двадцать. Человеческим языком, с нуля.</p>
+    <div class="cover-foot">
+      <a class="btn" href="#demo">Начать &rarr;</a>
+      <span class="cover-by">Составила Тамара · <a href="https://tk-webb.ru" target="_blank" rel="noopener">TK Web</a></span>
     </div>
-    <div class="stage" aria-label="Пример работы Claude Code">
-      <div class="stage-cap">Вот как это выглядит</div>
-      <div class="term">
-        <div class="term-top"><i></i><i></i><i></i><span>Мои сайты / маникюр</span></div>
-        <div class="term-body" id="heroTerm"></div>
+  </div>
+  <div class="slide" id="demo">
+    <div class="demo-wrap">
+      <h2 class="big"><span>Вы пишете, что нужно.</span><span class="soft">Он делает.</span></h2>
+      <div class="stage" aria-label="Пример работы Claude Code">
+        <div class="term">
+          <div class="term-top"><i></i><i></i><i></i><span>Мои сайты / маникюр</span></div>
+          <div class="term-body" id="heroTerm"></div>
+        </div>
+        <div class="files" id="heroFiles"><div class="ft">Папка проекта</div></div>
       </div>
-      <div class="files" id="heroFiles"><div class="ft">Папка проекта</div></div>
+      <div><button class="btn ghost-light" id="replay">&#8635; Показать ещё раз</button></div>
     </div>
   </div>
 </section>
 
 <!-- 1. ЧТО ЭТО -->
-<section class="ch" id="ch1" data-name="Что это">
-  <div class="ch-head">
-    <div class="eyebrow"><b>Глава 1</b> Что это такое</div>
-    <h2>Чат советует. Claude Code делает сам.</h2>
-    <p class="lead">Модель внутри та же, что и в обычном Claude. Разница в том, что у Claude Code есть руки: он открывает файлы в вашей папке, меняет их, запускает программы и проверяет результат.</p>
+<section class="ch deck" id="ch1" data-name="Что это">
+  <div class="slide">
+    <p class="chap">Глава 1</p>
+    <h2 class="big"><span>Чат советует.</span><span class="hl">Claude Code делает сам.</span></h2>
+    <p class="lead">Внутри тот же Claude. Но у Claude Code есть руки: он сам открывает файлы на вашем компьютере, меняет их и проверяет, что получилось.</p>
   </div>
-  <div class="two">
-    <div class="compare">
-      <div class="seg" role="tablist" aria-label="Сравнение">
-        <button class="chip" role="tab" aria-selected="true" data-cmp="chat">Обычный чат</button>
-        <button class="chip" role="tab" aria-selected="false" data-cmp="code">Claude Code</button>
+  <div class="slide" id="ch1-vs">
+    <p class="vs-task">Задача: <b>на сайте не работает кнопка «Записаться»</b></p>
+    <div class="vs">
+      <div class="vs-col chat">
+        <h3>Обычный чат</h3>
+        <ol>
+          <li><span><span class="who">Вы</span>Описываете проблему и копируете код в чат</span></li>
+          <li><span><span class="who ai">ИИ</span>Предполагает причину и пишет, что исправить</span></li>
+          <li><span><span class="who">Вы</span>Ищете нужное место в файле и вставляете исправление</span></li>
+          <li><span><span class="who">Вы</span>Проверяете. Не помогло — всё сначала</span></li>
+        </ol>
+        <p class="vs-sum">Работаете вы. ИИ подсказывает.</p>
       </div>
-      <div class="compare-req">На сайте не работает кнопка «Записаться»</div>
-      <ol class="flow" id="cmpFlow"></ol>
-      <div class="verdict" id="cmpVerdict"></div>
+      <div class="vs-col code">
+        <h3>Claude Code</h3>
+        <ol>
+          <li><span><span class="who">Вы</span>Пишете: «на сайте не работает кнопка Записаться»</span></li>
+          <li><span><span class="who ai">ИИ</span>Сам находит кнопку в файлах и видит причину</span></li>
+          <li><span><span class="who ai">ИИ</span>Спрашивает разрешения и исправляет</span></li>
+          <li><span><span class="who ai">ИИ</span>Открывает сайт и проверяет, что кнопка нажимается</span></li>
+        </ol>
+        <p class="vs-sum">Работает он. Вы решаете и проверяете.</p>
+      </div>
     </div>
-    <div style="display:grid;gap:18px;align-content:start">
-      <p class="big-idea">Представьте <mark>мастера, который пришёл к вам домой</mark>, а не консультанта по телефону.</p>
-      <p>Консультант расскажет, что подкрутить, а крутить будете вы. Мастер сам посмотрит, сам починит и покажет, что всё работает. При этом он спрашивает разрешения, прежде чем что-то менять, и вы в любой момент можете его остановить.</p>
-      <div class="note"><b>Главное слово: агент.</b>Так называют ИИ, который не только отвечает, но и действует: сам выбирает следующий шаг, пока задача не будет сделана.</div>
-    </div>
+  </div>
+  <div class="slide" id="ch1-master">
+    <p class="quote">Это не консультант по телефону, а <mark>мастер, который пришёл к вам домой.</mark></p>
+    <p class="lead">Консультант подскажет, что подкрутить, а крутить будете вы. Мастер починит сам. Но сначала спросит разрешения, и остановить его можно в любой момент.</p>
+    <p class="small-note"><b>Такого помощника называют агентом.</b> Он не просто отвечает, а действует, шаг за шагом, пока задача не будет сделана.</p>
   </div>
 </section>
 
@@ -702,14 +759,16 @@ const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&qu
 
 /* ===== навигация по главам ===== */
 const chs=$$('.ch'), dots=$('#dots');
+const units=chs.flatMap(c=>{const sl=[...c.querySelectorAll(':scope > .slide')];return sl.length?sl:[c]});
 chs.forEach((c,i)=>{const a=document.createElement('a');a.href='#'+c.id;a.textContent=i===0?'↑':i;a.title=c.dataset.name;dots.appendChild(a)});
 const dotEls=[...dots.children]; let cur=0;
 function setCur(i){cur=i;dotEls.forEach((d,j)=>{d.classList.toggle('on',j===i);if(j<i)d.classList.add('seen')});$('#progress').style.width=(i/(chs.length-1)*100)+'%';const on=dotEls[i];if(on&&dots.scrollWidth>dots.clientWidth)dots.scrollTo({left:on.offsetLeft-dots.clientWidth/2,behavior:'smooth'})}
-const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)setCur(chs.indexOf(e.target))})},{rootMargin:'-45% 0px -50% 0px'});
-chs.forEach(c=>io.observe(c)); setCur(0);
-const go=i=>{i=Math.max(0,Math.min(chs.length-1,i));chs[i].scrollIntoView({behavior:reduce?'auto':'smooth'})};
-$('#prev').onclick=()=>go(cur-1); $('#next').onclick=()=>go(cur+1);
-document.addEventListener('keydown',e=>{if(!$('#lb').hidden)return;const t=e.target.tagName;if(t==='INPUT'||t==='TEXTAREA')return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();go(cur+1)}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1)}});
+let curU=0;
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){curU=units.indexOf(e.target);setCur(chs.indexOf(e.target.closest('.ch')))}})},{rootMargin:'-45% 0px -50% 0px'});
+units.forEach(u=>io.observe(u)); setCur(0);
+const go=i=>{i=Math.max(0,Math.min(units.length-1,i));units[i].scrollIntoView({behavior:reduce?'auto':'smooth'})};
+$('#prev').onclick=()=>go(curU-1); $('#next').onclick=()=>go(curU+1);
+document.addEventListener('keydown',e=>{if(!$('#lb').hidden)return;const t=e.target.tagName;if(t==='INPUT'||t==='TEXTAREA')return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();go(curU+1)}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(curU-1)}});
 
 /* ===== 0. обложка: живой терминал ===== */
 const heroLines=[
@@ -741,19 +800,8 @@ function playHero(){
   heroTimer=setTimeout(tick,350);
 }
 $('#replay').onclick=playHero;
-setTimeout(playHero,700);
-
-/* ===== 1. чат против Claude Code ===== */
-const cmp={
- chat:{flow:[['you','Описываете проблему и копируете код в чат'],['ai','Предполагает причину и пишет, что исправить'],['you','Ищете нужное место в файле и вставляете исправление'],['you','Проверяете. Не помогло? Снова копируете код в чат']],v:['warn','Работу делаете вы, ИИ подсказывает']},
- code:{flow:[['you','Пишете: «на сайте не работает кнопка Записаться»'],['ai','Сам находит кнопку в файлах и видит причину'],['ai','Спрашивает разрешения и исправляет'],['ai','Открывает сайт и проверяет, что кнопка нажимается']],v:['ok','Работу делает он, вы решаете и проверяете']}
-};
-function showCmp(k){
-  $$('[data-cmp]').forEach(b=>b.setAttribute('aria-selected',b.dataset.cmp===k));
-  $('#cmpFlow').innerHTML=cmp[k].flow.map((f,i)=>`<li style="animation-delay:${i*90}ms"><span class="who ${f[0]}">${f[0]==='you'?'Вы':'ИИ'}</span><span>${f[1]}</span></li>`).join('');
-  $('#cmpVerdict').innerHTML=`<span class="pill ${cmp[k].v[0]}">${k==='chat'?'Чат':'Claude Code'}</span>${cmp[k].v[1]}`;
-}
-$$('[data-cmp]').forEach(b=>b.onclick=()=>showCmp(b.dataset.cmp)); showCmp('chat');
+let heroPlayed=false;
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting&&!heroPlayed){heroPlayed=true;playHero();o.disconnect()}},{threshold:.4}).observe($('#demo'));
 
 /* ===== 2. галерея ===== */
 const mk={
