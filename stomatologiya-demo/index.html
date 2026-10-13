@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Стоматология «Улыбка Плюс» — демо ИИ-консультанта</title>
+<meta name="description" content="Демо-сайт TK Web: ИИ-консультант, который отвечает пациентам стоматологии по базе знаний клиники. Клиника вымышленная.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f9fb;--card:#ffffff;--ink:#14212b;--muted:#5b6b78;--line:#e2e9ee;
+  --brand:#0e8f8a;--brand-dark:#0a6f6b;--brand-soft:#e3f4f3;--accent:#f2a541;
+  --radius:18px;--shadow:0 10px 30px rgba(20,33,43,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Manrope,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;font-size:16px}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* демо-плашка */
+.demo-bar{background:#14212b;color:#fff;font-size:14px;padding:10px 0}
+.demo-bar .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.demo-bar b{color:var(--accent)}
+.demo-bar button{background:var(--accent);color:#14212b;border:0;border-radius:999px;padding:7px 14px;font:600 13px Manrope,sans-serif;cursor:pointer}
+
+/* шапка */
+header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;text-decoration:none}
+.logo span.mark{width:36px;height:36px;border-radius:11px;background:var(--brand);display:grid;place-items:center;color:#fff;font-size:19px}
+nav{display:flex;gap:24px;font-weight:500;font-size:15px}
+nav a{text-decoration:none;color:var(--muted)}
+nav a:hover{color:var(--brand)}
+.phone{font-weight:700;text-decoration:none;white-space:nowrap}
+@media(max-width:860px){nav{display:none}}
+
+/* первый экран */
+.hero{padding:64px 0 48px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.hero h1{font-size:44px;line-height:1.12;font-weight:800;letter-spacing:-.5px}
+.hero h1 em{font-style:normal;color:var(--brand)}
+.hero p.lead{margin:18px 0 28px;color:var(--muted);font-size:18px;max-width:520px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:14px 24px;font:700 15px Manrope,sans-serif;border:0;cursor:pointer;text-decoration:none}
+.btn-main{background:var(--brand);color:#fff}
+.btn-main:hover{background:var(--brand-dark)}
+.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.facts{display:flex;gap:28px;margin-top:34px;flex-wrap:wrap}
+.facts div b{display:block;font-size:24px;font-weight:800}
+.facts div{color:var(--muted);font-size:14px}
+.hero-card{background:linear-gradient(160deg,#dff3f1,#f9fcfd);border-radius:28px;padding:34px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero-card h3{font-size:20px;margin-bottom:14px}
+.hero-card ul{list-style:none;display:grid;gap:12px}
+.hero-card li{display:flex;gap:12px;align-items:flex-start;font-size:15px}
+.hero-card li::before{content:"✓";flex:none;width:24px;height:24px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700}
+.tooth{position:absolute;right:-18px;bottom:-26px;font-size:130px;opacity:.12}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero h1{font-size:32px}.hero{padding:40px 0 32px}}
+
+/* секции */
+section{padding:56px 0}
+h2{font-size:32px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px}
+.sub{color:var(--muted);margin-bottom:30px}
+.grid{display:grid;gap:18px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:860px){.g3,.g4{grid-template-columns:1fr 1fr}h2{font-size:26px}}
+@media(max-width:560px){.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+.card .ico{font-size:28px;margin-bottom:10px}
+.card h3{font-size:18px;margin-bottom:6px}
+.card p{color:var(--muted);font-size:15px}
+.card .price{margin-top:12px;font-weight:700;color:var(--brand)}
+
+/* прайс */
+.price-table{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.price-row{display:flex;justify-content:space-between;gap:16px;padding:15px 22px;border-bottom:1px solid var(--line);font-size:15px}
+.price-row:last-child{border-bottom:0}
+.price-row b{white-space:nowrap}
+.note{margin-top:14px;color:var(--muted);font-size:14px}
+
+/* врачи */
+.doc .ava{width:64px;height:64px;border-radius:50%;background:var(--brand-soft);display:grid;place-items:center;font-size:30px;margin-bottom:12px}
+
+/* блок про ИИ для студий */
+.ai-box{background:#14212b;color:#fff;border-radius:28px;padding:40px;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}
+.ai-box h2{color:#fff}
+.ai-box p{color:#c6d3dc}
+.ai-box ul{margin-top:16px;display:grid;gap:8px;list-style:none;color:#e6eef3}
+.ai-box li::before{content:"→ ";color:var(--accent)}
+.ai-box .try{display:grid;gap:10px}
+.ai-box .try button{background:#22323d;color:#fff;border:1px solid #33454f;border-radius:14px;padding:12px 16px;text-align:left;font:500 15px Manrope,sans-serif;cursor:pointer}
+.ai-box .try button:hover{border-color:var(--accent)}
+@media(max-width:860px){.ai-box{grid-template-columns:1fr;padding:28px}}
+
+/* контакты */
+.contacts{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:860px){.contacts{grid-template-columns:1fr}}
+footer{padding:30px 0 110px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);margin-top:20px}
+footer a{color:var(--brand)}
+
+/* ЧАТ */
+.chat-fab{position:fixed;right:22px;bottom:22px;z-index:50;display:flex;align-items:center;gap:10px;background:var(--brand);color:#fff;border:0;border-radius:999px;padding:14px 20px 14px 16px;font:700 15px Manrope,sans-serif;box-shadow:0 12px 30px rgba(14,143,138,.4);cursor:pointer}
+.chat-fab .dot{width:10px;height:10px;border-radius:50%;background:#7dffb0;box-shadow:0 0 0 3px rgba(125,255,176,.3)}
+.chat{position:fixed;right:22px;bottom:22px;z-index:60;width:380px;max-width:calc(100vw - 24px);height:600px;max-height:calc(100vh - 40px);background:var(--card);border-radius:22px;box-shadow:0 20px 60px rgba(20,33,43,.25);display:none;flex-direction:column;overflow:hidden}
+.chat.open{display:flex}
+.chat-head{background:var(--brand);color:#fff;padding:16px 18px;display:flex;align-items:center;gap:12px}
+.chat-head .av{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:20px}
+.chat-head b{display:block;font-size:15px}
+.chat-head small{opacity:.85;font-size:12px}
+.chat-head button{margin-left:auto;background:none;border:0;color:#fff;font-size:24px;cursor:pointer;line-height:1}
+.chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#f4f8fa}
+.msg{max-width:85%;padding:10px 14px;border-radius:16px;font-size:14.5px;white-space:pre-wrap;word-wrap:break-word}
+.msg.bot{background:#fff;border:1px solid var(--line);border-bottom-left-radius:6px;align-self:flex-start}
+.msg.user{background:var(--brand);color:#fff;border-bottom-right-radius:6px;align-self:flex-end}
+.typing{align-self:flex-start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 14px;font-size:13px;color:var(--muted)}
+.typing i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--muted);margin-right:3px;animation:b 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes b{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px;background:#f4f8fa}
+.chips button{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font:500 13px Manrope,sans-serif;cursor:pointer;color:var(--ink)}
+.chips button:hover{border-color:var(--brand);color:var(--brand)}
+.lead-card{align-self:stretch;background:#fffaf0;border:1px dashed var(--accent);border-radius:14px;padding:12px 14px;font-size:13.5px}
+.lead-card b{display:block;margin-bottom:4px}
+.chat-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);background:#fff}
+.chat-form input{flex:1;border:1px solid var(--line);border-radius:999px;padding:11px 16px;font:15px Manrope,sans-serif;outline:none}
+.chat-form input:focus{border-color:var(--brand)}
+.chat-form button{background:var(--brand);color:#fff;border:0;border-radius:50%;width:44px;height:44px;font-size:18px;cursor:pointer;flex:none}
+.chat-form button:disabled{opacity:.5;cursor:default}
+.chat-foot{font-size:11px;color:var(--muted);text-align:center;padding:0 12px 10px;background:#fff}
+@media(max-width:560px){.chat{right:12px;bottom:12px;height:calc(100vh - 24px)}}
+</style>
+</head>
+<body>
+
+<div class="demo-bar">
+  <div class="wrap">
+    <div><b>Демо TK Web.</b> Клиника вымышленная. На сайте работает ИИ-консультант: спросите его о ценах, боли, рассрочке или запишитесь.</div>
+    <button type="button" data-open-chat>Открыть чат</button>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <a href="#" class="logo"><span class="mark">🦷</span>Улыбка Плюс</a>
+    <nav>
+      <a href="#services">Услуги</a>
+      <a href="#prices">Цены</a>
+      <a href="#doctors">Врачи</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <a class="phone" href="tel:+79000000000">+7 (900) 000-00-00</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <h1>Лечим зубы <em>без боли и&nbsp;без сюрпризов</em> в&nbsp;чеке</h1>
+      <p class="lead">Семейная стоматология: лечение, имплантация, брекеты и детский приём. Цену называем до начала лечения и фиксируем в плане.</p>
+      <div class="btns">
+        <button class="btn btn-main" type="button" data-ask="Хочу записаться на консультацию">Записаться онлайн</button>
+        <a class="btn btn-ghost" href="#prices">Смотреть цены</a>
+      </div>
+      <div class="facts">
+        <div><b>0 ₽</b>осмотр и консультация</div>
+        <div><b>5 лет</b>гарантия на импланты</div>
+        <div><b>0%</b>рассрочка на 6 мес.</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <h3>Почему выбирают нас</h3>
+      <ul>
+        <li>Лечение каналов под микроскопом</li>
+        <li>Седация для тех, кто боится стоматолога</li>
+        <li>Острую боль принимаем в день обращения</li>
+        <li>Работаем по ДМС «СОГАЗ» и «РЕСО»</li>
+        <li>Справка для налогового вычета</li>
+      </ul>
+      <div class="tooth">🦷</div>
+    </div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <h2>Услуги</h2>
+    <p class="sub">Всё в одной клинике: от профгигиены до имплантации.</p>
+    <div class="grid g3">
+      <div class="card"><div class="ico">🪥</div><h3>Лечение кариеса</h3><p>Современные пломбы, анестезия входит в цену.</p><div class="price">от 4 000 ₽</div></div>
+      <div class="card"><div class="ico">🔬</div><h3>Лечение каналов</h3><p>Под микроскопом, чтобы сохранить зуб.</p><div class="price">от 9 000 ₽</div></div>
+      <div class="card"><div class="ico">🔩</div><h3>Имплантация</h3><p>Импланты Osstem под ключ с коронкой.</p><div class="price">45 000 ₽</div></div>
+      <div class="card"><div class="ico">😁</div><h3>Брекеты и элайнеры</h3><p>Ровные зубы для взрослых и подростков.</p><div class="price">от 45 000 ₽</div></div>
+      <div class="card"><div class="ico">✨</div><h3>Гигиена и отбеливание</h3><p>Профчистка Air Flow, отбеливание ZOOM.</p><div class="price">от 4 500 ₽</div></div>
+      <div class="card"><div class="ico">🧸</div><h3>Детский приём</h3><p>Дети с 3 лет, мягкий подход без слёз.</p><div class="price">от 2 500 ₽</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="prices" style="padding-top:20px">
+  <div class="wrap">
+    <h2>Цены</h2>
+    <p class="sub">Основные услуги. Точный план и стоимость врач назовёт на бесплатном осмотре.</p>
+    <div class="price-table">
+      <div class="price-row"><span>Осмотр и консультация стоматолога</span><b>бесплатно</b></div>
+      <div class="price-row"><span>Профессиональная гигиена</span><b>4 500 ₽</b></div>
+      <div class="price-row"><span>Лечение кариеса с пломбой</span><b>4 000 – 7 000 ₽</b></div>
+      <div class="price-row"><span>Удаление зуба (простое)</span><b>2 500 ₽</b></div>
+      <div class="price-row"><span>Имплант Osstem под ключ</span><b>45 000 ₽</b></div>
+      <div class="price-row"><span>Коронка из диоксида циркония</span><b>28 000 ₽</b></div>
+      <div class="price-row"><span>Отбеливание ZOOM</span><b>18 000 ₽</b></div>
+    </div>
+    <p class="note">Полный прайс знает наш онлайн-консультант. Спросите его в чате.</p>
+  </div>
+</section>
+
+<section id="doctors" style="padding-top:20px">
+  <div class="wrap">
+    <h2>Врачи</h2>
+    <p class="sub">Опытная команда, каждый врач работает в своей специализации.</p>
+    <div class="grid g4">
+      <div class="card doc"><div class="ava">👩‍⚕️</div><h3>Анна Миронова</h3><p>Терапевт, кариес и каналы. Стаж 12 лет.</p></div>
+      <div class="card doc"><div class="ava">👨‍⚕️</div><h3>Дмитрий Ким</h3><p>Хирург-имплантолог. Стаж 15 лет.</p></div>
+      <div class="card doc"><div class="ava">👩‍⚕️</div><h3>Елена Белова</h3><p>Ортодонт: брекеты, элайнеры. Стаж 9 лет.</p></div>
+      <div class="card doc"><div class="ava">👩‍⚕️</div><h3>Ольга Савина</h3><p>Детский стоматолог. Стаж 7 лет.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="ai-box">
+      <div>
+        <h2>Как работает консультант на этом сайте</h2>
+        <p>Это пример ИИ-консультанта от TK Web. Он отвечает пациентам круглосуточно, но только по сведениям клиники: цены, врачи, гарантии, оплата. Чего нет в базе, он не придумывает, а предлагает уточнить у администратора.</p>
+        <ul>
+          <li>Не ставит диагнозов и не назначает лечение</li>
+          <li>Понимает, когда человек готов записаться, и берёт контакт</li>
+          <li>Заявка сразу приходит клинике в Telegram</li>
+          <li>Базу знаний можно собрать под любой бизнес</li>
+        </ul>
+      </div>
+      <div class="try">
+        <p style="color:#fff;font-weight:700">Попробуйте спросить:</p>
+        <button type="button" data-ask="Сколько стоит имплант под ключ?">Сколько стоит имплант под ключ?</button>
+        <button type="button" data-ask="Я очень боюсь, лечить больно?">Я очень боюсь, лечить больно?</button>
+        <button type="button" data-ask="Можно в рассрочку?">Можно в рассрочку?</button>
+        <button type="button" data-ask="У меня болит зуб, что мне принять?">У меня болит зуб, что мне принять?</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacts" style="padding-top:20px">
+  <div class="wrap">
+    <h2>Контакты</h2>
+    <p class="sub">Приходите на бесплатный осмотр.</p>
+    <div class="contacts">
+      <div class="card"><h3>📍 Адрес</h3><p>ул. Садовая, 12, 2 этаж, вход со двора. Парковка у входа.</p></div>
+      <div class="card"><h3>🕘 Часы работы</h3><p>Пн–пт 9:00–20:00, сб 10:00–16:00, вс — выходной.<br>Телефон: +7 (900) 000-00-00</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Демо-сайт подготовлен <a href="https://tk-webb.ru" target="_blank" rel="noopener">TK Web</a> (Тамара Коломейцева). Клиника «Улыбка Плюс», врачи, адрес и телефон вымышлены. Сайт показывает работу ИИ-консультанта и не является медицинской организацией.
+  </div>
+</footer>
+
+<button class="chat-fab" type="button" data-open-chat><span class="dot"></span>Задать вопрос</button>
+
+<div class="chat" id="chat" role="dialog" aria-label="Онлайн-консультант">
+  <div class="chat-head">
+    <div class="av">🦷</div>
+    <div><b>Консультант «Улыбка Плюс»</b><small>ИИ-помощник · отвечает круглосуточно</small></div>
+    <button type="button" id="chat-close" aria-label="Закрыть">×</button>
+  </div>
+  <div class="chat-body" id="chat-body"></div>
+  <div class="chips" id="chips">
+    <button type="button" data-ask="Сколько стоит лечение кариеса?">Цена лечения</button>
+    <button type="button" data-ask="Лечить больно?">Больно ли?</button>
+    <button type="button" data-ask="Есть рассрочка?">Рассрочка</button>
+    <button type="button" data-ask="Хочу записаться">Записаться</button>
+  </div>
+  <form class="chat-form" id="chat-form">
+    <input id="chat-input" type="text" placeholder="Напишите вопрос…" maxlength="500" autocomplete="off">
+    <button type="submit" id="chat-send" aria-label="Отправить">➤</button>
+  </form>
+  <div class="chat-foot">Демо TK Web · ответ приходит за 10–20 секунд</div>
+</div>
+
+<script>
+(function () {
+  // Адрес Cloudflare Worker: он хранит ключ и передаёт вопрос нейросети
+  var API = 'https://demo-stomatologiya-chat.kalammama63.workers.dev';
+
+  // Та же логика, что у бота tk-webb: фразы готовности записаться и «похоже на контакт»
+  var READY = /запис|хочу на при[её]м|на консультац|как попасть|когда можно прийти|оформ/i;
+  var CONTACT = /(\+?\d[\d\s\-\(\)]{6,}\d)|@\w{3,}|t\.me\/\w+/i;
+
+  var chat = document.getElementById('chat');
+  var body = document.getElementById('chat-body');
+  var form = document.getElementById('chat-form');
+  var input = document.getElementById('chat-input');
+  var send = document.getElementById('chat-send');
+  var chips = document.getElementById('chips');
+
+  var history = [];
+  var stage = 'chat';
+  var busy = false;
+  var started = false;
+
+  function add(role, text) {
+    var el = document.createElement('div');
+    el.className = 'msg ' + (role === 'user' ? 'user' : 'bot');
+    el.textContent = text;
+    body.appendChild(el);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function open() {
+    chat.classList.add('open');
+    if (!started) {
+      started = true;
+      add('bot', 'Здравствуйте! Я онлайн-консультант стоматологии «Улыбка Плюс». Подскажу цены, расскажу про лечение и помогу записаться. Что вас интересует?');
+    }
+    setTimeout(function () { input.focus(); }, 50);
+  }
+
+  function leadCard(contact) {
+    var last = history.filter(function (h) { return h.role === 'user'; }).slice(-3, -1)
+      .map(function (h) { return h.text; }).join(' / ');
+    var el = document.createElement('div');
+    el.className = 'lead-card';
+    el.innerHTML = '<b>🔔 Так заявку получит клиника в Telegram:</b>';
+    var t = document.createElement('div');
+    t.textContent = 'Новая запись с сайта\nКонтакт: ' + contact + (last ? '\nСпрашивал: ' + last : '');
+    t.style.whiteSpace = 'pre-wrap';
+    el.appendChild(t);
+    body.appendChild(el);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function ask(text) {
+    text = (text || '').trim();
+    if (!text || busy) return;
+    open();
+    add('user', text);
+    history.push({ role: 'user', text: text });
+
+    // Человек прислал контакт после того, как захотел записаться: ответ фиксированный, без ИИ
+    if (stage === 'awaiting_contact' && CONTACT.test(text)) {
+      stage = 'chat';
+      var reply = 'Спасибо! Передала администратору, вам перезвонят в течение 15 минут в рабочее время.';
+      add('bot', reply);
+      history.push({ role: 'assistant', text: reply });
+      leadCard(text);
+      return;
+    }
+
+    var ready = READY.test(text);
+    busy = true;
+    send.disabled = true;
+    var typing = document.createElement('div');
+    typing.className = 'typing';
+    typing.innerHTML = '<i></i><i></i><i></i> печатает…';
+    body.appendChild(typing);
+    body.scrollTop = body.scrollHeight;
+
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ history: history.slice(-10), ready: ready })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var reply = d && d.reply ? d.reply : 'Извините, сейчас не получилось ответить. Позвоните нам: +7 (900) 000-00-00.';
+        add('bot', reply);
+        history.push({ role: 'assistant', text: reply });
+        if (ready && d && d.reply) stage = 'awaiting_contact';
+      })
+      .catch(function () {
+        add('bot', 'Извините, связь прервалась. Попробуйте ещё раз или позвоните: +7 (900) 000-00-00.');
+      })
+      .finally(function () {
+        typing.remove();
+        busy = false;
+        send.disabled = false;
+        input.focus();
+      });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var t = input.value;
+    input.value = '';
+    ask(t);
+  });
+  document.getElementById('chat-close').addEventListener('click', function () { chat.classList.remove('open'); });
+  document.querySelectorAll('[data-open-chat]').forEach(function (b) { b.addEventListener('click', open); });
+  document.querySelectorAll('[data-ask]').forEach(function (b) {
+    b.addEventListener('click', function () { ask(b.getAttribute('data-ask')); });
+  });
+})();
+</script>
+</body>
+</html>
