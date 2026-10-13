@@ -132,6 +132,45 @@ footer a{color:var(--brand)}
 .chat-form button:disabled{opacity:.5;cursor:default}
 .chat-foot{font-size:11px;color:var(--muted);text-align:center;padding:0 12px 10px;background:#fff}
 @media(max-width:560px){.chat{right:12px;bottom:12px;height:calc(100vh - 24px)}}
+
+/* запись */
+.book{align-self:stretch;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;font-size:14px;display:grid;gap:10px}
+.book h4{font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.book h4 small{font-weight:500;color:var(--muted);font-size:12px}
+.book label{font-size:12px;color:var(--muted);font-weight:600;display:block;margin-bottom:4px}
+.book select,.book input{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px 11px;font:14px Manrope,sans-serif;background:#fff;color:var(--ink);outline:none}
+.book select:focus,.book input:focus{border-color:var(--brand)}
+.book input.bad{border-color:#d9534f}
+.book .doc-line{font-size:12.5px;color:var(--muted);margin-top:4px}
+.days{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.days button{flex:none;border:1px solid var(--line);background:#fff;border-radius:10px;padding:6px 9px;font:600 12.5px Manrope,sans-serif;cursor:pointer;text-align:center;line-height:1.25;color:var(--ink)}
+.days button small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+.days button.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.days button.on small{color:#d7f3f1}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.slots button{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 0;font:600 13px Manrope,sans-serif;cursor:pointer;color:var(--ink)}
+.slots button:disabled{background:#f1f4f6;color:#b3bec6;text-decoration:line-through;cursor:default;border-color:#eef2f4}
+.slots button.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.slots .empty{grid-column:1/-1;color:var(--muted);font-size:13px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.book .err{color:#d9534f;font-size:12.5px;min-height:0}
+.book .go{background:var(--brand);color:#fff;border:0;border-radius:12px;padding:11px;font:700 14.5px Manrope,sans-serif;cursor:pointer}
+.book .go:disabled{opacity:.55;cursor:default}
+.book .hint{font-size:11.5px;color:var(--muted);text-align:center}
+.done{align-self:stretch;background:#effaf8;border:1px solid #bfe7e3;border-radius:16px;padding:14px;font-size:14px}
+.done b.t{display:block;font-size:15px;margin-bottom:6px;color:var(--brand-dark)}
+.done .row{display:flex;gap:6px;margin-top:3px}
+.done .row span:first-child{color:var(--muted);min-width:64px}
+.done .acts{display:flex;gap:8px;margin-top:12px}
+.done .acts button{flex:1;border-radius:10px;padding:8px;font:600 13px Manrope,sans-serif;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.done .acts button.red{color:#c0392b;border-color:#f0c9c4}
+.done.cancelled{background:#fbf3f2;border-color:#f0c9c4}
+.done.cancelled b.t{color:#c0392b}
+.remind{align-self:stretch;background:#fff;border:1px dashed #9fb4c1;border-radius:14px;padding:12px 14px;font-size:13.5px}
+.remind b{display:block;margin-bottom:4px;font-size:12.5px;color:var(--muted)}
+.confirm{align-self:stretch;display:flex;gap:8px}
+.confirm button{flex:1;border-radius:10px;padding:9px;font:600 13.5px Manrope,sans-serif;cursor:pointer;border:1px solid var(--line);background:#fff}
+.confirm button.red{background:#c0392b;color:#fff;border-color:#c0392b}
 </style>
 </head>
 <body>
@@ -162,7 +201,7 @@ footer a{color:var(--brand)}
       <h1>Лечим зубы <em>без боли и&nbsp;без сюрпризов</em> в&nbsp;чеке</h1>
       <p class="lead">Семейная стоматология: лечение, имплантация, брекеты и детский приём. Цену называем до начала лечения и фиксируем в плане.</p>
       <div class="btns">
-        <button class="btn btn-main" type="button" data-ask="Хочу записаться на консультацию">Записаться онлайн</button>
+        <button class="btn btn-main" type="button" data-book>Записаться онлайн</button>
         <a class="btn btn-ghost" href="#prices">Смотреть цены</a>
       </div>
       <div class="facts">
@@ -238,8 +277,9 @@ footer a{color:var(--brand)}
         <p>Это пример ИИ-консультанта от TK Web. Он отвечает пациентам круглосуточно, но только по сведениям клиники: цены, врачи, гарантии, оплата. Чего нет в базе, он не придумывает, а предлагает уточнить у администратора.</p>
         <ul>
           <li>Не ставит диагнозов и не назначает лечение</li>
-          <li>Понимает, когда человек готов записаться, и берёт контакт</li>
-          <li>Заявка сразу приходит клинике в Telegram</li>
+          <li>Записывает на конкретный день и время, переносит и отменяет запись</li>
+          <li>Напоминает пациенту о визите за 2 часа</li>
+          <li>Каждая запись сразу приходит клинике в Telegram</li>
           <li>Базу знаний можно собрать под любой бизнес</li>
         </ul>
       </div>
@@ -284,128 +324,16 @@ footer a{color:var(--brand)}
     <button type="button" data-ask="Сколько стоит лечение кариеса?">Цена лечения</button>
     <button type="button" data-ask="Лечить больно?">Больно ли?</button>
     <button type="button" data-ask="Есть рассрочка?">Рассрочка</button>
-    <button type="button" data-ask="Хочу записаться">Записаться</button>
+    <button type="button" data-book>📅 Записаться</button>
+    <button type="button" id="chip-my" data-my hidden>Моя запись</button>
   </div>
   <form class="chat-form" id="chat-form">
     <input id="chat-input" type="text" placeholder="Напишите вопрос…" maxlength="500" autocomplete="off">
     <button type="submit" id="chat-send" aria-label="Отправить">➤</button>
   </form>
-  <div class="chat-foot">Демо TK Web · ответ приходит за 10–20 секунд</div>
+  <div class="chat-foot">Демо TK Web · ответ консультанта приходит за 10–20 секунд</div>
 </div>
 
-<script>
-(function () {
-  // Адрес Cloudflare Worker: он хранит ключ и передаёт вопрос нейросети
-  var API = 'https://demo-stomatologiya-chat.kalammama63.workers.dev';
-
-  // Та же логика, что у бота tk-webb: фразы готовности записаться и «похоже на контакт»
-  var READY = /запис|хочу на при[её]м|на консультац|как попасть|когда можно прийти|оформ/i;
-  var CONTACT = /(\+?\d[\d\s\-\(\)]{6,}\d)|@\w{3,}|t\.me\/\w+/i;
-
-  var chat = document.getElementById('chat');
-  var body = document.getElementById('chat-body');
-  var form = document.getElementById('chat-form');
-  var input = document.getElementById('chat-input');
-  var send = document.getElementById('chat-send');
-  var chips = document.getElementById('chips');
-
-  var history = [];
-  var stage = 'chat';
-  var busy = false;
-  var started = false;
-
-  function add(role, text) {
-    var el = document.createElement('div');
-    el.className = 'msg ' + (role === 'user' ? 'user' : 'bot');
-    el.textContent = text;
-    body.appendChild(el);
-    body.scrollTop = body.scrollHeight;
-  }
-
-  function open() {
-    chat.classList.add('open');
-    if (!started) {
-      started = true;
-      add('bot', 'Здравствуйте! Я онлайн-консультант стоматологии «Улыбка Плюс». Подскажу цены, расскажу про лечение и помогу записаться. Что вас интересует?');
-    }
-    setTimeout(function () { input.focus(); }, 50);
-  }
-
-  function leadCard(contact) {
-    var last = history.filter(function (h) { return h.role === 'user'; }).slice(-3, -1)
-      .map(function (h) { return h.text; }).join(' / ');
-    var el = document.createElement('div');
-    el.className = 'lead-card';
-    el.innerHTML = '<b>🔔 Так заявку получит клиника в Telegram:</b>';
-    var t = document.createElement('div');
-    t.textContent = 'Новая запись с сайта\nКонтакт: ' + contact + (last ? '\nСпрашивал: ' + last : '');
-    t.style.whiteSpace = 'pre-wrap';
-    el.appendChild(t);
-    body.appendChild(el);
-    body.scrollTop = body.scrollHeight;
-  }
-
-  function ask(text) {
-    text = (text || '').trim();
-    if (!text || busy) return;
-    open();
-    add('user', text);
-    history.push({ role: 'user', text: text });
-
-    // Человек прислал контакт после того, как захотел записаться: ответ фиксированный, без ИИ
-    if (stage === 'awaiting_contact' && CONTACT.test(text)) {
-      stage = 'chat';
-      var reply = 'Спасибо! Передала администратору, вам перезвонят в течение 15 минут в рабочее время.';
-      add('bot', reply);
-      history.push({ role: 'assistant', text: reply });
-      leadCard(text);
-      return;
-    }
-
-    var ready = READY.test(text);
-    busy = true;
-    send.disabled = true;
-    var typing = document.createElement('div');
-    typing.className = 'typing';
-    typing.innerHTML = '<i></i><i></i><i></i> печатает…';
-    body.appendChild(typing);
-    body.scrollTop = body.scrollHeight;
-
-    fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ history: history.slice(-10), ready: ready })
-    })
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
-        var reply = d && d.reply ? d.reply : 'Извините, сейчас не получилось ответить. Позвоните нам: +7 (900) 000-00-00.';
-        add('bot', reply);
-        history.push({ role: 'assistant', text: reply });
-        if (ready && d && d.reply) stage = 'awaiting_contact';
-      })
-      .catch(function () {
-        add('bot', 'Извините, связь прервалась. Попробуйте ещё раз или позвоните: +7 (900) 000-00-00.');
-      })
-      .finally(function () {
-        typing.remove();
-        busy = false;
-        send.disabled = false;
-        input.focus();
-      });
-  }
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var t = input.value;
-    input.value = '';
-    ask(t);
-  });
-  document.getElementById('chat-close').addEventListener('click', function () { chat.classList.remove('open'); });
-  document.querySelectorAll('[data-open-chat]').forEach(function (b) { b.addEventListener('click', open); });
-  document.querySelectorAll('[data-ask]').forEach(function (b) {
-    b.addEventListener('click', function () { ask(b.getAttribute('data-ask')); });
-  });
-})();
-</script>
+<script src="chat.js?v=3"></script>
 </body>
 </html>
